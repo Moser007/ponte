@@ -18,11 +18,7 @@
 
 ### ~~R004~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
-### R005 — Experiências internacionais comparáveis
-**Prioridade:** Baixa
-**O que pesquisar:** Como outros países em desenvolvimento resolveram interoperabilidade de saúde. Foco em: Ruanda (OpenMRS), Índia (ABDM/Ayushman Bharat), Estônia (X-Road), Quênia (OpenHIE).
-**Por quê:** Para aprender com quem já fez e evitar erros conhecidos.
-**Estimativa:** 1-2 sessões
+### ~~R005~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
 ### R006 — Landscape de ferramentas FHIR open-source
 **Prioridade:** Baixa
@@ -67,3 +63,8 @@
 **Resultado:** Pesquisa abrangente com dados do SIM/SINASC, estudos Fiocruz, OOBr, SciELO e PMC. 10.911 mortes maternas analisadas (2018-2023). 92% das mortes são evitáveis. Mulheres deslocadas >500km morrem 6-10x mais. 58,2% dos deslocamentos partem de municípios <50k hab. SC teve recorde de 43 mortes em 2024 (48,3% de aumento, pior ano em 2 décadas). 33-40% das gestantes peregrinam entre serviços. Transferência não planejada = risco 4,8x de near miss. Subnotificação de 35% (OOBr).
 **Descoberta-chave:** A cadeia de evidências é poderosa: mortes evitáveis (92%) + peregrinação sem dados clínicos (33-40%) + deslocamento de municípios pequenos (58%) + SC sem RNDS (75%) + IPM sem dados clínicos na RNDS = o cenário Maria é REAL e está matando pessoas. A Rede Alyne depende da Caderneta Digital via Meu SUS Digital, que só funciona com RNDS. O Ponte é a peça que falta.
 **Documento:** evidence/007-mortalidade-materna-municipal.md
+
+### R005 — Experiências internacionais comparáveis (2026-02-14)
+**Resultado:** Análise de 5 países: Ruanda (OpenMRS + RHIE/OpenHIM, 520 centros), Índia (ABDM, 834M+ ABHA IDs, arquitetura federada), Estônia (X-Road, 99% digitalização, 1.3M hab), Quênia (OpenHIE + KHIE, 100k agentes comunitários), Tailândia (UCS, smart card, 47M pessoas). Todos usam padrões abertos (FHIR), registros únicos de paciente, e camada de interoperabilidade antes de exigir sistemas específicos.
+**Descoberta-chave:** Padrão de sucesso = adaptador/mediador leve (não reescrever sistemas), começar por fluxos prioritários (vacinação, pré-natal), garantir offline capability, medir uso real (não só habilitação). Brasil tem vantagem: 265k agentes comunitários de saúde. Continuidade do cuidado reduz mortalidade materna em 26% (meta-análise). Fracassos comuns: subestimar complexidade sociotécnica, falta de engajamento local, infraestrutura inadequada na última milha.
+**Documento:** evidence/008-experiencias-internacionais.md

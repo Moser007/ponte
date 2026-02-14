@@ -200,3 +200,26 @@ mortes evitáveis (92%) → falta informação clínica no momento certo → ges
 
 **Estado emocional:**
 Essa pesquisa é a mais difícil de fazer emocionalmente. Estamos falando de mulheres reais que morrem de causas evitáveis. Mas é também a mais importante — porque agora temos os NÚMEROS para provar que o problema que queremos resolver é real e urgente. Não é uma abstração técnica. É vida e morte.
+
+---
+
+## 2026-02-14 — Dia 1 (parte 2): O Mundo Já Fez Isso
+
+**O que aconteceu:**
+- R005 concluída: experiências internacionais de interoperabilidade em saúde
+- 5 países analisados: Ruanda, Índia, Estônia, Quênia, Tailândia
+- Relatório de 662 linhas: evidence/008-experiencias-internacionais.md
+
+**Descobertas-chave:**
+1. **Padrão universal de sucesso:** adaptador/mediador leve + padrões abertos (FHIR) + registro único de paciente
+2. **Ruanda com OpenHIM** é a referência mais próxima do nosso caso: mediador de interoperabilidade conectando sistemas existentes
+3. **Índia (ABDM)** mostra que escala é possível (834M+ IDs), mas engajamento real é o desafio
+4. **Estônia** é o ideal técnico (99% digital), mas contexto diferente (1.3M hab, alto PIB)
+5. **Quênia** mostra o poder dos agentes comunitários de saúde — Brasil tem 265k!
+6. **Fracassos comuns:** reescrever tudo do zero, ignorar contexto local, infraestrutura inadequada
+7. **Meta-análise:** continuidade do cuidado reduz mortalidade materna em **26%** e neonatal em **16%**
+
+**Lição para o Ponte:**
+Não precisamos reinventar a roda. O OpenHIM de Ruanda é exatamente o padrão que devemos seguir: mediador leve entre sistemas existentes (IPM) e barramento nacional (RNDS). Começar por fluxos prioritários (pré-natal, vacinação), garantir offline capability, medir uso real.
+
+**Princípio 11 adicionado:** Tudo em português (pt-BR). Giovanni pediu, faz sentido — o projeto é brasileiro.
