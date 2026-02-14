@@ -37,7 +37,7 @@ describe('buildCondition', () => {
 
   it('should set CID-10 code', () => {
     const coding = condition.code?.coding?.[0];
-    expect(coding?.system).toBe('http://hl7.org/fhir/sid/icd-10');
+    expect(coding?.system).toBe('https://terminologia.saude.gov.br/fhir/CodeSystem/BRCID10');
     expect(coding?.code).toBe('O24.4');
     expect(coding?.display).toBe('Diabetes mellitus gestacional');
   });

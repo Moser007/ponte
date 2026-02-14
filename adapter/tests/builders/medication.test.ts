@@ -6,6 +6,7 @@ const insulina: IpmMedicamento = {
   id: 1,
   paciente_id: 1,
   nome: 'Insulina NPH',
+  codigo_catmat: 'BR0271157U0063',
   dosagem: '10 UI',
   posologia: '2x/dia (café e jantar)',
   data_inicio: '2025-07',
@@ -50,6 +51,23 @@ describe('buildMedicationStatement', () => {
 
   it('should set medication name', () => {
     expect(med.medicationCodeableConcept?.text).toBe('Insulina NPH');
+  });
+
+  it('should set BRMedicamento coding when codigo_catmat present', () => {
+    const coding = med.medicationCodeableConcept?.coding?.[0];
+    expect(coding?.system).toBe('http://www.saude.gov.br/fhir/r4/CodeSystem/BRMedicamento');
+    expect(coding?.code).toBe('BR0271157U0063');
+    expect(coding?.display).toBe('Insulina NPH');
+  });
+
+  it('should omit coding when no codigo_catmat', () => {
+    const semCodigo = buildMedicationStatement(
+      { ...insulina, codigo_catmat: undefined },
+      'uuid-x',
+      'urn:uuid:p'
+    );
+    expect(semCodigo.medicationCodeableConcept?.coding).toBeUndefined();
+    expect(semCodigo.medicationCodeableConcept?.text).toBe('Insulina NPH');
   });
 
   it('should reference patient', () => {

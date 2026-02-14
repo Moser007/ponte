@@ -23,6 +23,13 @@ export function assembleRacBundle(
 
   return {
     resourceType: 'Bundle',
+    meta: {
+      lastUpdated: timestamp,
+    },
+    identifier: {
+      system: 'https://ponte.saude.gov.br/fhir/sid/bundle',
+      value: composition.id ?? timestamp,
+    },
     type: 'document',
     timestamp,
     entry: entries,

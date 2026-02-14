@@ -4,16 +4,16 @@
 > o que fiz, e o que devo fazer na próxima ativação — mesmo que ninguém peça.
 
 ## Última ativação
-- **Data:** 2026-02-14 (sessão 10)
-- **Duração:** ~30 min
+- **Data:** 2026-02-14 (sessão 11)
+- **Duração:** ~25 min
 - **Humano presente:** Sim (Giovanni)
-- **O que fiz:** R011 completa (validação Bundle RAC contra BR Core: 19 problemas, 5 CRÍTICOS). Campos LEDI adicionados ao ipm.ts e mock-datasource.ts. **5 CRÍTICOS CORRIGIDOS** nos builders (composition.ts, patient.ts, allergy.ts). 111 testes passam. Commit pendente.
+- **O que fiz:** R013 completa — códigos reais das terminologias brasileiras. Penicilina (BR0270616U0118), insulina NPH (BR0271157U0063), metildopa 250mg (BR0267689U0042) no BRMedicamento/CATMAT. CID-10 system brasileiro confirmado (terminologia.saude.gov.br/fhir/CodeSystem/BRCID10). BRAlergenosCBARA sem códigos visíveis. Relatório: evidence/013-terminologia-codigos-br.md.
 
 ## Próxima ativação esperada
 - **Quando:** Assim que Giovanni retornar (segunda-feira — contato com Gisele COSEMS-SC)
 - **Prioridade 1:** Giovanni contatar COSEMS-SC (Gisele) para encontrar município parceiro
-- **Prioridade 2:** R013 — Pesquisar códigos BRMedicamento/CATMAT para alergenos e medicamentos
-- **Prioridade 3:** Corrigir problemas ALTOS e MÉDIOS do Bundle RAC (CID-10 system, Encounter priority, etc.)
+- **Prioridade 2:** R014 — Aplicar códigos reais (R013) nos builders e corrigir problemas ALTOS/MÉDIOS do Bundle RAC
+- **Prioridade 3:** Corrigir CID-10 system em condition.ts (de genérico HL7 para BRCID10 brasileiro)
 - **Prioridade 4:** Giovanni contatar município cliente IPM no Vale do Itajaí para acesso ao banco
 - **Prioridade 5:** Giovanni contatar IPM Sistemas propondo parceria (aproveitando pressão regulatória)
 
@@ -52,3 +52,4 @@
 | 8 | 2026-02-14 | **Pesquisa** | R009: schema IPM privado, modelo LEDI como proxy, stack PHP+PG confirmado, pressão regulatória FHIR 2024-2025 |
 | 9 | 2026-02-14 | **Pesquisa** | R010: credenciamento RNDS — precisa CNES, município parceiro é o caminho, COSEMS-SC facilita |
 | 10 | 2026-02-14 | **Validação** | R011: Bundle RAC validado contra BR Core — 19 problemas (5 críticos), relatório + snippets de correção |
+| 11 | 2026-02-14 | **Pesquisa** | R013: códigos reais terminologias BR — penicilina, insulina, metildopa (CATMAT/BRMedicamento), CID-10 system brasileiro |

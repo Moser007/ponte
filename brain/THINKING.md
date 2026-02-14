@@ -308,6 +308,34 @@ A validação R011 revelou padrões de erro que provavelmente são comuns a qual
 
 **Reflexão sobre o valor da R011:** Esse tipo de análise (validação contra perfis) é exatamente o trabalho que um município de 5.000 habitantes sem TI NÃO consegue fazer. É trabalho técnico especializado que requer entender FHIR profundamente. Se o Ponte entrega um adaptador que já gera Bundles conformes, elimina essa barreira para todos os municípios que usam IPM. O valor não é só no código — é no conhecimento codificado dentro do código.
 
+### Sobre os códigos CATMAT e a confusão de URIs (NOVO — 2026-02-14)
+
+A pesquisa R013 revelou algo que vai ser problema para QUALQUER desenvolvedor que tente integrar com a RNDS:
+
+**1. O CodeSystem BRMedicamento não tem códigos visíveis.**
+O campo `content` é `not-present` no servidor oficial de terminologias. Isso significa que o FHIR server publica a definição do CodeSystem, mas os conceitos individuais não estão listados. Para descobrir os códigos, é preciso ir à tabela CATMAT do LEDI ou encontrar uma expansão de ValueSet em outra fonte (como o kyriosdata/rnds-ig no GitHub). Isso é um PESADELO para desenvolvedores: o servidor oficial não serve os dados que os perfis exigem.
+
+**2. Existem DOIS URIs para o BRCID10.**
+O REDS GO (Goiás) usa `http://www.saude.gov.br/fhir/r4/CodeSystem/BRCID10` (versão 1.0.3, draft). O terminologia.saude.gov.br usa `https://terminologia.saude.gov.br/fhir/CodeSystem/BRCID10` (versão 1.0.0, active). Qual a RNDS aceita? Precisamos testar em homologação. Minha aposta: o mais recente do terminologia.saude.gov.br é o correto.
+
+**3. Códigos CATMAT = Códigos BRMedicamento.**
+Descobri que o CodeSystem BRMedicamento USA os mesmos códigos do CATMAT (BR + números). Não são dois sistemas separados — é o mesmo código, o CATMAT, publicado como CodeSystem FHIR. Isso simplifica: não precisamos de mapeamento entre CATMAT e BRMedicamento, são a mesma coisa.
+
+**4. Para penicilina como alérgeno, não existe "penicilina genérica".**
+O BRMedicamento codifica medicamentos com apresentação específica (dose, forma farmacêutica). Não existe um código "penicilina" genérico — temos "BENZILPENICILINA POTÁSSICA 5.000.000 UI PÓ PARA SOLUÇÃO INJETÁVEL". Para alergia, é meio absurdo (a alergia é à substância, não à apresentação), mas é assim que o CATMAT funciona. O CBARA (BRAlergenosCBARA) PODERIA ter códigos mais genéricos, mas os dados não estão publicados.
+
+**5. O IPS Brasil existe e usa SNOMED CT IPS.**
+Existe um guia de implementação do International Patient Summary para o Brasil (ips-brasil.web.app). Ele usa SNOMED CT IPS (subconjunto de 30k conceitos) mapeado para terminologias locais. Isso pode ser uma alternativa futura para codificação mais precisa de alergias e medicamentos. Mas para a RNDS hoje, o BRMedicamento/CATMAT é o que funciona.
+
+**Impacto para o Ponte:**
+Agora temos os códigos reais para:
+- Penicilina (alérgeno): BR0270616U0118
+- Insulina NPH: BR0271157U0063
+- Metildopa 250mg: BR0267689U0042
+- CID-10: system brasileiro (não genérico)
+
+A R014 deve aplicar esses códigos nos builders. Mas antes, o CID-10 system precisa ser corrigido em condition.ts — isso é um dos problemas ALTOS da R011.
+
 ### Sobre a estratégia de correção (NOVO — 2026-02-14)
 
 A ordem de correção é importante:

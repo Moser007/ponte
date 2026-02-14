@@ -1,6 +1,15 @@
 import type { AllergyIntolerance } from '@medplum/fhirtypes';
 import type { IpmAlergia } from '../types/ipm.js';
 
+const MANIFESTACAO_SNOMED: Record<string, string> = {
+  'Anafilaxia': '39579001',
+  'Urticária': '126485001',
+  'Urticaria': '126485001',
+  'Edema': '267038008',
+  'Rash': '271807003',
+  'Broncoespasmo': '4386001',
+};
+
 /**
  * Constrói recurso BRCoreAllergyIntolerance a partir de dados do IPM.
  */
@@ -42,7 +51,7 @@ export function buildAllergyIntolerance(
     code: {
       coding: [
         {
-          system: 'https://terminologia.saude.gov.br/fhir/CodeSystem/BRMedicamento',
+          system: 'http://www.saude.gov.br/fhir/r4/CodeSystem/BRMedicamento',
           code: ipm.codigo ?? ipm.substancia,
           display: ipm.substancia,
         },
@@ -60,6 +69,7 @@ export function buildAllergyIntolerance(
                 coding: [
                   {
                     system: 'http://snomed.info/sct',
+                    code: MANIFESTACAO_SNOMED[ipm.reacao!] ?? undefined,
                     display: ipm.reacao,
                   },
                 ],

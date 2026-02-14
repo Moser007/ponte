@@ -95,6 +95,7 @@ export class MockDataSource implements IpmDataSource {
       id: 1,
       paciente_id: 1,
       substancia: 'Penicilina',
+      codigo: 'BR0270616U0118',
       gravidade: 'high',
       reacao: 'Anafilaxia',
     },
@@ -106,7 +107,7 @@ export class MockDataSource implements IpmDataSource {
       paciente_id: 1,
       atendimento_id: 1,
       nome: 'Insulina NPH',
-      codigo_catmat: '264210303',  // CATMAT insulina humana NPH
+      codigo_catmat: 'BR0271157U0063',  // BRMedicamento/CATMAT insulina humana NPH
       dosagem: '10 UI',
       posologia: '2x/dia (café e jantar)',
       via_administracao: 'subcutânea',
@@ -118,7 +119,7 @@ export class MockDataSource implements IpmDataSource {
       paciente_id: 1,
       atendimento_id: 1,
       nome: 'Metildopa 250mg',
-      codigo_catmat: '264210020',  // CATMAT metildopa 250mg
+      codigo_catmat: 'BR0267689U0042',  // BRMedicamento/CATMAT metildopa 250mg
       dosagem: '250mg',
       posologia: '3x/dia',
       via_administracao: 'oral',

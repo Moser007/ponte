@@ -47,7 +47,7 @@ export function buildCondition(
     code: {
       coding: [
         {
-          system: 'http://hl7.org/fhir/sid/icd-10',
+          system: 'https://terminologia.saude.gov.br/fhir/CodeSystem/BRCID10',
           code: ipm.cid,
           display: ipm.descricao,
         },

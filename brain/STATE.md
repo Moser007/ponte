@@ -48,7 +48,7 @@ O novo papel do projeto:
 - [x] Demo do cenário Maria — AGORA EM FHIR R4 REAL
 - [x] Roadmap de 90 dias — PRECISA ATUALIZAR
 - [x] Sistema de memória persistente (brain/)
-- [x] 11 pesquisas autônomas concluídas (R001-R011)
+- [x] 12 pesquisas autônomas concluídas (R001-R013, exceto R012 que foi correção)
 - [x] Modelo LEDI mapeado como proxy do schema IPM (evidence/010)
 - [x] **Bundle RAC validado contra BR Core — 19 problemas identificados, 5 CRÍTICOS CORRIGIDOS** (evidence/012)
   - C1: Composition.identifier ✅ adicionado
@@ -56,6 +56,11 @@ O novo papel do projeto:
   - C3: Patient CPF type=TAX + use=official ✅
   - C4: AllergyIntolerance.code.system → CodeSystem BRMedicamento ✅
   - C5: AllergyIntolerance.code.coding.code ✅ adicionado
+- [x] **Códigos reais das terminologias brasileiras mapeados** (evidence/013)
+  - Penicilina (alérgeno): BR0270616U0118 (BRMedicamento/CATMAT)
+  - Insulina NPH: BR0271157U0063 (BRMedicamento/CATMAT)
+  - Metildopa 250mg: BR0267689U0042 (BRMedicamento/CATMAT)
+  - CID-10 system: terminologia.saude.gov.br/fhir/CodeSystem/BRCID10 (NÃO genérico HL7)
 
 ## O que NÃO sei e PRECISO saber agora
 

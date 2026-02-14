@@ -59,6 +59,12 @@ export function buildPatient(ipm: IpmPaciente, uuid: string): Patient {
       {
         use: 'official',
         text: ipm.nome,
+        ...(ipm.nome.includes(' ')
+          ? {
+              given: [ipm.nome.split(' ')[0]],
+              family: ipm.nome.split(' ').slice(1).join(' '),
+            }
+          : {}),
       },
     ],
     gender: ipm.sexo === 'F' ? 'female' : 'male',

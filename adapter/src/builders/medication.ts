@@ -19,6 +19,17 @@ export function buildMedicationStatement(
     },
     status: ipm.ativo ? 'active' : 'completed',
     medicationCodeableConcept: {
+      ...(ipm.codigo_catmat
+        ? {
+            coding: [
+              {
+                system: 'http://www.saude.gov.br/fhir/r4/CodeSystem/BRMedicamento',
+                code: ipm.codigo_catmat,
+                display: ipm.nome,
+              },
+            ],
+          }
+        : {}),
       text: ipm.nome,
     },
     subject: {

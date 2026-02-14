@@ -8,11 +8,6 @@
 
 ## Pendentes (executar na ordem)
 
-### R013 — Pesquisar códigos BRMedicamento para alergenos e CATMAT para medicamentos
-**Objetivo:** Encontrar os códigos reais no CodeSystem BRMedicamento (penicilina) e CATMAT (insulina NPH, metildopa) para usar nos builders.
-**Método:** Consultar terminologia.saude.gov.br/fhir/CodeSystem/BRMedicamento e buscar códigos CATMAT.
-**Prioridade:** Alta — necessário para completar correção C4/C5 e A4.
-
 ### R014 — Corrigir problemas ALTOS e MÉDIOS do Bundle RAC
 **Objetivo:** Corrigir os 4 problemas ALTOS e 6 MÉDIOS identificados na R011 (CID-10 system, Encounter priority, text, etc.)
 **Método:** Editar builders TypeScript. Rodar testes.
@@ -21,6 +16,17 @@
 ---
 
 ## Concluídas
+
+### R013 — Pesquisar códigos BRMedicamento para alergenos e CATMAT para medicamentos (2026-02-14)
+**Resultado:** Códigos reais encontrados para todos os medicamentos e alérgenos do cenário Maria.
+- **Penicilina (alergia):** `BR0270616U0118` — BENZILPENICILINA POTÁSSICA 5.000.000 UI, system `http://www.saude.gov.br/fhir/r4/CodeSystem/BRMedicamento`
+- **Insulina NPH:** `BR0271157U0063` — INSULINA HUMANA NPH 100 UI/ML, mesmo system
+- **Metildopa 250mg:** `BR0267689U0042` — METILDOPA 250 MG COMPRIMIDO, mesmo system
+- **CID-10 system brasileiro:** `https://terminologia.saude.gov.br/fhir/CodeSystem/BRCID10` (NÃO usar o genérico `http://hl7.org/fhir/sid/icd-10` — binding required REJEITARIA)
+- **BRAlergenosCBARA:** Códigos não disponíveis publicamente (content: not-present). Para penicilina como alérgeno, usar BRMedicamento (não CBARA).
+- **BRObmCATMAT:** CodeSystem adicional (OBM/CATMAT) identificado, mas BRMedicamento é suficiente para nossos builders.
+**Descoberta-chave:** O CodeSystem BRMedicamento usa códigos CATMAT com prefixo BR. O content é `not-present` no servidor oficial, mas a expansão completa está disponível no kyriosdata/rnds-ig. Para o cenário Maria, agora temos TODOS os códigos reais necessários. O CID-10 brasileiro usa URI próprio e o binding é required — nosso builder condition.ts precisa ser atualizado.
+**Documento:** evidence/013-terminologia-codigos-br.md
 
 ### R012 — Corrigir 5 problemas CRÍTICOS do Bundle RAC (2026-02-14)
 **Resultado:** Todas as 5 correções críticas aplicadas nos builders TypeScript. 111 testes passando.

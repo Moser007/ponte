@@ -126,6 +126,10 @@ export function buildComposition(
     ],
     custodian: { reference: refs.organizationRef },
     title: 'Registro de Atendimento Clínico',
+    text: {
+      status: 'generated',
+      div: '<div xmlns="http://www.w3.org/1999/xhtml"><p>Registro de Atendimento Clínico</p></div>',
+    },
     section: compositionSections,
   };
 }

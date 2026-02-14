@@ -24,8 +24,19 @@ export function buildEncounter(
     class: {
       system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
       code: 'AMB',
-      display: 'ambulatory',
+      display: 'Ambulatory',
     },
+    type: [
+      {
+        coding: [
+          {
+            system: 'http://www.saude.gov.br/fhir/r4/CodeSystem/BRAtendimentoPrestado',
+            code: '04',
+            display: 'Consulta',
+          },
+        ],
+      },
+    ],
     priority: {
       coding: [
         {
@@ -60,14 +71,14 @@ export function buildEncounter(
       start: ipm.data_inicio,
       end: ipm.data_fim,
     },
-    diagnosis: refs.conditionRefs.map((ref) => ({
+    diagnosis: refs.conditionRefs.map((ref, index) => ({
       condition: { reference: ref },
       use: {
         coding: [
           {
             system: 'http://terminology.hl7.org/CodeSystem/diagnosis-role',
-            code: 'AD',
-            display: 'Admission diagnosis',
+            code: index === 0 ? 'CC' : 'CM',
+            display: index === 0 ? 'Chief complaint' : 'Comorbidity',
           },
         ],
       },

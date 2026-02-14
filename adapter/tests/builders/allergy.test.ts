@@ -27,6 +27,12 @@ describe('buildAllergyIntolerance', () => {
     expect(allergy.code?.text).toBe('Penicilina');
   });
 
+  it('should use BRMedicamento CodeSystem', () => {
+    expect(allergy.code?.coding?.[0]?.system).toBe(
+      'http://www.saude.gov.br/fhir/r4/CodeSystem/BRMedicamento'
+    );
+  });
+
   it('should set type to allergy', () => {
     expect(allergy.type).toBe('allergy');
   });

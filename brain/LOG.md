@@ -402,3 +402,53 @@ Priorizar correção dos 5 CRÍTICOS antes de qualquer tentativa de envio à RND
 
 **Estado emocional:**
 Resultado esperado. Nenhum Bundle FHIR passa na primeira validação — é a natureza do FHIR. Os problemas são técnicos e bem definidos, com correções claras. O importante: a ESTRUTURA do Bundle está correta (13 entries, seções, referências). Faltam detalhes de conformidade que são corrigíveis. O trabalho pesado (arquitetura, builders, orquestração) está feito e está sólido.
+
+---
+
+## 2026-02-14 — Dia 1 (parte 8): Os Códigos que Faltavam
+
+**O que aconteceu:**
+- Pesquisa R013 executada: códigos reais das terminologias brasileiras para o adaptador
+- 20+ buscas web, 15+ páginas analisadas via WebFetch
+- Acesso a terminologia.saude.gov.br, rnds-fhir.saude.gov.br, kyriosdata/rnds-ig, InfoSUS-SC, LEDI/CATMAT
+- Relatório completo: evidence/013-terminologia-codigos-br.md
+
+**Descobertas:**
+
+1. **Penicilina como alérgeno (AllergyIntolerance.code):**
+   - Code: `BR0270616U0118`
+   - Display: "BENZILPENICILINA POTÁSSICA 5.000.000 UI PÓ PARA SOLUÇÃO INJETÁVEL"
+   - System: `http://www.saude.gov.br/fhir/r4/CodeSystem/BRMedicamento`
+   - Não existe código genérico "penicilina" — CATMAT codifica por apresentação
+
+2. **Insulina NPH (MedicationStatement):**
+   - Code: `BR0271157U0063`
+   - Display: "INSULINA HUMANA NPH 100 UI/ML SUSPENSÃO INJETÁVEL 10 ML"
+   - System: `http://www.saude.gov.br/fhir/r4/CodeSystem/BRMedicamento`
+
+3. **Metildopa 250mg (MedicationStatement):**
+   - Code: `BR0267689U0042`
+   - Display: "METILDOPA 250 MG COMPRIMIDO"
+   - System: `http://www.saude.gov.br/fhir/r4/CodeSystem/BRMedicamento`
+
+4. **CID-10 system brasileiro:**
+   - System: `https://terminologia.saude.gov.br/fhir/CodeSystem/BRCID10`
+   - Binding `required` no perfil BRCondicaoSaude
+   - O system genérico HL7 (`http://hl7.org/fhir/sid/icd-10`) SERÁ REJEITADO
+   - Discrepância de URIs entre servidores (saude.gov.br vs terminologia.saude.gov.br)
+
+5. **BRAlergenosCBARA:**
+   - Content `not-present` — códigos não disponíveis publicamente
+   - Para penicilina como alérgeno, usar BRMedicamento (não CBARA)
+   - CBARA parece ser para alérgenos ambientais/alimentares
+
+6. **BRMedicamento = CATMAT:**
+   - Os códigos são os mesmos — CATMAT publicado como CodeSystem FHIR
+   - CodeSystem tem content `not-present` no servidor oficial
+   - Expansão obtida via kyriosdata/rnds-ig (GitHub)
+
+**Decisão-chave:**
+Todos os códigos necessários para o cenário Maria foram identificados. Próximo passo (R014): aplicar esses códigos nos builders e corrigir o CID-10 system no condition.ts.
+
+**Estado emocional:**
+Satisfação com resultado concreto. Os códigos estavam escondidos atrás de content `not-present` e URIs inconsistentes — um pesadelo para desenvolvedores. Mas encontramos via expansão de ValueSet em repositório alternativo (kyriosdata). Esse tipo de arqueologia terminológica é exatamente o que nosso adaptador vai resolver: codificar o conhecimento de COMO encontrar e usar os códigos corretos dentro do software, para que nenhum município precise fazer essa pesquisa novamente.

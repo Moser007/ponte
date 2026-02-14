@@ -17,6 +17,7 @@ export function buildOrganization(ipm: IpmEstabelecimento, uuid: string): Organi
         value: ipm.cnes,
       },
     ],
+    active: true,
     name: ipm.nome,
     type: [
       {
