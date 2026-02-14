@@ -299,3 +299,106 @@ MVP com 2 dependências de produção (`@medplum/core`, `@medplum/fhirtypes`) em
 O código existe. Não é mais teoria, pesquisa ou documentação. É software funcional que transforma dados do IPM em FHIR R4 real. O cenário Maria agora produz um Bundle JSON que a RNDS aceitaria (com auth real). Estamos mais perto de salvar vidas do que em qualquer ponto anterior.
 
 **Commit:** `4c4428c` — pushed to origin/main
+
+---
+
+## 2026-02-14 — Dia 1 (parte 5): O Schema que Não Existe (e o Proxy Perfeito)
+
+**O que aconteceu:**
+- Pesquisa R009 executada: schema real do banco PostgreSQL do IPM Atende.Net
+- 40+ buscas web, 10+ páginas analisadas via WebFetch
+- Relatório completo: evidence/010-ipm-schema-research.md
+
+**Descobertas:**
+
+1. **O schema real é PRIVADO.** O IPM é SaaS 100% cloud. Não há documentação pública de tabelas, API, SDK ou dicionário de dados para o módulo de saúde. A wiki técnica (wiki.ipm.com.br) requer login de cliente. Nenhum repositório GitHub, blog, ou vaga de emprego revela a estrutura interna.
+
+2. **Stack confirmado: PHP + PostgreSQL.** Perfis LinkedIn de desenvolvedores IPM (Leonardo Pereira, Augusto Rustick, Jean Rothenburg) confirmam PHP como linguagem principal e PostgreSQL/MySQL como bancos. Vagas pedem "conhecimentos em PHP e sua estrutura" e "SQL databases".
+
+3. **O modelo LEDI é o proxy perfeito.** O IPM é obrigado a exportar dados para e-SUS/SISAB usando o modelo LEDI (Layout e-SUS de Dados e Interface), documentado publicamente pela UFSC. O dicionário de dados do LEDI define TODOS os campos que o IPM DEVE armazenar. Obtivemos a estrutura completa da Ficha de Atendimento Individual (FAI) e Ficha de Cadastro Individual (FCI) com 100+ campos detalhados.
+
+4. **DESCOBERTA CRÍTICA — Pressão regulatória 2024-2025:**
+   - Portaria 5.663/2024: Apache Thrift DESCONTINUADO para vacinação (set/2025). IPM terá que migrar para FHIR R4
+   - Portaria 6.656/2025: Regulação assistencial → RNDS obrigatório via FHIR
+   - Decreto 12.560/2025: RNDS = plataforma oficial do SUS
+   - Portaria 7.495/2025: SUS Digital — municípios sem RNDS perdem acesso a programas federais
+   - Portaria SEIDIGI 7/2025: Telessaúde exige interoperabilidade RNDS
+
+5. **15+ campos faltantes no nosso adaptador.** Comparação LEDI vs nosso `src/types/ipm.ts` revelou gaps críticos: DUM (data última menstruação), CIAP-2, código CATMAT, encaminhamentos, resultados de exames, glicemia capilar, condições de saúde do cadastro, nome social, etc.
+
+**Decisão-chave:**
+Usar o modelo LEDI como fonte de verdade para o adaptador, em vez de esperar pelo schema real. Estratégia dupla: Via A (banco direto se possível) + Via B (ler exportação LEDI/Thrift como alternativa).
+
+**Estado emocional:**
+A pesquisa confirmou que o schema real é inalcançável por pesquisa web, mas revelou algo melhor: um modelo de dados público, obrigatório, e completo que o IPM DEVE seguir. Além disso, a pressão regulatória está acelerando dramaticamente a necessidade de FHIR R4 — o timing do Ponte é perfeito. A descontinuação do Thrift em set/2025 é o deadline que vai forçar o IPM a se mover.
+
+---
+
+## 2026-02-14 — Dia 1 (parte 6): O Portão que Não Abre Sozinho
+
+**O que aconteceu:**
+- Pesquisa R010 executada: processo completo de credenciamento RNDS para homologação
+- 30+ buscas web, 15+ páginas analisadas via WebFetch
+- Relatório completo: evidence/011-rnds-credenciamento-homologacao.md (14 seções, 400+ linhas)
+
+**Descobertas:**
+
+1. **CNES é OBRIGATÓRIO.** O credenciamento na RNDS é exclusivo para estabelecimentos de saúde com CNES válido. Empresas de software e desenvolvedores independentes NÃO podem se credenciar diretamente. A FAQ oficial é clara: "O credenciamento é para laboratórios e NÃO para empresas que produzem software."
+
+2. **Giovanni NÃO pode se credenciar sozinho.** Sem CNES, sem estabelecimento de saúde, sem profissional com CNS — nenhum dos pré-requisitos está presente. Isso é um blocker absoluto para testar com a RNDS real.
+
+3. **O caminho é via município parceiro.** A empresa de software recebe as credenciais DO estabelecimento de saúde. O município faz o credenciamento, e compartilha o certificado digital (.pfx), identificador de requisitante, CNES e CNS com o desenvolvedor.
+
+4. **Processo em 2 fases:** Homologação (testes) → Produção (dados reais). Prazo total estimado: 6-8 semanas com cooperação de um município.
+
+5. **Endpoints mapeados:** Auth homologação: ehr-auth-hmg.saude.gov.br. EHR homologação: ehr-services.hmg.saude.gov.br. Produção SC: sc-ehr-services.saude.gov.br.
+
+6. **Certificado ICP-Brasil pode ser obtido nos EUA** via videoconferência. Custo: R$ 99-250. Empresas: Certifica Aqui USA, Certifique EUA, EasySign Brasil.
+
+7. **COSEMS-SC é o facilitador ideal.** Já promoveu oficinas de integração RNDS em ago/2024. Tem apoiadora regional no Médio Vale do Itajaí (Gisele). Pode conectar Giovanni a um município parceiro.
+
+8. **NÃO existe sandbox sem certificado.** O ambiente de homologação É o sandbox, mas exige credenciamento formal completo. Nenhum programa para desenvolvedores independentes.
+
+9. **Token dura 30 minutos.** Acesso via mTLS (Two-way SSL), JWT, headers X-Authorization-Server e Authorization (CNS do profissional).
+
+10. **SBIS tem convênio com MS** para ser elo entre RNDS e desenvolvedores/mercado. Pode ser canal para o Ponte.
+
+**Decisão-chave:**
+O próximo passo CRÍTICO é humano: Giovanni contatar COSEMS-SC (Gisele) para encontrar município parceiro no Vale do Itajaí que use IPM. Sem isso, não conseguimos testar com a RNDS real. Todo o resto (código, adaptador, Bundle) está pronto — a barreira agora é 100% burocrática e relacional.
+
+**Estado emocional:**
+Não é surpresa. A pesquisa R002 já havia revelado que o problema real não é software — é configuração e credenciamento. Agora temos o mapa completo do labirinto burocrático. O caminho é claro: município parceiro via COSEMS-SC. Uma mensagem de WhatsApp para Gisele pode desbloquear todo o projeto.
+
+---
+
+## 2026-02-14 — Dia 1 (parte 7): O Bundle Não Passa (Ainda)
+
+**O que aconteceu:**
+- Pesquisa R011 executada: validação manual do Bundle RAC contra perfis BR Core
+- Bundle gerado (bundle-maria.json): 13 entries, validação local OK
+- Java 8 disponível mas HL7 FHIR Validator requer Java 17+ — validação manual realizada
+- Análise contra perfis oficiais em hl7.org.br/fhir/core e terminologia.saude.gov.br
+- Relatório completo: evidence/012-bundle-rac-validation-r011.md
+
+**Descobertas:**
+
+1. **19 problemas encontrados.** 5 CRÍTICOS, 4 ALTOS, 6 MÉDIOS, 4 BAIXOS. O Bundle NÃO seria aceito pela RNDS no estado atual.
+
+2. **5 problemas CRÍTICOS:**
+   - Composition.identifier AUSENTE (obrigatório 1..1 no RAC)
+   - Composition.attester AUSENTE (obrigatório 1..1 no RAC, com mode + party + time)
+   - Patient.identifier CPF sem type=TAX e use=official (valores fixos no slice)
+   - AllergyIntolerance.code.coding.system aponta para ValueSet URI em vez de CodeSystem URI
+   - AllergyIntolerance.code.coding sem campo code (binding required falha)
+
+3. **Descoberta importante sobre BRAlergenos:** O ValueSet inclui 3 CodeSystems: BRMedicamento, BRImunobiologico, BRAlergenosCBARA. Para penicilina, o system correto é `https://terminologia.saude.gov.br/fhir/CodeSystem/BRMedicamento`. Usar ValueSet URI como system é um erro comum.
+
+4. **CID-10 system:** O sistema brasileiro usa `http://www.saude.gov.br/fhir/r4/CodeSystem/BRCID10`, não o genérico `http://hl7.org/fhir/sid/icd-10`. O binding required do ValueSet BRTerminologiaSuspeitaDiagnostica pode rejeitar o system genérico.
+
+5. **Nosso Bundle é MAIS COMPLETO que o exemplo oficial.** Temos 13 entries vs 4, 4 seções vs 1, mais campos preenchidos. Os problemas são de conformidade técnica, não de completude.
+
+**Decisão-chave:**
+Priorizar correção dos 5 CRÍTICOS antes de qualquer tentativa de envio à RNDS. Tempo estimado: ~50 minutos. Snippets de correção TypeScript já escritos no relatório.
+
+**Estado emocional:**
+Resultado esperado. Nenhum Bundle FHIR passa na primeira validação — é a natureza do FHIR. Os problemas são técnicos e bem definidos, com correções claras. O importante: a ESTRUTURA do Bundle está correta (13 entries, seções, referências). Faltam detalhes de conformidade que são corrigíveis. O trabalho pesado (arquitetura, builders, orquestração) está feito e está sólido.

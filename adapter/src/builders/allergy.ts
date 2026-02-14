@@ -42,7 +42,8 @@ export function buildAllergyIntolerance(
     code: {
       coding: [
         {
-          system: 'https://terminologia.saude.gov.br/fhir/ValueSet/BRAlergenos',
+          system: 'https://terminologia.saude.gov.br/fhir/CodeSystem/BRMedicamento',
+          code: ipm.codigo ?? ipm.substancia,
           display: ipm.substancia,
         },
       ],

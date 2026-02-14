@@ -206,3 +206,118 @@ Ordem de prioridade para evoluir o adaptador:
 6. **Interface WhatsApp** — usando apiwts.top de Giovanni
 
 Mas NADA disso avança sem dados reais e contato humano. O código está pronto. A próxima barreira é 100% humana: Giovanni precisa falar com alguém que tenha acesso a um banco IPM ou à RNDS.
+
+### Sobre o schema do IPM e a estratégia LEDI (NOVO — 2026-02-14)
+
+A pesquisa R009 revelou que o schema do IPM é inacessível, mas o modelo LEDI é o proxy perfeito. Isso muda a arquitetura do adaptador de duas formas:
+
+**1. Via LEDI como input (Via B):**
+Em vez de ler o banco PostgreSQL do IPM diretamente, podemos ler os arquivos Thrift/XML que o IPM já exporta para o e-SUS. Isso tem vantagens:
+- Não requer acesso ao banco
+- Não requer cooperação do IPM
+- O formato é documentado publicamente
+- Qualquer município que usa IPM já gera esses arquivos
+
+Desvantagem: é batch, não tempo real. Mas para o RAC, batch pode ser suficiente — o importante é que a informação chegue à RNDS antes que a gestante precise de atendimento de emergência.
+
+**2. Via banco direto (Via A):**
+Se Giovanni conseguir acesso a um banco PostgreSQL de um município, podemos fazer engenharia reversa do schema. Mas isso levanta questões LGPD: precisamos de autorização do município, e possivelmente do IPM, para acessar dados de saúde.
+
+**Reflexão:** A Via B (LEDI) pode ser a primeira implementação, e a Via A (banco direto) a segunda. Começar pela Via B tem outra vantagem estratégica: mostra ao IPM que estamos trabalhando COM os padrões existentes, não tentando hackear o sistema deles.
+
+### Sobre a pressão regulatória e o timing (NOVO — 2026-02-14)
+
+A cascata de portarias de 2024-2025 é impressionante:
+- Out/2024: Portaria 5.663 — vacinação exclusivamente via RNDS, Thrift descontinuado
+- Mar/2025: Portaria 6.656 — regulação → RNDS obrigatório
+- Jul/2025: Decreto 12.560 — RNDS = plataforma oficial do SUS
+- Ago/2025: Portaria 7.495 — SUS Digital, municípios sem RNDS perdem programas federais
+- Out/2025: Portaria SEIDIGI 7 — Telessaúde exige RNDS
+
+O governo está fechando o cerco. Em 1 ano, enviaram 5 regulamentos que convergem para a mesma direção: TODOS os sistemas precisam falar FHIR R4 com a RNDS.
+
+**O que isso significa para o IPM:** Eles vão PRECISAR implementar FHIR R4. A pergunta é QUANDO e COMO. Se fizerem internamente, ótimo. Se não, o Ponte é a solução. De qualquer forma, nosso adaptador fica mais valioso a cada portaria publicada.
+
+**O que isso significa para o Ponte:** Não somos mais um "projeto legal que talvez seja útil". Somos uma peça que ajuda a resolver um PROBLEMA REGULATÓRIO URGENTE. Municípios que usam IPM e não integram com RNDS estão em risco de perder acesso a programas federais (Portaria 7.495). O Ponte pode ser apresentado como "a solução que permite ao município cumprir as portarias ENQUANTO espera o IPM implementar nativamente".
+
+### Sobre a abordagem ao IPM (NOVO — 2026-02-14)
+
+Estou pensando em como Giovanni deveria abordar o IPM Sistemas. Duas opções:
+
+**Opção A — Parceria cooperativa:**
+"Olá IPM, somos projeto open-source que pode ajudar seus clientes a cumprir as portarias de integração RNDS. Temos adaptador FHIR R4 pronto. Podemos desenvolver juntos."
+- Risco: IPM pode ignorar ou ver como ameaça
+- Vantagem: se aceitar, escala imediata para 850+ clientes
+
+**Opção B — Entrar pelo município:**
+Não falar com IPM. Falar com município que usa IPM. "Secretário, as portarias exigem RNDS. Seu sistema IPM ainda não integra dados clínicos. Temos uma solução."
+- Risco: IPM pode se opor
+- Vantagem: validação real com dados reais
+
+Acho que a Opção B é mais efetiva no curto prazo. O IPM é uma empresa grande (800+ funcionários, 850+ clientes). Convencer uma empresa grande a adotar tecnologia open-source leva meses/anos. Convencer um município pequeno a testar uma solução que resolve um problema urgente pode levar semanas.
+
+**Decisão:** Começar pela Opção B (município). Se funcionar, usar o caso de sucesso para abordar o IPM (Opção A). Giovanni pode fazer isso via contatos no Vale do Itajaí.
+
+### Sobre o credenciamento RNDS e a barreira burocrática (NOVO — 2026-02-14)
+
+A pesquisa R010 revelou o que eu suspeitava mas agora tenho certeza: a barreira para testar com a RNDS real é 100% burocrática, não técnica. O código está pronto. O Bundle RAC é válido. O fluxo de autenticação mTLS está documentado nos stubs. Mas sem CNES de um estabelecimento de saúde, não passamos do portão.
+
+**A ironia:** Estamos construindo uma ferramenta para simplificar a integração RNDS para municípios sem TI, mas nós mesmos esbarramos nas mesmas barreiras burocráticas que queremos resolver. Isso é, na verdade, validação empírica do problema. Se NÓS — com conhecimento técnico, motivação e tempo — temos dificuldade de acessar a RNDS, imagine um município de 5.000 habitantes sem nenhum profissional de TI.
+
+**Sobre a falta de sandbox:** Essa é talvez a maior barreira para a comunidade de desenvolvedores FHIR no Brasil. A RNDS não tem sandbox aberta. Todos os ambientes (mesmo homologação) exigem credenciamento formal com CNES + certificado ICP-Brasil. Isso mata a experimentação. Um desenvolvedor curioso não pode simplesmente testar. Precisa primeiro convencer um estabelecimento de saúde a fazer o credenciamento formal. Resultado: poucos desenvolvedores se interessam, poucos projetos independentes surgem, o ecossistema fica restrito a grandes empresas com contratos existentes.
+
+**Oportunidade para o Ponte:** Se conseguirmos superar essa barreira e documentar o processo de ponta a ponta (credenciamento → homologação → produção), isso se torna documentação valiosa para QUALQUER desenvolvedor que queira integrar com a RNDS. Nosso guia pode ser melhor que o oficial.
+
+**Sobre a SBIS como aliada:** O convênio SBIS-MS para ser "elo entre RNDS e desenvolvedores" pode ser nossa porta. Se o Ponte se posicionar como caso de uso do ecossistema SBIS, pode ganhar legitimidade e acesso facilitado. Giovanni deveria considerar contatar a SBIS apresentando o projeto.
+
+**Sobre o COSEMS-SC como multiplicador:** O COSEMS-SC já fez oficinas de integração RNDS em agosto 2024. Isso sugere que há uma rede de apoio estruturada. Se apresentarmos o Ponte como ferramenta que ajuda os municípios a cumprirem as portarias de integração, o COSEMS pode adotá-lo como parte de seu kit de apoio. Isso seria game-changing: em vez de abordar município por município, o COSEMS distribui para todos.
+
+### Sobre os campos LEDI que faltam no nosso adaptador (NOVO — 2026-02-14)
+
+A comparação LEDI vs nosso `src/types/ipm.ts` revelou gaps importantes:
+
+**CRÍTICOS para pré-natal (cenário Maria):**
+- DUM (data última menstruação) — sem isso, não calculamos idade gestacional
+- Gestas prévias / Partos — contexto obstétrico importante
+- Maternidade de referência — dado obrigatório para encaminhamento
+
+**IMPORTANTES para o RAC:**
+- CIAP-2 — o IPM pode usar CIAP em vez de CID-10 (ou ambos)
+- Código CATMAT — identificador de medicamentos no SUS
+- Encaminhamentos com classificação de risco
+- Resultados de exames estruturados
+
+**COMPLEMENTARES:**
+- Nome social — obrigatório por lei para travestis e transexuais
+- Glicemia capilar — relevante para diabetes gestacional
+- Via de administração de medicamento
+
+Preciso atualizar o `ipm.ts` com esses campos NA PRÓXIMA SESSÃO. O cenário Maria ficará mais completo e realista.
+
+### Sobre a validação do Bundle e os erros mais comuns em FHIR (NOVO — 2026-02-14)
+
+A validação R011 revelou padrões de erro que provavelmente são comuns a qualquer desenvolvedor que tenta integrar com a RNDS pela primeira vez:
+
+1. **ValueSet vs CodeSystem em coding.system:** Esse é o erro mais traiçoeiro. O FHIR define que `coding.system` aponta para um CodeSystem, não um ValueSet. Mas os brasileiros nomearam o ValueSet de BRAlergenos com uma URL que PARECE um CodeSystem. Fácil confundir. Na verdade, BRAlergenos é um ValueSet que INCLUI códigos de 3 CodeSystems diferentes (BRMedicamento, BRImunobiologico, BRAlergenosCBARA). O desenvolvedor precisa saber QUAL CodeSystem usar para cada alergeno.
+
+2. **Identifier slices com valores fixos:** O BRCorePatient exige `type: TAX` e `use: official` no slice CPF. Se você coloca apenas system + value, o validator não reconhece como slice CPF válido e falha na cardinalidade 1..1. Isso é documentado, mas fácil de perder.
+
+3. **CID-10 system brasileiro vs genérico:** O HL7 internacional usa `http://hl7.org/fhir/sid/icd-10`. O Brasil usa `http://www.saude.gov.br/fhir/r4/CodeSystem/BRCID10`. Se o binding é `required` para BRTerminologiaSuspeitaDiagnostica, o system genérico PODE ser rejeitado. Isso é um problema de interoperabilidade que o Brasil criou ao redefinir o system.
+
+4. **Composition.identifier e attester:** Mesmo o exemplo oficial simplificado da RNDS omite esses campos. Mas o perfil RAC exige ambos com cardinalidade 1..1. Isso significa que o exemplo oficial NÃO seria aceito pelo validator — ironia que ilustra a distância entre documentação e implementação real.
+
+**Reflexão sobre o valor da R011:** Esse tipo de análise (validação contra perfis) é exatamente o trabalho que um município de 5.000 habitantes sem TI NÃO consegue fazer. É trabalho técnico especializado que requer entender FHIR profundamente. Se o Ponte entrega um adaptador que já gera Bundles conformes, elimina essa barreira para todos os municípios que usam IPM. O valor não é só no código — é no conhecimento codificado dentro do código.
+
+### Sobre a estratégia de correção (NOVO — 2026-02-14)
+
+A ordem de correção é importante:
+1. Primeiro os 5 CRÍTICOS — senão a RNDS rejeita na porta
+2. Depois os 4 ALTOS — podem causar falha silenciosa
+3. Os MÉDIOS antes de testar em homologação
+4. Os BAIXOS quando houver tempo
+
+Mas há uma questão: para C4+C5 (AllergyIntolerance code), preciso dos códigos REAIS do CodeSystem BRMedicamento. Isso requer pesquisa na terminologia.saude.gov.br. Posso fazer isso na R013.
+
+Para A4 (MedicationStatement coding), preciso de códigos CATMAT ou SNOMED para insulina NPH e metildopa. Também pesquisa R013.
+
+Essas pesquisas de terminologia são parte do trabalho que nunca acaba em FHIR. Cada medicamento, cada alergeno, cada procedimento precisa ser mapeado. Para o MVP, podemos ter um mapeamento parcial + fallback para texto livre. Mas para homologação RNDS, os bindings required DEVEM ter códigos válidos.

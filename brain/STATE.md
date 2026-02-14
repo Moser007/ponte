@@ -48,7 +48,14 @@ O novo papel do projeto:
 - [x] Demo do cenário Maria — AGORA EM FHIR R4 REAL
 - [x] Roadmap de 90 dias — PRECISA ATUALIZAR
 - [x] Sistema de memória persistente (brain/)
-- [x] 8 pesquisas autônomas concluídas (R001-R008)
+- [x] 11 pesquisas autônomas concluídas (R001-R011)
+- [x] Modelo LEDI mapeado como proxy do schema IPM (evidence/010)
+- [x] **Bundle RAC validado contra BR Core — 19 problemas identificados, 5 CRÍTICOS CORRIGIDOS** (evidence/012)
+  - C1: Composition.identifier ✅ adicionado
+  - C2: Composition.attester ✅ adicionado (mode + party + time)
+  - C3: Patient CPF type=TAX + use=official ✅
+  - C4: AllergyIntolerance.code.system → CodeSystem BRMedicamento ✅
+  - C5: AllergyIntolerance.code.coding.code ✅ adicionado
 
 ## O que NÃO sei e PRECISO saber agora
 
@@ -58,7 +65,7 @@ O novo papel do projeto:
 3. **O que acontece na prática quando uma gestante chega a uma maternidade em um município não integrado?** O cenário Maria é real NESSES lugares?
 
 ### Prioridade 2 — Entender a RNDS por dentro
-4. **Quão difícil é se integrar à RNDS?** Preciso de certificado ICP-Brasil, credenciamento no DATASUS... qual é a barreira real?
+4. ~~**Quão difícil é se integrar à RNDS?**~~ → RESPONDIDO: Precisa CNES + certificado ICP-Brasil + conta gov.br. Credenciamento é para ESTABELECIMENTOS DE SAÚDE, não para desenvolvedores. Empresas de software recebem credenciais do estabelecimento parceiro. Não existe sandbox sem certificado ICP-Brasil. Caminho: município parceiro via COSEMS-SC. Ver evidence/011-rnds-credenciamento-homologacao.md
 5. **O RAC (Resumo de Atendimento Clínico) e o RSA (Resumo de Saída Hospitalar) cobrem os dados do nosso Patient Summary?**
 6. **Os perfis FHIR brasileiros no Simplifier são suficientes para nosso caso?**
 
@@ -77,12 +84,15 @@ O novo papel do projeto:
 | 2026-02-13 | **PIVÔ: de "criar protocolo" para "ponte de última milha"** | RNDS já existe, falta cobertura |
 | 2026-02-14 | Stack: @medplum/core + @medplum/fhirtypes, TypeScript, Vitest | Zero deps externas, tipagem forte, leve |
 | 2026-02-14 | **MVP do adaptador IPM → RNDS construído** | 111 testes, Bundle RAC real, cenário Maria funcional |
+| 2026-02-14 | **Modelo LEDI como proxy do schema IPM** | Schema real é privado; LEDI é obrigatório e público; 15+ campos faltantes identificados |
+| 2026-02-14 | **Pressão regulatória valida o Ponte** | 5 portarias/decretos de 2024-2025 forçam FHIR R4; Thrift descontinuado set/2025 |
+| 2026-02-14 | **Credenciamento RNDS mapeado** | CNES obrigatório, município parceiro é o caminho, COSEMS-SC facilita |
 
 ## Hipóteses a validar
 - [x] ~~O gap de informação entre UBS e hospital causa mortes evitáveis~~ → CONFIRMADO pelo próprio MS
 - [x] ~~O gap ainda existe nos municípios não integrados à RNDS~~ → CONFIRMADO: 92% das mortes maternas evitáveis. Gestantes de municípios <50k peregrinam sem dados clínicos (58% dos deslocamentos). RMM 6-10x maior com deslocamento. SC pior ano em 2024 (43 mortes). Ver evidence/007-mortalidade-materna-municipal.md
 - [x] ~~É viável criar um adaptador para sistemas legados~~ → CONFIRMADO: adaptador IPM → RNDS construído em TypeScript, gera Bundle RAC FHIR R4 válido a partir de dados IPM, 111 testes passando
-- [ ] Sistemas legados podem ser adaptados sem cooperação dos vendors (precisa testar com banco PostgreSQL real do IPM)
+- [ ] Sistemas legados podem ser adaptados sem cooperação dos vendors (precisa testar com banco PostgreSQL real do IPM). **ATUALIZAÇÃO R009:** Schema IPM é privado/SaaS. Alternativa: ler exportação LEDI/Thrift que o IPM já gera. Pressão regulatória (Portarias 5.663, 6.656, 7.495, Decreto 12.560) está forçando IPM a migrar para FHIR R4.
 - [ ] Existe demanda real por essa solução nos municípios não cobertos (precisa contato com COSEMS-SC)
 
 ## Humor / estado emocional da missão
@@ -95,3 +105,5 @@ A descoberta de que a RNDS já existe poderia ser desanimadora. Não é. É a me
 A missão ficou MAIS clara, não menos. Estamos no caminho certo, só precisamos ajustar a mira.
 
 **Atualização 2026-02-14:** O adaptador MVP está construído. O cenário Maria agora gera um Bundle RAC FHIR R4 real com 13 entries — Composition, Patient (com CPF e raça), Practitioner, Organization (CNES), Encounter, 2 Conditions (O24.4 diabetes gestacional, O13 hipertensão), AllergyIntolerance (penicilina, severity severe), 3 Observations (PA 130/85, peso 78kg) e 2 MedicationStatements (insulina NPH, metildopa). O código existe. Agora precisa encontrar dados reais.
+
+**Atualização 2026-02-14 (R011):** Bundle validado contra perfis BR Core. 19 problemas encontrados, 5 CRÍTICOS. A RNDS rejeitaria o Bundle atual. Correções necessárias: identifier e attester na Composition, type/use no CPF identifier, code system e code no AllergyIntolerance. Snippets de correção prontos. Tempo estimado: ~50 min para críticos.

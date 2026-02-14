@@ -20,7 +20,8 @@ export function buildComposition(
     organizationRef: string;
   },
   sections: RacSectionRefs,
-  date: string
+  date: string,
+  identifierValue?: string
 ): Composition {
   const compositionSections: Composition['section'] = [];
 
@@ -98,6 +99,10 @@ export function buildComposition(
         'https://br-core.saude.gov.br/fhir/StructureDefinition/br-core-registroatendimentoclinico',
       ],
     },
+    identifier: {
+      system: 'https://ponte.saude.gov.br/fhir/sid/rac',
+      value: identifierValue ?? uuid,
+    },
     status: 'final',
     type: {
       coding: [
@@ -112,6 +117,13 @@ export function buildComposition(
     encounter: { reference: refs.encounterRef },
     date,
     author: [{ reference: refs.practitionerRef }],
+    attester: [
+      {
+        mode: 'professional',
+        time: date,
+        party: { reference: refs.practitionerRef },
+      },
+    ],
     custodian: { reference: refs.organizationRef },
     title: 'Registro de Atendimento Clínico',
     section: compositionSections,

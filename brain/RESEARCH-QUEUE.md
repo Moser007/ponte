@@ -8,24 +8,39 @@
 
 ## Pendentes (executar na ordem)
 
-### R009 — Esquema real do banco PostgreSQL do IPM Atende.Net
-**Objetivo:** Descobrir a estrutura real das tabelas do módulo de saúde do IPM Atende.Net. Nosso `src/types/ipm.ts` tem interfaces baseadas em suposições a partir do demo.js. Precisamos das tabelas reais: nomes, colunas, tipos, relacionamentos.
-**Método:** Pesquisa web por documentação técnica, manuais, screenshots de tabelas, vagas de DBA do IPM, qualquer pista sobre o schema.
-**Prioridade:** Alta — sem isso não podemos implementar o DataSource real.
+### R013 — Pesquisar códigos BRMedicamento para alergenos e CATMAT para medicamentos
+**Objetivo:** Encontrar os códigos reais no CodeSystem BRMedicamento (penicilina) e CATMAT (insulina NPH, metildopa) para usar nos builders.
+**Método:** Consultar terminologia.saude.gov.br/fhir/CodeSystem/BRMedicamento e buscar códigos CATMAT.
+**Prioridade:** Alta — necessário para completar correção C4/C5 e A4.
 
-### R010 — Processo de credenciamento RNDS para homologação
-**Objetivo:** Entender passo-a-passo como obter acesso ao ambiente de homologação da RNDS. Quais formulários, quanto tempo demora, o que precisa ter pronto.
-**Método:** Pesquisar portal DATASUS, guia de integração, relatos de desenvolvedores que já fizeram.
-**Prioridade:** Média — necessário antes de substituir o stub de auth.
-
-### R011 — Validação do Bundle RAC com HL7 FHIR Validator
-**Objetivo:** Validar nosso Bundle gerado contra os perfis BR Core usando o validador oficial HL7 (Java CLI). Identificar campos faltantes ou incorretos.
-**Método:** Baixar validator_cli.jar, rodar contra o JSON gerado pela demo, analisar erros.
-**Prioridade:** Média — qualidade do Bundle antes de enviar à RNDS real.
+### R014 — Corrigir problemas ALTOS e MÉDIOS do Bundle RAC
+**Objetivo:** Corrigir os 4 problemas ALTOS e 6 MÉDIOS identificados na R011 (CID-10 system, Encounter priority, text, etc.)
+**Método:** Editar builders TypeScript. Rodar testes.
+**Prioridade:** Média — para conformidade completa antes de homologação.
 
 ---
 
 ## Concluídas
+
+### R012 — Corrigir 5 problemas CRÍTICOS do Bundle RAC (2026-02-14)
+**Resultado:** Todas as 5 correções críticas aplicadas nos builders TypeScript. 111 testes passando.
+- C1: Composition.identifier adicionado (system ponte + uuid)
+- C2: Composition.attester adicionado (mode=professional, party=practitioner, time=date)
+- C3: Patient CPF identifier com type=TAX e use=official adicionados
+- C4: AllergyIntolerance.code.system corrigido de ValueSet para CodeSystem/BRMedicamento
+- C5: AllergyIntolerance.code.coding.code adicionado (usando ipm.codigo ou substancia como fallback)
+- IpmAlergia tipo atualizado com campo `codigo` opcional
+**Documento:** Correções aplicadas diretamente nos builders (patient.ts, composition.ts, allergy.ts, ipm.ts)
+
+### R011 — Validação do Bundle RAC com perfis BR Core (2026-02-14)
+**Resultado:** Validação manual completa contra perfis BR Core (Java 8 disponível, mas validator requer 17+). Encontrados 19 problemas: 5 CRÍTICOS, 4 ALTOS, 6 MÉDIOS, 4 BAIXOS. Os 5 críticos são: (C1) Composition.identifier ausente, (C2) Composition.attester ausente, (C3) Patient.identifier CPF sem type=TAX e use=official, (C4) AllergyIntolerance.code.system aponta para ValueSet em vez de CodeSystem, (C5) AllergyIntolerance.code sem campo code. Nosso Bundle é significativamente mais completo que o exemplo oficial da RNDS (13 entries vs 4, 4 seções vs 1), mas tem gaps de conformidade técnica. Tempo estimado para corrigir críticos: ~50 min.
+**Descoberta-chave:** O ValueSet BRAlergenos inclui 3 CodeSystems: BRMedicamento, BRImunobiologico, BRAlergenosCBARA. Para medicamentos alérgenos (penicilina), o system correto é `https://terminologia.saude.gov.br/fhir/CodeSystem/BRMedicamento`. O CID-10 brasileiro usa system `http://www.saude.gov.br/fhir/r4/CodeSystem/BRCID10` (não o genérico HL7). O perfil RAC exige identifier + attester que não estão nem no exemplo oficial simplificado.
+**Documento:** evidence/012-bundle-rac-validation-r011.md
+
+### R010 — Processo de credenciamento RNDS para homologação (2026-02-14)
+**Resultado:** Pesquisa completa sobre o processo de credenciamento na RNDS. O credenciamento é EXCLUSIVO para estabelecimentos de saúde com CNES válido — NÃO para desenvolvedores independentes ou empresas de software. Processo em 2 fases: (1) homologação, (2) produção. Exige: certificado digital ICP-Brasil (e-CPF ou e-CNPJ, A1 ou A3), conta gov.br, CNES do estabelecimento, gestor cadastrado no CNES. Token de acesso via mTLS dura 30 min. Endpoints de homologação: ehr-auth-hmg.saude.gov.br e ehr-services.hmg.saude.gov.br. Produção por estado: sc-ehr-services.saude.gov.br. Evidências de homologação: screenshots PDF/PNG (max 10MB). DATASUS aprova em até 2 dias úteis. NÃO existe sandbox sem certificado ICP-Brasil. NÃO existe programa formal para desenvolvedores independentes.
+**Descoberta-chave:** Giovanni NÃO PODE se credenciar diretamente (sem CNES). Precisa de município parceiro. O COSEMS-SC é o melhor caminho: já promove oficinas de integração RNDS, tem apoiadora regional no Médio Vale do Itajaí. A SBIS tem convênio com MS para ser elo entre RNDS e desenvolvedores. Certificado ICP-Brasil pode ser obtido nos EUA via videoconferência. Custo total: R$ 99-250 (apenas certificado). Prazo realista com município parceiro: 6-8 semanas.
+**Documento:** evidence/011-rnds-credenciamento-homologacao.md
 
 ### R000 — Estado atual da RNDS (2026-02-13)
 **Resultado:** RNDS existe, 2.8B registros, 68% cobertura, FHIR R4. Pivô necessário.
@@ -70,3 +85,8 @@
 **Resultado:** Análise de 10+ ferramentas FHIR: HAPI FHIR (Java, padrão-ouro mas pesado), Firely (.NET), Medplum (TypeScript, Apache 2.0, 5k+ stars), fhir.js, node-fhir-server-core, Aidbox (comercial), IBM FHIR, validadores. Descoberta crítica: biblioteca `rnds` npm (kyriosdata, v0.2.4) — wrapper Node.js para a API da RNDS já existe!
 **Descoberta-chave:** Stack recomendado para o Ponte: `@medplum/core` + `@medplum/fhirtypes` (construção/validação FHIR R4, zero dependências) + `fhirpath` (expressões FHIRPath) + `pg` (PostgreSQL para ler IPM). Apenas 4 dependências de produção. mTLS via `https.Agent` nativo do Node.js. Não precisamos de servidor FHIR completo — apenas adaptador unidirecional IPM → FHIR → RNDS.
 **Documento:** evidence/009-fhir-tools-landscape.md
+
+### R009 — Esquema real do banco PostgreSQL do IPM Atende.Net (2026-02-14)
+**Resultado:** Schema real do banco IPM é PRIVADO e inacessível via pesquisa web. Sistema é SaaS 100% cloud, sem API pública, sem SDK, wiki requer login de cliente. PORÉM: (1) Stack confirmado: PHP + PostgreSQL + AJAX + JS, (2) Modelo LEDI do e-SUS define TODOS os campos obrigatórios que o IPM deve armazenar — documentado publicamente pela UFSC, (3) Módulos identificados: Cadastro Único, Prontuário SOAP (78+ especialidades), Agendamento, Farmácia, Vacinação, Lab, Faturamento SIGTAP, Vigilância, ACS, Regulação, BI, Dara IA, (4) DESCOBERTA CRÍTICA ATUALIZADA: Portarias 5.663/2024, 6.656/2025, Decreto 12.560/2025, Portaria 7.495/2025 estão FORÇANDO integração FHIR R4 com RNDS. Apache Thrift sendo descontinuado para vacinas (set/2025). IPM VAI PRECISAR implementar FHIR.
+**Descoberta-chave:** O modelo LEDI é o proxy perfeito para o schema IPM. Comparação com nosso `src/types/ipm.ts` revelou 15+ campos faltantes críticos: DUM (data última menstruação), CIAP-2, código CATMAT, encaminhamentos, resultados de exames, condições de saúde, nome social, etc. Pressão regulatória cria janela de oportunidade perfeita para o Ponte.
+**Documento:** evidence/010-ipm-schema-research.md

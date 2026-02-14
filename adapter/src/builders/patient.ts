@@ -18,6 +18,15 @@ export function buildPatient(ipm: IpmPaciente, uuid: string): Patient {
 
   const identifiers: Patient['identifier'] = [
     {
+      use: 'official',
+      type: {
+        coding: [
+          {
+            system: 'http://terminology.hl7.org/CodeSystem/v2-0203',
+            code: 'TAX',
+          },
+        ],
+      },
       system: 'https://saude.gov.br/fhir/sid/cpf',
       value: ipm.cpf,
     },
@@ -25,6 +34,15 @@ export function buildPatient(ipm: IpmPaciente, uuid: string): Patient {
 
   if (ipm.cns) {
     identifiers.push({
+      use: 'official',
+      type: {
+        coding: [
+          {
+            system: 'http://terminology.hl7.org/CodeSystem/v2-0203',
+            code: 'HC',
+          },
+        ],
+      },
       system: 'https://saude.gov.br/fhir/sid/cns',
       value: ipm.cns,
     });

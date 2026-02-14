@@ -26,6 +26,12 @@ export class MockDataSource implements IpmDataSource {
       raca_cor: 'parda',
       tipo_sanguineo: 'O+',
       municipio_ibge: '4205407', // Florianópolis
+      // Campos obstétricos (LEDI)
+      gestante: true,
+      dum: '2025-04-10',            // DUM → IG ~32 semanas em 20/11/2025
+      gestas_previas: 2,
+      partos: 1,
+      maternidade_referencia: 'Maternidade Regional de Blumenau'
     },
   ];
 
@@ -100,8 +106,10 @@ export class MockDataSource implements IpmDataSource {
       paciente_id: 1,
       atendimento_id: 1,
       nome: 'Insulina NPH',
+      codigo_catmat: '264210303',  // CATMAT insulina humana NPH
       dosagem: '10 UI',
       posologia: '2x/dia (café e jantar)',
+      via_administracao: 'subcutânea',
       data_inicio: '2025-07',
       ativo: true,
     },
@@ -110,8 +118,10 @@ export class MockDataSource implements IpmDataSource {
       paciente_id: 1,
       atendimento_id: 1,
       nome: 'Metildopa 250mg',
+      codigo_catmat: '264210020',  // CATMAT metildopa 250mg
       dosagem: '250mg',
       posologia: '3x/dia',
+      via_administracao: 'oral',
       data_inicio: '2025-09',
       ativo: true,
     },

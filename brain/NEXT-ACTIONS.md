@@ -11,10 +11,28 @@
 
 ---
 
-## SPRINT ATUAL: Validação Local + Evolução do Adaptador (Semana 1-2)
+## SPRINT ATUAL: Conseguir Acesso à RNDS Homologação (Semana 2-4)
 
 ### MARCO ALCANÇADO: Adaptador MVP Construído (2026-02-14)
-O adaptador IPM → RNDS está funcional com dados mock (cenário Maria). 111 testes passando. Bundle RAC FHIR R4 real gerado. Próximo passo: dados reais.
+O adaptador IPM → RNDS está funcional com dados mock (cenário Maria). 111 testes passando. Bundle RAC FHIR R4 real gerado.
+
+### MARCO ALCANÇADO: Credenciamento RNDS Mapeado (2026-02-14)
+Processo completo documentado. Descoberta: Giovanni NÃO pode se credenciar sozinho (precisa CNES). Caminho: município parceiro via COSEMS-SC.
+
+### BLOCKER ATUAL: Sem CNES, sem acesso à RNDS
+O código está pronto. A barreira agora é 100% burocrática/relacional: precisamos de um município parceiro.
+
+---
+
+### Ação 0 — [PRIORIDADE MÁXIMA] Contatar COSEMS-SC para município parceiro
+**O que fazer:** Contatar Gisele do COSEMS-SC ou a sede do COSEMS-SC para encontrar um município do Vale do Itajaí que use IPM e queira testar o adaptador Ponte.
+**Contatos:**
+- **Gisele de Cássia Galvão** (apoiadora Médio Vale do Itajaí): (47) 991908242 | gisele.apoiadoracosems@gmail.com
+- **COSEMS-SC sede:** (48) 3364-4003 | cosemssc@cosemssc.org.br
+**Mensagem sugerida:** "Olá, sou Giovanni Moser, desenvolvedor e advogado. Estou construindo o Ponte, um projeto open-source (MIT) que cria um adaptador para conectar o sistema IPM Atende.Net à RNDS para dados clínicos. Precisamos de um município parceiro no Vale do Itajaí que use IPM e esteja disposto a: (1) fazer o credenciamento no portal DATASUS para homologação RNDS, e (2) compartilhar as credenciais conosco para testarmos o adaptador. O Ponte é gratuito e ajuda o município a cumprir as portarias 5.663/2024 e 7.495/2025. O COSEMS pode indicar um município interessado?"
+**Por que você:** Você tem rede local e a Gisele já foi identificada como apoiadora regional.
+**Status:** [ ] Pendente
+**Resultado:** (preencher)
 
 ---
 
