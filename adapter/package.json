@@ -1,0 +1,23 @@
+{
+  "name": "@ponte/adapter",
+  "version": "0.1.0",
+  "description": "Adaptador IPM Atende.Net → RNDS (FHIR R4 / BR Core)",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "demo": "tsx demo.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@medplum/core": "^4.0.0",
+    "@medplum/fhirtypes": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "tsx": "^4.0.0",
+    "vitest": "^3.0.0"
+  },
+  "license": "MIT"
+}
