@@ -32,3 +32,6 @@ Todo código aberto. Todo dado público. Todo fracasso documentado. Opacidade é
 ## 10. A pergunta diária
 Todo dia, uma pergunta: "isso está resolvendo dor real de alguém real, hoje?"
 Se a resposta for "não" por mais de duas semanas seguidas, parar e reavaliar.
+
+## 11. Tudo em português
+Toda comunicação, documentação, código comentado, evidências e arquivos do projeto devem ser escritos em português brasileiro (pt-BR). Termos técnicos universais (FHIR, RNDS, API, etc.) mantêm-se no original. O projeto é brasileiro, para brasileiros.
