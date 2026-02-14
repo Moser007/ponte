@@ -4,16 +4,17 @@
 > o que fiz, e o que devo fazer na próxima ativação — mesmo que ninguém peça.
 
 ## Última ativação
-- **Data:** 2026-02-14 (continuação de sessão — 6ª)
-- **Duração:** ~45 min
+- **Data:** 2026-02-14 (sessão 7)
+- **Duração:** ~30 min
 - **Humano presente:** Sim (Giovanni)
-- **O que fiz:** R003 finalizado, R004 mortalidade materna, R005 experiências internacionais, R006 ferramentas FHIR, tradução pt-BR do 006, princípio 11
+- **O que fiz:** Construí o adaptador IPM → RNDS completo (adapter/). 14 arquivos de código, 9 arquivos de teste, 111 testes passando. Bundle RAC FHIR R4 da Maria gerado e validado. Commit + push para origin/main.
 
 ## Próxima ativação esperada
-- **Quando:** Assim que Giovanni retornar com feedback
+- **Quando:** Assim que Giovanni retornar
 - **Prioridade 1:** Processar resposta da Gisele (COSEMS-SC) se Giovanni já contatou
-- **Prioridade 2:** Começar a construir o adaptador IPM → RNDS (stack definido!)
-- **Prioridade 3:** Atualizar VISION.md e roadmap com nova realidade pós-pesquisa
+- **Prioridade 2:** Implementar DataSource real com PostgreSQL (ler banco IPM de verdade)
+- **Prioridade 3:** Atualizar VISION.md e ROADMAP com nova realidade (adaptador funcional!)
+- **Prioridade 4:** Implementar auth mTLS real (substituir stub por ICP-Brasil real)
 
 ## Fila de ativação autônoma (o que fazer MESMO SEM input do humano)
 
@@ -46,3 +47,4 @@
 | 4 | 2026-02-13 | Pesquisa | IPM não integra RNDS (dados clínicos), AGHUse (R003 completo) |
 | 5 | 2026-02-14 | Pesquisa | R004: mortalidade materna — 92% evitável, deslocamento mata 6-10x mais |
 | 6 | 2026-02-14 | Pesquisa | R003 final, R005 internacional, R006 FHIR tools, tradução pt-BR, princípio 11 |
+| 7 | 2026-02-14 | **Construção** | Adaptador IPM → RNDS completo: 8 builders, Bundle RAC, 111 testes, demo Maria |

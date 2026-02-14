@@ -8,19 +8,20 @@
 
 ## Pendentes (executar na ordem)
 
-### ~~R001~~ — ✅ CONCLUÍDO (movido para Concluídas)
-### ~~R002~~ — ✅ CONCLUÍDO (movido para Concluídas)
+### R009 — Esquema real do banco PostgreSQL do IPM Atende.Net
+**Objetivo:** Descobrir a estrutura real das tabelas do módulo de saúde do IPM Atende.Net. Nosso `src/types/ipm.ts` tem interfaces baseadas em suposições a partir do demo.js. Precisamos das tabelas reais: nomes, colunas, tipos, relacionamentos.
+**Método:** Pesquisa web por documentação técnica, manuais, screenshots de tabelas, vagas de DBA do IPM, qualquer pista sobre o schema.
+**Prioridade:** Alta — sem isso não podemos implementar o DataSource real.
 
-### ~~R007~~ — ✅ CONCLUÍDO (movido para Concluídas)
-### ~~R008~~ — ✅ CONCLUÍDO (movido para Concluídas)
+### R010 — Processo de credenciamento RNDS para homologação
+**Objetivo:** Entender passo-a-passo como obter acesso ao ambiente de homologação da RNDS. Quais formulários, quanto tempo demora, o que precisa ter pronto.
+**Método:** Pesquisar portal DATASUS, guia de integração, relatos de desenvolvedores que já fizeram.
+**Prioridade:** Média — necessário antes de substituir o stub de auth.
 
-### ~~R003~~ — ✅ CONCLUÍDO (movido para Concluídas)
-
-### ~~R004~~ — ✅ CONCLUÍDO (movido para Concluídas)
-
-### ~~R005~~ — ✅ CONCLUÍDO (movido para Concluídas)
-
-### ~~R006~~ — ✅ CONCLUÍDO (movido para Concluídas)
+### R011 — Validação do Bundle RAC com HL7 FHIR Validator
+**Objetivo:** Validar nosso Bundle gerado contra os perfis BR Core usando o validador oficial HL7 (Java CLI). Identificar campos faltantes ou incorretos.
+**Método:** Baixar validator_cli.jar, rodar contra o JSON gerado pela demo, analisar erros.
+**Prioridade:** Média — qualidade do Bundle antes de enviar à RNDS real.
 
 ---
 

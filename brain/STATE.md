@@ -1,9 +1,9 @@
 # Estado Mental — Superintelligence Bridge Protocol
 
 > Este arquivo é minha memória persistente. Toda conversa começa lendo ele.
-> Última atualização: 2026-02-13 (noite)
+> Última atualização: 2026-02-14
 
-## Fase atual: PIVÔ ESTRATÉGICO
+## Fase atual: ADAPTADOR MVP CONSTRUÍDO
 
 ## DESCOBERTA CRÍTICA
 
@@ -37,10 +37,18 @@ O novo papel do projeto:
 ## O que já existe
 - [x] Visão documentada (VISION.md) — PRECISA ATUALIZAR com nova realidade
 - [x] Especificação do protocolo v0.1 — PRECISA PIVOTAR para adaptador RNDS
-- [x] Implementação de referência funcional — PRECISA ADAPTAR para FHIR real
-- [x] Demo do cenário Maria — CONCEITO VÁLIDO, implementação muda
+- [x] Implementação de referência funcional (bridge/) — conceito original
+- [x] **ADAPTADOR IPM → RNDS (adapter/)** — MVP FUNCIONAL!
+  - 8 builders FHIR R4 com perfis BR Core
+  - Bundle RAC completo (Composition + 12 recursos)
+  - 111 testes passando (unitários + integração)
+  - Demo CLI do cenário Maria com Bundle JSON real
+  - Stubs RNDS documentados (auth mTLS + client POST)
+  - Validação local BR Core (CPF, raça, referências)
+- [x] Demo do cenário Maria — AGORA EM FHIR R4 REAL
 - [x] Roadmap de 90 dias — PRECISA ATUALIZAR
 - [x] Sistema de memória persistente (brain/)
+- [x] 8 pesquisas autônomas concluídas (R001-R008)
 
 ## O que NÃO sei e PRECISO saber agora
 
@@ -67,13 +75,15 @@ O novo papel do projeto:
 | 2026-02-13 | Cenário pré-natal → maternidade | Dor aguda, mensurável |
 | 2026-02-13 | Protocolo aberto | Escala sem instituição |
 | 2026-02-13 | **PIVÔ: de "criar protocolo" para "ponte de última milha"** | RNDS já existe, falta cobertura |
+| 2026-02-14 | Stack: @medplum/core + @medplum/fhirtypes, TypeScript, Vitest | Zero deps externas, tipagem forte, leve |
+| 2026-02-14 | **MVP do adaptador IPM → RNDS construído** | 111 testes, Bundle RAC real, cenário Maria funcional |
 
 ## Hipóteses a validar
 - [x] ~~O gap de informação entre UBS e hospital causa mortes evitáveis~~ → CONFIRMADO pelo próprio MS
 - [x] ~~O gap ainda existe nos municípios não integrados à RNDS~~ → CONFIRMADO: 92% das mortes maternas evitáveis. Gestantes de municípios <50k peregrinam sem dados clínicos (58% dos deslocamentos). RMM 6-10x maior com deslocamento. SC pior ano em 2024 (43 mortes). Ver evidence/007-mortalidade-materna-municipal.md
-- [ ] É viável criar um "kit de integração simplificado" para municípios pequenos
-- [ ] Sistemas legados podem ser adaptados sem cooperação dos vendors
-- [ ] Existe demanda real por essa solução nos municípios não cobertos
+- [x] ~~É viável criar um adaptador para sistemas legados~~ → CONFIRMADO: adaptador IPM → RNDS construído em TypeScript, gera Bundle RAC FHIR R4 válido a partir de dados IPM, 111 testes passando
+- [ ] Sistemas legados podem ser adaptados sem cooperação dos vendors (precisa testar com banco PostgreSQL real do IPM)
+- [ ] Existe demanda real por essa solução nos municípios não cobertos (precisa contato com COSEMS-SC)
 
 ## Humor / estado emocional da missão
 A descoberta de que a RNDS já existe poderia ser desanimadora. Não é. É a melhor notícia possível:
@@ -83,3 +93,5 @@ A descoberta de que a RNDS já existe poderia ser desanimadora. Não é. É a me
 4. Nos posiciona como complemento, não competidor
 
 A missão ficou MAIS clara, não menos. Estamos no caminho certo, só precisamos ajustar a mira.
+
+**Atualização 2026-02-14:** O adaptador MVP está construído. O cenário Maria agora gera um Bundle RAC FHIR R4 real com 13 entries — Composition, Patient (com CPF e raça), Practitioner, Organization (CNES), Encounter, 2 Conditions (O24.4 diabetes gestacional, O13 hipertensão), AllergyIntolerance (penicilina, severity severe), 3 Observations (PA 130/85, peso 78kg) e 2 MedicationStatements (insulina NPH, metildopa). O código existe. Agora precisa encontrar dados reais.

@@ -177,3 +177,32 @@ A FURB (Universidade Regional de Blumenau) desenvolve o Sistema PRONTO para a sa
 - O Ponte pode ser tema de TCC ou pesquisa acadêmica
 - A FURB já entende o ecossistema de saúde digital local
 - Integrar o PRONTO com RNDS seria um caso de uso real para o Ponte
+
+### Sobre o adaptador MVP — o que aprendi construindo (NOVO — 2026-02-14)
+
+1. **@medplum/fhirtypes é excelente.** A tipagem TypeScript pega erros estruturais em tempo de compilação. Quando tentei montar o `Encounter.diagnosis` errado (array em vez de referência direta), o compilador avisou. Isso confirma a decisão de usar TypeScript.
+
+2. **Apenas 2 dependências de produção foram necessárias.** O plano falava em 4 (`@medplum/core`, `@medplum/fhirtypes`, `fhirpath`, `pg`). Na prática, para o MVP com mock data, só precisamos das duas primeiras. `fhirpath` e `pg` entram quando houver dados reais.
+
+3. **A validação local é suficiente para desenvolvimento.** O validator verifica Bundle structure, Composition obrigatória, CPF presente, raça presente, referências internas. Não substitui o HL7 FHIR Validator (Java) para produção, mas é suficiente para iterar rápido.
+
+4. **O cenário Maria é convincente em FHIR.** O Bundle JSON de 13 entries conta a história completa: uma gestante de alto risco com diabetes, hipertensão, alergia a penicilina, PA 130/85, insulina e metildopa. Qualquer médico que veja esse JSON (ou uma interface amigável baseada nele) tem tudo que precisa.
+
+5. **Próximo gap técnico: dados reais.** O MockDataSource é útil para desenvolvimento, mas o verdadeiro teste é ler dados do banco PostgreSQL do IPM. Isso requer:
+   - Acesso a um banco IPM (Giovanni precisa conseguir via contato local)
+   - Mapeamento das tabelas reais (que podem diferir das interfaces que defini)
+   - Tratamento de dados sujos/incompletos (CPF inválido, raça não preenchida, etc.)
+
+6. **O stub de auth documenta o fluxo real.** Quando tivermos certificado ICP-Brasil, a implementação é substituir o stub por `https.Agent` com cert/key. O fluxo está documentado nos comentários.
+
+### Sobre os próximos passos técnicos (NOVO — 2026-02-14)
+
+Ordem de prioridade para evoluir o adaptador:
+1. **DataSource real (PostgreSQL)** — precisa de acesso a banco IPM
+2. **Auth mTLS real** — precisa de certificado ICP-Brasil (Giovanni pode providenciar via credenciamento DATASUS)
+3. **Envio real à RNDS** — precisa de credenciamento em homologação
+4. **Tratamento de erros** — OperationOutcome da RNDS, retry, logging
+5. **Mais tipos de documento** — RSA (Sumário de Alta), CMD (Conjunto Mínimo de Dados)
+6. **Interface WhatsApp** — usando apiwts.top de Giovanni
+
+Mas NADA disso avança sem dados reais e contato humano. O código está pronto. A próxima barreira é 100% humana: Giovanni precisa falar com alguém que tenha acesso a um banco IPM ou à RNDS.

@@ -11,7 +11,12 @@
 
 ---
 
-## SPRINT ATUAL: Validação Local — Vale do Itajaí (Semana 1)
+## SPRINT ATUAL: Validação Local + Evolução do Adaptador (Semana 1-2)
+
+### MARCO ALCANÇADO: Adaptador MVP Construído (2026-02-14)
+O adaptador IPM → RNDS está funcional com dados mock (cenário Maria). 111 testes passando. Bundle RAC FHIR R4 real gerado. Próximo passo: dados reais.
+
+---
 
 ### Ação 1 — [ADVOGADO] Análise LGPD para dados de saúde
 **O que fazer:** Como advogado, analisar a viabilidade legal do projeto sob a LGPD.

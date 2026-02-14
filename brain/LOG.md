@@ -242,3 +242,60 @@ Não precisamos reinventar a roda. O OpenHIM de Ruanda é exatamente o padrão q
 
 **Decisão-chave:**
 A arquitetura do adaptador está definida: ler dados do banco PostgreSQL do IPM → transformar em recursos FHIR R4 com perfis BR Core → enviar para RNDS via mTLS. Leve o suficiente para rodar em qualquer servidor.
+
+---
+
+## 2026-02-14 — Dia 1 (parte 4): O Adaptador Existe
+
+**O que aconteceu:**
+- Construção completa do adaptador IPM → RNDS (`adapter/`)
+- Plano detalhado aprovado e implementado em uma sessão
+- 29 arquivos criados, 2.439 linhas de código
+
+**O que foi construído:**
+1. **Tipos IPM** (`src/types/ipm.ts`): 8 interfaces representando tabelas do banco PostgreSQL do IPM
+2. **DataSource** (`src/datasource/`): interface `IpmDataSource` + `MockDataSource` com dados da Maria
+3. **8 Builders FHIR R4:**
+   - `patient.ts` — BRCorePatient (CPF, CNS, raça/cor obrigatória)
+   - `practitioner.ts` — BRCorePractitioner (CNS, CBO)
+   - `organization.ts` — BRCoreOrganization (CNES)
+   - `encounter.ts` — BRCoreEncounter (AMB, participante, diagnósticos)
+   - `condition.ts` — BRCoreCondition (CID-10, clinicalStatus)
+   - `allergy.ts` — BRCoreAllergyIntolerance (BRAlergenos, severity, reaction)
+   - `vital-signs.ts` — BRCoreVitalSigns (LOINC, UCUM)
+   - `medication.ts` — BRCoreMedicationStatement (dosage, effectivePeriod)
+4. **Composition RAC** (`src/builders/composition.ts`): 4 seções (diagnósticos, sinais vitais, alergias, medicamentos)
+5. **Bundle Assembler** (`src/bundle/rac-assembler.ts`): Bundle type=document, Composition como entry[0]
+6. **Stubs RNDS** (`src/rnds/`): auth mTLS + client POST documentados para implementação futura
+7. **Validação local** (`src/validation/validate.ts`): Bundle structure, BR Core fields, referências internas
+8. **Orquestrador** (`src/index.ts`): fluxo completo DataSource → Builders → Bundle → Validação → RNDS
+9. **Demo CLI** (`demo.ts`): cenário Maria ponta-a-ponta com output formatado
+
+**Resultados da verificação:**
+- `npm install`: 57 packages, 0 vulnerabilities
+- `npm run build`: TypeScript compila sem erros (strict mode)
+- `npm test`: **111 testes passam** (9 test files, 4.68s)
+- `npm run demo`: Bundle RAC de 13 entries gerado, validação OK, envio stub 201
+
+**Bundle da Maria contém:**
+- Composition (RAC, 4 seções)
+- Patient (CPF 12345678901, raça parda, female)
+- Practitioner (Dr. João Oliveira, CBO 225142)
+- Organization (UBS Vila Nova, CNES 2695251)
+- Encounter (finished, AMB, 2 diagnósticos)
+- Condition O24.4 (diabetes gestacional, active)
+- Condition O13 (hipertensão gestacional, active)
+- AllergyIntolerance (penicilina, criticality high, reaction anafilaxia severity severe)
+- Observation PA sistólica 130 mmHg (LOINC 8480-6)
+- Observation PA diastólica 85 mmHg (LOINC 8462-4)
+- Observation peso 78 kg (LOINC 29463-7)
+- MedicationStatement insulina NPH 10 UI 2x/dia (active)
+- MedicationStatement metildopa 250mg 3x/dia (active)
+
+**Decisão-chave:**
+MVP com 2 dependências de produção (`@medplum/core`, `@medplum/fhirtypes`) em vez das 4 planejadas. `fhirpath` e `pg` ficam para quando houver dados reais.
+
+**Estado emocional:**
+O código existe. Não é mais teoria, pesquisa ou documentação. É software funcional que transforma dados do IPM em FHIR R4 real. O cenário Maria agora produz um Bundle JSON que a RNDS aceitaria (com auth real). Estamos mais perto de salvar vidas do que em qualquer ponto anterior.
+
+**Commit:** `4c4428c` — pushed to origin/main
