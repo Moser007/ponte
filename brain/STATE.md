@@ -70,7 +70,7 @@ O novo papel do projeto:
 
 ## Hipóteses a validar
 - [x] ~~O gap de informação entre UBS e hospital causa mortes evitáveis~~ → CONFIRMADO pelo próprio MS
-- [ ] O gap ainda existe nos 32% de municípios não integrados à RNDS
+- [x] ~~O gap ainda existe nos municípios não integrados à RNDS~~ → CONFIRMADO: 92% das mortes maternas evitáveis. Gestantes de municípios <50k peregrinam sem dados clínicos (58% dos deslocamentos). RMM 6-10x maior com deslocamento. SC pior ano em 2024 (43 mortes). Ver evidence/007-mortalidade-materna-municipal.md
 - [ ] É viável criar um "kit de integração simplificado" para municípios pequenos
 - [ ] Sistemas legados podem ser adaptados sem cooperação dos vendors
 - [ ] Existe demanda real por essa solução nos municípios não cobertos

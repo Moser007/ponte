@@ -157,6 +157,20 @@ A pesquisa do AGHUse revelou algo importante: a Bahia JÁ FEZ o que queremos faz
 
 **Conclusão:** AGHUse é referência de que a integração RNDS funciona na prática. Não precisamos do código deles — precisamos entender a ARQUITETURA da integração (que é documentada pela RNDS). O adaptador IPM → RNDS segue o mesmo padrão: ler dados do sistema legado, traduzir para FHIR R4, enviar via mTLS.
 
+### Sobre a mortalidade materna e o caso moral do Ponte (NOVO — 2026-02-14)
+
+Os dados são devastadores e claros. 92% das mortes maternas são evitáveis. Mulheres que se deslocam >500km morrem 6-10x mais. 58% desses deslocamentos são de municípios com <50k habitantes.
+
+**O argumento do Ponte agora é duplo:**
+1. **Técnico:** Adaptador IPM → RNDS para conectar municípios desconectados
+2. **Moral:** Cada dia sem integração é um dia em que uma gestante pode chegar a uma emergência sem histórico clínico e morrer de algo evitável
+
+A Rede Alyne do governo federal investiu R$ 1 bilhão em 2025 e inclui a Caderneta Digital da Gestante via Meu SUS Digital. Mas essa caderneta SÓ FUNCIONA se o município está na RNDS. Para os 75% de SC que não estão, o investimento bilionário não chega. O Ponte é a infraestrutura que falta para o dinheiro federal funcionar na ponta.
+
+**Reflexão incômoda:** Será que o governo sabe que a Caderneta Digital não funciona em 75% de SC? Provavelmente sim, mas o ritmo burocrático é outro. Isso abre espaço para o Ponte ser a solução ágil que antecipa a burocracia.
+
+**Sobre a narrativa:** A história da Maria agora não é ficção. Temos dados para provar que gestantes peregrinam (33-40%), que transferências sem informação aumentam risco em 3-5x, que municípios pequenos são os mais afetados. A Maria é estatística.
+
 ### Sobre a FURB como potencial parceria (NOVO — 2026-02-13)
 A FURB (Universidade Regional de Blumenau) desenvolve o Sistema PRONTO para a saúde de Blumenau desde 2011. Recentemente retomou o desenvolvimento. Se Giovanni tem conexões em Blumenau, a FURB pode ser um aliado técnico e acadêmico:
 - Estudantes e professores de computação podem contribuir com o Ponte

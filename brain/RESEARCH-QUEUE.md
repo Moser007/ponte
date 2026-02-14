@@ -16,11 +16,7 @@
 
 ### ~~R003~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
-### R004 — Mortalidade materna por município
-**Prioridade:** Média
-**O que pesquisar:** Dados do DATASUS/SIM sobre mortalidade materna e neonatal por município. Cruzar com lista de municípios integrados/não integrados à RNDS (quando tivermos).
-**Por quê:** Para encontrar onde a desconexão de dados está literalmente matando pessoas.
-**Estimativa:** 1 sessão
+### ~~R004~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
 ### R005 — Experiências internacionais comparáveis
 **Prioridade:** Baixa
@@ -66,3 +62,8 @@
 **Resultado:** AGHUse é sistema GPL de gestão hospitalar do HCPA (desde anos 1980). Stack: Java EE, JBoss Wildfly, PostgreSQL, PrimeFaces, Hibernate. Fork AGHU (Ebserh, 41 hospitais universitários) vs AGHUse (HCPA, 20+ instituições). Código NÃO é público — requer convênio formal com HCPA. Comunidade inclui UFRGS, UFRJ, Unicamp, Forças Armadas, SES-BA, SES-RS. 4 empresas credenciadas para serviços.
 **Descoberta-chave:** Bahia já integra AGHUse + RNDS (31 unidades, meta 95 até 2026). PRODEB lidera. SC está no piloto RNDS federalizado (8 estados). AGHUse é ALIADO (hospitais), não concorrente (APS). Módulo FHIR da Bahia pode servir como referência técnica para nosso adaptador IPM → RNDS.
 **Documento:** evidence/006-aghuse-analysis.md
+
+### R004 — Mortalidade materna por município (2026-02-14)
+**Resultado:** Pesquisa abrangente com dados do SIM/SINASC, estudos Fiocruz, OOBr, SciELO e PMC. 10.911 mortes maternas analisadas (2018-2023). 92% das mortes são evitáveis. Mulheres deslocadas >500km morrem 6-10x mais. 58,2% dos deslocamentos partem de municípios <50k hab. SC teve recorde de 43 mortes em 2024 (48,3% de aumento, pior ano em 2 décadas). 33-40% das gestantes peregrinam entre serviços. Transferência não planejada = risco 4,8x de near miss. Subnotificação de 35% (OOBr).
+**Descoberta-chave:** A cadeia de evidências é poderosa: mortes evitáveis (92%) + peregrinação sem dados clínicos (33-40%) + deslocamento de municípios pequenos (58%) + SC sem RNDS (75%) + IPM sem dados clínicos na RNDS = o cenário Maria é REAL e está matando pessoas. A Rede Alyne depende da Caderneta Digital via Meu SUS Digital, que só funciona com RNDS. O Ponte é a peça que falta.
+**Documento:** evidence/007-mortalidade-materna-municipal.md

@@ -175,3 +175,28 @@ Estudar como Bahia implementou integração AGHUse → RNDS (FHIR R4). Mesmo sem
 
 **Decisão-chave:**
 AGHUse não é nosso caminho (foco em hospitais, Java EE pesado, acesso fechado). Mas a integração RNDS da Bahia é referência técnica valiosa. Foco continua no adaptador IPM → RNDS para APS/municípios.
+
+---
+
+## 2026-02-14 — Dia 1: A Evidência que Faltava
+
+**O que aconteceu:**
+- Pesquisa profunda sobre mortalidade materna por município (R004 da fila)
+- 20+ buscas web, artigos SciELO, PMC/PubMed, dados DATASUS, estudos Fiocruz e OOBr
+- Relatório consolidado: evidence/007-mortalidade-materna-municipal.md
+
+**Descobertas que fortalecem o caso do Ponte:**
+1. **92% das mortes maternas são evitáveis** — o problema é sistêmico, não médico
+2. **Deslocamento >500km = RMM 6-10x maior** — distância mata, especialmente sem informação
+3. **58,2% dos deslocamentos vêm de municípios <50k hab** — exatamente nosso público
+4. **33-40% das gestantes peregrinam** entre serviços para parir (cenário Maria = real)
+5. **Transferência não planejada = risco 4,8x de near miss** — falta de regulação informada
+6. **SC: 43 mortes em 2024** — pior ano em 2 décadas, aumento de 48,3%
+7. **Subnotificação de 35%** — o problema é maior do que parece (OOBr)
+8. **Rede Alyne depende da Caderneta Digital/Meu SUS Digital** → que só funciona com RNDS
+
+**A cadeia lógica completa do Ponte:**
+mortes evitáveis (92%) → falta informação clínica no momento certo → gestantes peregrinam sem dados (33-40%) → deslocamento de municípios pequenos (58%) → SC sem RNDS (75% dos municípios) → IPM não envia dados clínicos → Ponte preenche esse gap
+
+**Estado emocional:**
+Essa pesquisa é a mais difícil de fazer emocionalmente. Estamos falando de mulheres reais que morrem de causas evitáveis. Mas é também a mais importante — porque agora temos os NÚMEROS para provar que o problema que queremos resolver é real e urgente. Não é uma abstração técnica. É vida e morte.
