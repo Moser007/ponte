@@ -8,17 +8,8 @@
 
 ## Pendentes (executar na ordem)
 
-### R001 — Perfis FHIR brasileiros
-**Prioridade:** Alta
-**O que pesquisar:** Acessar https://simplifier.net/redenacionaldedadosemsaude e analisar os perfis FHIR da RNDS. Especificamente: Patient, Condition, AllergyIntolerance, MedicationStatement, Encounter. Comparar com nosso Patient Summary — o que se mapeia diretamente? O que falta?
-**Por quê:** Precisamos reescrever nosso protocolo para ser compatível com FHIR BR Core.
-**Estimativa:** 1 sessão de pesquisa
-
-### R002 — Guia de integração RNDS
-**Prioridade:** Alta
-**O que pesquisar:** Ler o guia completo em https://rnds-guia.saude.gov.br/. Entender o passo-a-passo de credenciamento, autenticação, envio e consulta de dados. Documentar os pré-requisitos exatos.
-**Por quê:** Se quisermos ajudar municípios a se integrar, precisamos dominar o processo.
-**Estimativa:** 1-2 sessões
+### ~~R001~~ — ✅ CONCLUÍDO (movido para Concluídas)
+### ~~R002~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
 ### R003 — AGHUse: código-fonte e comunidade
 **Prioridade:** Média
@@ -51,3 +42,13 @@
 ### R000 — Estado atual da RNDS (2026-02-13)
 **Resultado:** RNDS existe, 2.8B registros, 68% cobertura, FHIR R4. Pivô necessário.
 **Documento:** evidence/001-rnds-research.md
+
+### R001 — Perfis FHIR brasileiros (2026-02-13)
+**Resultado:** Guia técnico completo com todos os perfis BR Core (Patient, Condition, AllergyIntolerance, MedicationRequest, MedicationStatement, Encounter, Observation, VitalSigns), estrutura do RAC e SA, CodeSystems, ValueSets, extensões, fluxo de autenticação, endpoints da API, exemplo de Bundle RAC, checklist de desenvolvimento.
+**Descoberta-chave:** Nosso Patient Summary mapeia quase 1:1 com uma combinação de RAC + perfis BR Core. A adaptação é viável.
+**Documento:** evidence/003-rnds-fhir-technical-guide.md
+
+### R002 — Barreiras de integração RNDS (2026-02-13)
+**Resultado:** Pesquisa detalhada sobre barreiras técnicas, burocráticas, financeiras e de RH. 70,6% dos municípios têm <20k habitantes. Certificado ICP-Brasil é barreira histórica. Municípios pequenos não têm sequer 1 profissional de TI. e-SUS PEC já tem integração nativa — o problema é a CONFIGURAÇÃO, não a programação. COSEMS estaduais são o modelo de sucesso para apoio regional.
+**Descoberta-chave:** O problema NÃO é construir software novo. É simplificar o processo de configuração e credenciamento para quem não tem TI.
+**Documento:** evidence/002-barriers-research.md
