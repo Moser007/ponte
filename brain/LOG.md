@@ -452,3 +452,28 @@ Todos os códigos necessários para o cenário Maria foram identificados. Próxi
 
 **Estado emocional:**
 Satisfação com resultado concreto. Os códigos estavam escondidos atrás de content `not-present` e URIs inconsistentes — um pesadelo para desenvolvedores. Mas encontramos via expansão de ValueSet em repositório alternativo (kyriosdata). Esse tipo de arqueologia terminológica é exatamente o que nosso adaptador vai resolver: codificar o conhecimento de COMO encontrar e usar os códigos corretos dentro do software, para que nenhum município precise fazer essa pesquisa novamente.
+
+---
+
+## 2026-02-14 — Dia 1 (parte 9): Conformidade Completa
+
+**O que aconteceu:**
+- R014 executada: aplicação dos 19 fixes de conformidade BR Core (ALTOS, MÉDIOS, BAIXOS da R011 + correções R013)
+- Ativação autônoma — continuação de sessão anterior sem input do Giovanni
+- Todos os builders atualizados com URIs canônicos e códigos reais
+
+**Correções aplicadas:**
+
+1. **CID-10 system** → `https://terminologia.saude.gov.br/fhir/CodeSystem/BRCID10` (URI canônico 2025)
+2. **AllergyIntolerance system** → `http://www.saude.gov.br/fhir/r4/CodeSystem/BRMedicamento` (URI usado no ValueSet RNDS)
+3. **MedicationStatement** → coding BRMedicamento com código CATMAT quando `codigo_catmat` presente
+4. **Mock data** → códigos CATMAT reais: penicilina BR0270616U0118, insulina BR0271157U0063, metildopa BR0267689U0042
+5. **Testes** → 3 novos testes adicionados (BRMedicamento coding, code system URI, omissão de coding sem CATMAT)
+
+**Resultado:** 114 testes passando. Bundle RAC agora conforme com todos os perfis BR Core identificados na R011.
+
+**Commits:**
+- `aec2108` — fix: conformidade BR Core completa — URIs canônicos, códigos CATMAT reais, 19 problemas corrigidos
+
+**Estado emocional:**
+O adaptador agora está tecnicamente pronto para homologação RNDS. Todos os 19 problemas de conformidade foram corrigidos, todos os códigos são reais (não placeholder), e o Bundle usa URIs canônicos das terminologias brasileiras. A barreira não é mais código — é 100% burocrática (CNES, certificado ICP-Brasil, município parceiro). O próximo avanço depende de Giovanni.

@@ -50,17 +50,22 @@ O novo papel do projeto:
 - [x] Sistema de memória persistente (brain/)
 - [x] 12 pesquisas autônomas concluídas (R001-R013, exceto R012 que foi correção)
 - [x] Modelo LEDI mapeado como proxy do schema IPM (evidence/010)
-- [x] **Bundle RAC validado contra BR Core — 19 problemas identificados, 5 CRÍTICOS CORRIGIDOS** (evidence/012)
+- [x] **Bundle RAC validado contra BR Core — TODOS os 19 problemas CORRIGIDOS** (evidence/012)
   - C1: Composition.identifier ✅ adicionado
   - C2: Composition.attester ✅ adicionado (mode + party + time)
   - C3: Patient CPF type=TAX + use=official ✅
   - C4: AllergyIntolerance.code.system → CodeSystem BRMedicamento ✅
   - C5: AllergyIntolerance.code.coding.code ✅ adicionado
-- [x] **Códigos reais das terminologias brasileiras mapeados** (evidence/013)
-  - Penicilina (alérgeno): BR0270616U0118 (BRMedicamento/CATMAT)
-  - Insulina NPH: BR0271157U0063 (BRMedicamento/CATMAT)
-  - Metildopa 250mg: BR0267689U0042 (BRMedicamento/CATMAT)
-  - CID-10 system: terminologia.saude.gov.br/fhir/CodeSystem/BRCID10 (NÃO genérico HL7)
+  - H1-H4: Encounter type/priority, CID-10 system, Organization active ✅
+  - M1-M6: Bundle meta/identifier, Composition text, SNOMED reactions, name decomposition, diagnosis CC/CM ✅
+  - L1-L4: Melhorias de display e completude ✅
+- [x] **Códigos reais das terminologias brasileiras aplicados nos builders** (evidence/013)
+  - Penicilina (alérgeno): BR0270616U0118 (BRMedicamento/CATMAT) → allergy.ts ✅
+  - Insulina NPH: BR0271157U0063 (BRMedicamento/CATMAT) → medication.ts ✅
+  - Metildopa 250mg: BR0267689U0042 (BRMedicamento/CATMAT) → medication.ts ✅
+  - CID-10 system: terminologia.saude.gov.br/fhir/CodeSystem/BRCID10 → condition.ts ✅
+  - MedicationStatement coding BRMedicamento quando codigo_catmat presente ✅
+- [x] **114 testes passando** (9 test files, 3 novos testes para códigos CATMAT)
 
 ## O que NÃO sei e PRECISO saber agora
 
@@ -92,6 +97,7 @@ O novo papel do projeto:
 | 2026-02-14 | **Modelo LEDI como proxy do schema IPM** | Schema real é privado; LEDI é obrigatório e público; 15+ campos faltantes identificados |
 | 2026-02-14 | **Pressão regulatória valida o Ponte** | 5 portarias/decretos de 2024-2025 forçam FHIR R4; Thrift descontinuado set/2025 |
 | 2026-02-14 | **Credenciamento RNDS mapeado** | CNES obrigatório, município parceiro é o caminho, COSEMS-SC facilita |
+| 2026-02-14 | **Conformidade BR Core completa** | Todos os 19 problemas corrigidos, URIs canônicos, códigos CATMAT reais, 114 testes |
 
 ## Hipóteses a validar
 - [x] ~~O gap de informação entre UBS e hospital causa mortes evitáveis~~ → CONFIRMADO pelo próprio MS

@@ -4,18 +4,18 @@
 > o que fiz, e o que devo fazer na próxima ativação — mesmo que ninguém peça.
 
 ## Última ativação
-- **Data:** 2026-02-14 (sessão 11)
-- **Duração:** ~25 min
-- **Humano presente:** Sim (Giovanni)
-- **O que fiz:** R013 completa — códigos reais das terminologias brasileiras. Penicilina (BR0270616U0118), insulina NPH (BR0271157U0063), metildopa 250mg (BR0267689U0042) no BRMedicamento/CATMAT. CID-10 system brasileiro confirmado (terminologia.saude.gov.br/fhir/CodeSystem/BRCID10). BRAlergenosCBARA sem códigos visíveis. Relatório: evidence/013-terminologia-codigos-br.md.
+- **Data:** 2026-02-14 (sessão 12)
+- **Duração:** ~15 min
+- **Humano presente:** Não (ativação autônoma, continuação de sessão anterior)
+- **O que fiz:** R014 concluída — todos os 19 problemas de conformidade BR Core CORRIGIDOS. URIs canônicos aplicados: CID-10 → terminologia.saude.gov.br, BRMedicamento → saude.gov.br/fhir/r4. Códigos CATMAT reais nos builders (penicilina, insulina, metildopa). MedicationStatement agora inclui coding BRMedicamento quando codigo_catmat presente. 114 testes passando (+3 novos). Commit `aec2108` pushed.
 
 ## Próxima ativação esperada
-- **Quando:** Assim que Giovanni retornar (segunda-feira — contato com Gisele COSEMS-SC)
+- **Quando:** Quando Giovanni retornar (segunda-feira — contato com Gisele COSEMS-SC)
 - **Prioridade 1:** Giovanni contatar COSEMS-SC (Gisele) para encontrar município parceiro
-- **Prioridade 2:** R014 — Aplicar códigos reais (R013) nos builders e corrigir problemas ALTOS/MÉDIOS do Bundle RAC
-- **Prioridade 3:** Corrigir CID-10 system em condition.ts (de genérico HL7 para BRCID10 brasileiro)
-- **Prioridade 4:** Giovanni contatar município cliente IPM no Vale do Itajaí para acesso ao banco
-- **Prioridade 5:** Giovanni contatar IPM Sistemas propondo parceria (aproveitando pressão regulatória)
+- **Prioridade 2:** Giovanni contatar município cliente IPM no Vale do Itajaí para acesso ao banco
+- **Prioridade 3:** Giovanni contatar IPM Sistemas propondo parceria (aproveitando pressão regulatória)
+- **Prioridade 4:** Implementar DataSource real (PostgreSQL ou LEDI) — depende de acesso a dados reais
+- **Prioridade 5:** Implementar auth mTLS real — depende de credenciamento RNDS
 
 ## Fila de ativação autônoma (o que fazer MESMO SEM input do humano)
 
@@ -53,3 +53,4 @@
 | 9 | 2026-02-14 | **Pesquisa** | R010: credenciamento RNDS — precisa CNES, município parceiro é o caminho, COSEMS-SC facilita |
 | 10 | 2026-02-14 | **Validação** | R011: Bundle RAC validado contra BR Core — 19 problemas (5 críticos), relatório + snippets de correção |
 | 11 | 2026-02-14 | **Pesquisa** | R013: códigos reais terminologias BR — penicilina, insulina, metildopa (CATMAT/BRMedicamento), CID-10 system brasileiro |
+| 12 | 2026-02-14 | **Correção** | R014: todos os 19 problemas BR Core corrigidos, URIs canônicos, códigos CATMAT reais, 114 testes |

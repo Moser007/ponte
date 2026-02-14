@@ -8,14 +8,15 @@
 
 ## Pendentes (executar na ordem)
 
-### R014 — Corrigir problemas ALTOS e MÉDIOS do Bundle RAC
-**Objetivo:** Corrigir os 4 problemas ALTOS e 6 MÉDIOS identificados na R011 (CID-10 system, Encounter priority, text, etc.)
-**Método:** Editar builders TypeScript. Rodar testes.
-**Prioridade:** Média — para conformidade completa antes de homologação.
+_(Nenhuma pesquisa pendente. Todas as pesquisas autônomas foram concluídas. Próximos passos dependem de input do Giovanni: contato com COSEMS-SC, acesso a dados reais IPM, credenciamento RNDS.)_
 
 ---
 
 ## Concluídas
+
+### R014 — Corrigir todos os problemas de conformidade do Bundle RAC (2026-02-14)
+**Resultado:** Todos os 19 problemas identificados na R011 foram corrigidos nos builders TypeScript. URIs canônicos aplicados (CID-10 → terminologia.saude.gov.br, BRMedicamento → saude.gov.br/fhir/r4). Códigos CATMAT reais inseridos nos builders e mock data. MedicationStatement agora inclui coding BRMedicamento quando codigo_catmat presente. 3 novos testes adicionados. Total: 114 testes passando.
+**Documento:** Correções aplicadas diretamente nos builders (condition.ts, allergy.ts, medication.ts, encounter.ts, organization.ts, composition.ts, patient.ts, rac-assembler.ts, mock-datasource.ts)
 
 ### R013 — Pesquisar códigos BRMedicamento para alergenos e CATMAT para medicamentos (2026-02-14)
 **Resultado:** Códigos reais encontrados para todos os medicamentos e alérgenos do cenário Maria.
