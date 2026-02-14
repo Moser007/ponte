@@ -20,11 +20,7 @@
 
 ### ~~R005~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
-### R006 — Landscape de ferramentas FHIR open-source
-**Prioridade:** Baixa
-**O que pesquisar:** HAPI FHIR (Java), Firely (.NET), fhir.js, outros servidores FHIR open-source. Qual seria a melhor base técnica para nosso bridge real?
-**Por quê:** Não reinventar a roda. Construir sobre o que já existe.
-**Estimativa:** 1 sessão
+### ~~R006~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
 ---
 
@@ -68,3 +64,8 @@
 **Resultado:** Análise de 5 países: Ruanda (OpenMRS + RHIE/OpenHIM, 520 centros), Índia (ABDM, 834M+ ABHA IDs, arquitetura federada), Estônia (X-Road, 99% digitalização, 1.3M hab), Quênia (OpenHIE + KHIE, 100k agentes comunitários), Tailândia (UCS, smart card, 47M pessoas). Todos usam padrões abertos (FHIR), registros únicos de paciente, e camada de interoperabilidade antes de exigir sistemas específicos.
 **Descoberta-chave:** Padrão de sucesso = adaptador/mediador leve (não reescrever sistemas), começar por fluxos prioritários (vacinação, pré-natal), garantir offline capability, medir uso real (não só habilitação). Brasil tem vantagem: 265k agentes comunitários de saúde. Continuidade do cuidado reduz mortalidade materna em 26% (meta-análise). Fracassos comuns: subestimar complexidade sociotécnica, falta de engajamento local, infraestrutura inadequada na última milha.
 **Documento:** evidence/008-experiencias-internacionais.md
+
+### R006 — Landscape de ferramentas FHIR open-source (2026-02-14)
+**Resultado:** Análise de 10+ ferramentas FHIR: HAPI FHIR (Java, padrão-ouro mas pesado), Firely (.NET), Medplum (TypeScript, Apache 2.0, 5k+ stars), fhir.js, node-fhir-server-core, Aidbox (comercial), IBM FHIR, validadores. Descoberta crítica: biblioteca `rnds` npm (kyriosdata, v0.2.4) — wrapper Node.js para a API da RNDS já existe!
+**Descoberta-chave:** Stack recomendado para o Ponte: `@medplum/core` + `@medplum/fhirtypes` (construção/validação FHIR R4, zero dependências) + `fhirpath` (expressões FHIRPath) + `pg` (PostgreSQL para ler IPM). Apenas 4 dependências de produção. mTLS via `https.Agent` nativo do Node.js. Não precisamos de servidor FHIR completo — apenas adaptador unidirecional IPM → FHIR → RNDS.
+**Documento:** evidence/009-fhir-tools-landscape.md

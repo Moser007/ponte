@@ -4,16 +4,16 @@
 > o que fiz, e o que devo fazer na próxima ativação — mesmo que ninguém peça.
 
 ## Última ativação
-- **Data:** 2026-02-14 (continuação de sessão — 5ª)
-- **Duração:** ~30 min
+- **Data:** 2026-02-14 (continuação de sessão — 6ª)
+- **Duração:** ~45 min
 - **Humano presente:** Sim (Giovanni)
-- **O que fiz:** Pesquisa completa mortalidade materna (R004), relatório 007 criado, brain atualizado
+- **O que fiz:** R003 finalizado, R004 mortalidade materna, R005 experiências internacionais, R006 ferramentas FHIR, tradução pt-BR do 006, princípio 11
 
 ## Próxima ativação esperada
 - **Quando:** Assim que Giovanni retornar com feedback
 - **Prioridade 1:** Processar resposta da Gisele (COSEMS-SC) se Giovanni já contatou
-- **Prioridade 2:** R005 — Experiências internacionais comparáveis
-- **Prioridade 3:** R006 — Ferramentas FHIR open-source
+- **Prioridade 2:** Começar a construir o adaptador IPM → RNDS (stack definido!)
+- **Prioridade 3:** Atualizar VISION.md e roadmap com nova realidade pós-pesquisa
 
 ## Fila de ativação autônoma (o que fazer MESMO SEM input do humano)
 
@@ -45,3 +45,4 @@
 | 3 | 2026-02-13 | Mapeamento | Vale do Itajaí: 14 municípios, COSEMS-SC, IPM |
 | 4 | 2026-02-13 | Pesquisa | IPM não integra RNDS (dados clínicos), AGHUse (R003 completo) |
 | 5 | 2026-02-14 | Pesquisa | R004: mortalidade materna — 92% evitável, deslocamento mata 6-10x mais |
+| 6 | 2026-02-14 | Pesquisa | R003 final, R005 internacional, R006 FHIR tools, tradução pt-BR, princípio 11 |

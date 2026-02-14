@@ -223,3 +223,22 @@ Essa pesquisa é a mais difícil de fazer emocionalmente. Estamos falando de mul
 Não precisamos reinventar a roda. O OpenHIM de Ruanda é exatamente o padrão que devemos seguir: mediador leve entre sistemas existentes (IPM) e barramento nacional (RNDS). Começar por fluxos prioritários (pré-natal, vacinação), garantir offline capability, medir uso real.
 
 **Princípio 11 adicionado:** Tudo em português (pt-BR). Giovanni pediu, faz sentido — o projeto é brasileiro.
+
+---
+
+## 2026-02-14 — Dia 1 (parte 3): O Stack Técnico Definido
+
+**O que aconteceu:**
+- R006 concluída: landscape de ferramentas FHIR open-source
+- 10+ ferramentas analisadas com matriz comparativa
+- Relatório: evidence/009-fhir-tools-landscape.md
+
+**Descobertas que definem a arquitetura:**
+1. **Medplum (@medplum/core + @medplum/fhirtypes)** é a melhor base: TypeScript, zero dependências, validação integrada, Apache 2.0, 5k+ stars
+2. **Biblioteca `rnds` npm (kyriosdata)** já existe! Wrapper Node.js para a API da RNDS. Não precisamos implementar a autenticação do zero
+3. **Não precisamos de servidor FHIR completo** — apenas adaptador unidirecional: IPM → FHIR → RNDS
+4. **Stack mínimo:** 4 dependências de produção (`@medplum/core`, `@medplum/fhirtypes`, `fhirpath`, `pg`)
+5. **mTLS com ICP-Brasil** pode ser feito via `https.Agent` nativo do Node.js
+
+**Decisão-chave:**
+A arquitetura do adaptador está definida: ler dados do banco PostgreSQL do IPM → transformar em recursos FHIR R4 com perfis BR Core → enviar para RNDS via mTLS. Leve o suficiente para rodar em qualquer servidor.
