@@ -1,0 +1,13 @@
+{
+  "name": "superintelligence-bridge",
+  "version": "0.1.0",
+  "description": "Minimal health data interoperability bridge — the first connection.",
+  "main": "src/bridge.js",
+  "scripts": {
+    "start": "node src/bridge.js",
+    "demo": "node src/demo.js",
+    "test": "node src/test.js"
+  },
+  "keywords": ["health", "interoperability", "bridge", "FHIR", "open-protocol"],
+  "license": "MIT"
+}
