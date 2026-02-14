@@ -12,6 +12,7 @@
 ### ~~R002~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
 ### ~~R007~~ — ✅ CONCLUÍDO (movido para Concluídas)
+### ~~R008~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
 ### R003 — AGHUse: código-fonte e comunidade
 **Prioridade:** Média
@@ -59,3 +60,8 @@
 **Resultado:** Mapeamento completo dos 14 municípios do Médio Vale do Itajaí. Status RNDS por município não é público (requer autenticação e-Gestor AB/SISAB). IPM Sistemas (Atende.Net) é dominante na região. 5 municípios de alto risco identificados: Doutor Pedrinho, Botuverá, Ascurra, Benedito Novo, Rio dos Cedros. Apoiadora COSEMS-SC identificada: Gisele de Cássia Galvão (47) 991908242.
 **Descoberta-chave:** Pesquisa web chegou ao limite. Próximo passo é contato humano com COSEMS-SC.
 **Documento:** evidence/004-vale-itajai-rnds-coverage.md
+
+### R008 — IPM Atende.Net e integração RNDS (2026-02-13)
+**Resultado:** IPM integra com RNDS APENAS para vacinação COVID (desde março 2021). NÃO envia dados clínicos (RAC, RSA, prescrições, exames). Site do IPM NÃO menciona RNDS ou FHIR. Vagas de emprego NÃO pedem FHIR/HL7. IPM exporta para SISAB via Thrift/XML (e-SUS), que é diferente de RNDS (FHIR R4).
+**Descoberta-chave:** 120+ municípios que usam IPM provavelmente NÃO compartilham dados clínicos na RNDS. Oportunidade enorme para adaptador IPM → RNDS.
+**Documento:** evidence/005-ipm-rnds-integration-analysis.md

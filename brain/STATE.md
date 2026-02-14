@@ -46,7 +46,7 @@ O novo papel do projeto:
 
 ### Prioridade 1 — Entender os gaps reais
 1. ~~**Quais são os 32% de municípios não integrados?**~~ → PARCIALMENTE RESPONDIDO: mapeamos 14 municípios do Médio Vale do Itajaí com análise de risco. Status exato requer contato com COSEMS-SC (Gisele). Ver evidence/004-vale-itajai-rnds-coverage.md
-2. **Quais hospitais usam sistemas legados sem FHIR?** Quais vendors? É possível criar adaptadores? **NOVA PISTA:** IPM Sistemas (Atende.Net) domina a região — verificar se integra RNDS
+2. ~~**Quais hospitais usam sistemas legados sem FHIR?**~~ → RESPONDIDO para APS: IPM Atende.Net é o principal "legado" na região. NÃO integra dados clínicos com RNDS. Apenas vacinação COVID. Oportunidade de adaptador IPM → RNDS. Ver evidence/005-ipm-rnds-integration-analysis.md
 3. **O que acontece na prática quando uma gestante chega a uma maternidade em um município não integrado?** O cenário Maria é real NESSES lugares?
 
 ### Prioridade 2 — Entender a RNDS por dentro

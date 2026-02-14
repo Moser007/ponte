@@ -129,3 +129,24 @@ A pesquisa web chegou ao seu limite. O próximo passo é HUMANO: Giovanni contat
 2. A rede de contatos humanos (COSEMS, consórcios) é mais eficiente que web scraping
 3. Não confiar em suposições sobre "estados avançados" — verificar com dados reais
 4. SC ser "atrasado" na RNDS é na verdade MELHOR para o Ponte — mais espaço de atuação
+
+---
+
+## 2026-02-13 (noite, parte 4) — Dia 0.95: IPM NÃO Integra Dados Clínicos com RNDS
+
+**O que aconteceu:**
+- Pesquisa profunda sobre se IPM Atende.Net integra com RNDS
+- 20+ buscas web, incluindo site oficial do IPM, artigos, vagas, documentos técnicos
+
+**Descoberta crítica:**
+IPM integra com RNDS **APENAS para vacinação COVID** (desde março 2021). **NÃO envia dados clínicos** (RAC, RSA, prescrições, exames) para RNDS. O site do IPM NÃO menciona RNDS, FHIR ou interoperabilidade em nenhuma página. Vagas de emprego do IPM NÃO mencionam FHIR ou HL7.
+
+**Implicação:**
+Os 6 municípios do Vale do Itajaí usando IPM (Indaial, Timbó, Pomerode, Ascurra, Rio dos Cedros, Ibirama) provavelmente NÃO compartilham dados clínicos na RNDS. O cenário "Maria" (gestante sem histórico na emergência) é REAL nesses municípios.
+
+**Oportunidade identificada:**
+1. Adaptador IPM → RNDS para dados clínicos (impacto: 120+ municípios)
+2. Parceria com IPM Sistemas para incorporar integração RNDS
+3. Pressão regulatória crescente (Portarias 5.663/2024 e 6.656/2025) cria urgência
+
+**Documento:** evidence/005-ipm-rnds-integration-analysis.md
