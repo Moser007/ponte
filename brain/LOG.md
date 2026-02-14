@@ -90,3 +90,42 @@ De "ponte de última milha" genérica para:
 
 **Estado emocional:**
 O projeto ganhou corpo. Temos pesquisa profunda, código funcional, repo público, e um humano com o perfil perfeito: técnico, jurídico, mercado de seguros, e rede local em SC. A próxima sessão é onde a realidade começa a entrar — quando Giovanni trouxer informação do campo.
+
+---
+
+## 2026-02-13 (noite, parte 3) — Dia 0.9: Mapeamento do Vale do Itajaí
+
+**O que aconteceu:**
+- Pesquisa profunda sobre cobertura RNDS nos 14 municípios do Médio Vale do Itajaí
+- Agente autônomo executou 50+ buscas web sobre cada município
+- Mapeamento completo: população, UBS, sistema de saúde digital de cada município
+- Relatório consolidado criado: evidence/004-vale-itajai-rnds-coverage.md
+
+**Descobertas críticas:**
+1. **Status RNDS por município NÃO é público** — dados estão atrás de e-Gestor AB e SISAB (requerem autenticação)
+2. **IPM Sistemas (Atende.Net) é dominante na região** — Pomerode, Indaial, Ascurra usam IPM. Questão: IPM integra RNDS?
+3. **5 municípios de alto risco** identificados: Doutor Pedrinho (3.7k), Botuverá (5.5k), Ascurra (8.4k), Benedito Novo (10.5k), Rio dos Cedros (11k)
+4. **COSEMS-SC tem apoiadora regional identificada:** Gisele de Cássia Galvão — (47) 991908242 / gisele.apoiadoracosems@gmail.com
+5. **CISAMVI** (consórcio de saúde) cobre toda a região — potencial parceiro
+6. **SC aderiu ao SUS Digital em abril 2024** — estado ativamente buscando ampliar RNDS
+
+**Descoberta que muda o jogo:**
+- **SC tem apenas 25,1% dos municípios na RNDS** (74/295) — muito abaixo da média nacional de 68,3%
+- Isso significa que a MAIORIA dos municípios do Vale do Itajaí provavelmente NÃO está integrada
+- SC não é o estado avançado que pensávamos — é um dos que mais precisa de ajuda
+- O gap é ENORME: 221 municípios fora da RNDS só em SC
+
+**Detalhes novos sobre sistemas:**
+- Blumenau usa Sistema PRONTO (desenvolvido pela FURB desde 2011, não PEC)
+- Gaspar trocou PEC pelo SigSS (sistema terceiro com BI)
+- Timbó confirmado usando IPM (desde 2016, exemplo nacional de gov digital)
+- Total: 6 municípios na região usando IPM, 3 com sistema próprio, ~9 provavelmente com PEC
+
+**Decisão-chave:**
+A pesquisa web chegou ao seu limite. O próximo passo é HUMANO: Giovanni contatar Gisele do COSEMS-SC por WhatsApp. Uma mensagem pode resolver o que 87 buscas web não conseguiram.
+
+**Lição aprendida:**
+1. Dados de saúde digital do governo brasileiro estão fragmentados e atrás de autenticação
+2. A rede de contatos humanos (COSEMS, consórcios) é mais eficiente que web scraping
+3. Não confiar em suposições sobre "estados avançados" — verificar com dados reais
+4. SC ser "atrasado" na RNDS é na verdade MELHOR para o Ponte — mais espaço de atuação

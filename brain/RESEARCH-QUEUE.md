@@ -11,6 +11,8 @@
 ### ~~R001~~ — ✅ CONCLUÍDO (movido para Concluídas)
 ### ~~R002~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
+### ~~R007~~ — ✅ CONCLUÍDO (movido para Concluídas)
+
 ### R003 — AGHUse: código-fonte e comunidade
 **Prioridade:** Média
 **O que pesquisar:** Encontrar o repositório do AGHUse, analisar arquitetura, verificar se aceita contribuições, entender como faz a integração RNDS.
@@ -52,3 +54,8 @@
 **Resultado:** Pesquisa detalhada sobre barreiras técnicas, burocráticas, financeiras e de RH. 70,6% dos municípios têm <20k habitantes. Certificado ICP-Brasil é barreira histórica. Municípios pequenos não têm sequer 1 profissional de TI. e-SUS PEC já tem integração nativa — o problema é a CONFIGURAÇÃO, não a programação. COSEMS estaduais são o modelo de sucesso para apoio regional.
 **Descoberta-chave:** O problema NÃO é construir software novo. É simplificar o processo de configuração e credenciamento para quem não tem TI.
 **Documento:** evidence/002-barriers-research.md
+
+### R007 — Cobertura RNDS no Vale do Itajaí (2026-02-13)
+**Resultado:** Mapeamento completo dos 14 municípios do Médio Vale do Itajaí. Status RNDS por município não é público (requer autenticação e-Gestor AB/SISAB). IPM Sistemas (Atende.Net) é dominante na região. 5 municípios de alto risco identificados: Doutor Pedrinho, Botuverá, Ascurra, Benedito Novo, Rio dos Cedros. Apoiadora COSEMS-SC identificada: Gisele de Cássia Galvão (47) 991908242.
+**Descoberta-chave:** Pesquisa web chegou ao limite. Próximo passo é contato humano com COSEMS-SC.
+**Documento:** evidence/004-vale-itajai-rnds-coverage.md

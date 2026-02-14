@@ -17,11 +17,13 @@ A RNDS (Rede Nacional de Dados em Saúde) **já existe** e faz parte do que prop
 **Isso NÃO invalida o projeto. Redefine ele.**
 
 O problema não é "ninguém pensou nisso." O problema é que a implementação é desigual:
-- 32% dos municípios ainda NÃO estão integrados
+- 32% dos municípios NACIONAIS ainda NÃO estão integrados
+- **EM SC: 74,9% NÃO estão integrados (apenas 74 de 295 municípios)** — MUITO pior que a média
 - Municípios pequenos não têm recursos técnicos/financeiros
-- Muitos hospitais usam sistemas legados sem FHIR
+- Muitos municípios de SC adotaram sistemas terceiros (IPM, SigSS) que NÃO integram com RNDS nativamente
 - A integração depende de AMBAS as pontas estarem conectadas à RNDS
 - e-SUS APS usa Thrift/XML localmente (não FHIR) — o PEC faz a tradução
+- **Blumenau usa Sistema PRONTO (FURB), não PEC** — status RNDS desconhecido
 
 ## NOVO POSICIONAMENTO
 
@@ -43,8 +45,8 @@ O novo papel do projeto:
 ## O que NÃO sei e PRECISO saber agora
 
 ### Prioridade 1 — Entender os gaps reais
-1. **Quais são os 32% de municípios não integrados?** Onde estão? Por que não estão? O que falta para eles?
-2. **Quais hospitais usam sistemas legados sem FHIR?** Quais vendors? É possível criar adaptadores?
+1. ~~**Quais são os 32% de municípios não integrados?**~~ → PARCIALMENTE RESPONDIDO: mapeamos 14 municípios do Médio Vale do Itajaí com análise de risco. Status exato requer contato com COSEMS-SC (Gisele). Ver evidence/004-vale-itajai-rnds-coverage.md
+2. **Quais hospitais usam sistemas legados sem FHIR?** Quais vendors? É possível criar adaptadores? **NOVA PISTA:** IPM Sistemas (Atende.Net) domina a região — verificar se integra RNDS
 3. **O que acontece na prática quando uma gestante chega a uma maternidade em um município não integrado?** O cenário Maria é real NESSES lugares?
 
 ### Prioridade 2 — Entender a RNDS por dentro

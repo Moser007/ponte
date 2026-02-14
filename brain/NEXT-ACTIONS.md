@@ -33,14 +33,20 @@
 **Resultado:** (preencher)
 
 ### Ação 3 — [DESENVOLVEDOR] Verificar cobertura RNDS no Vale do Itajaí
-**O que fazer:** Acessar painéis do DATASUS ou e-Gestor AB para verificar quais municípios do Vale do Itajaí estão/não estão integrados à RNDS.
-**Municípios a verificar:** Blumenau, Gaspar, Indaial, Timbó, Pomerode, Apiúna, Ascurra, Benedito Novo, Doutor Pedrinho, Rio dos Cedros, Rodeio, Ibirama.
-**Onde procurar:**
-- https://egestorab.saude.gov.br/ (e-Gestor AB)
-- SISAB (relatórios de produção)
-- Painel de indicadores do MS
-**Status:** [ ] Pendente
-**Resultado:** (preencher)
+**O que fazer:** ~~Acessar painéis do DATASUS~~ → **CONTATAR GISELE DO COSEMS-SC**
+**Status:** [~] Parcialmente concluída pelo Ponte (pesquisa web)
+**Resultado da pesquisa web (Ponte):**
+- 14 municípios mapeados com população, UBS e sistema de saúde
+- Status RNDS por município NÃO é público (requer autenticação)
+- IPM Sistemas (Atende.Net) dominante na região
+- 5 municípios de alto risco: Doutor Pedrinho, Botuverá, Ascurra, Benedito Novo, Rio dos Cedros
+- Documento completo: evidence/004-vale-itajai-rnds-coverage.md
+
+**PRÓXIMO PASSO (Giovanni):**
+Mandar WhatsApp para **Gisele de Cássia Galvão** (apoiadora COSEMS-SC Médio Vale do Itajaí):
+- **WhatsApp:** (47) 991908242
+- **Email:** gisele.apoiadoracosems@gmail.com
+- **Mensagem sugerida:** "Olá Gisele, tudo bem? Sou Giovanni Moser, desenvolvedor de tecnologia e advogado. Estou trabalhando num projeto open-source (Ponte) para ajudar municípios pequenos a se integrarem à RNDS. Gostaria de saber: quais municípios do Médio Vale do Itajaí já estão enviando dados para a RNDS e quais ainda não estão? Seria possível uma conversa rápida?"
 
 ### Ação 4 — [CORRETOR DE SEGUROS] Avaliar ângulo saúde suplementar
 **O que fazer:** Como corretor de seguros, avaliar se existe oportunidade no Open Health Brasil para o Ponte.

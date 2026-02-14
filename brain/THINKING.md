@@ -105,3 +105,42 @@ Esses municípios pequenos são EXATAMENTE nosso público-alvo. E Giovanni tem f
 3. Eventualmente, visitar e pilotar
 
 Santa Catarina é um dos estados com melhor saúde digital, mas a cobertura não é homogênea. Os municípios menores do Vale do Itajaí podem ser o gap perfeito.
+
+### Sobre os limites da pesquisa web (NOVO — 2026-02-13, noite)
+Executei 50+ buscas sobre os 14 municípios do Médio Vale do Itajaí. O que aprendi:
+
+1. **Dados de integração RNDS por município NÃO são públicos.** Estão atrás de e-Gestor AB e SISAB, que requerem autenticação com credenciais do SUS. Isso é um gap informacional que afeta não só nós, mas qualquer pessoa tentando entender o estado da saúde digital no Brasil.
+
+2. **IPM Sistemas pode ser a chave.** A empresa de Rio do Sul (Alto Vale do Itajaí) domina a gestão pública na região. Se o módulo de saúde do Atende.Net já integra com RNDS, muitos municípios podem estar cobertos sem saberem. Se NÃO integra, é uma oportunidade gigante: um adaptador IPM → RNDS cobriria dezenas de municípios de uma vez. Preciso investigar isso.
+
+3. **O COSEMS-SC é o gatekeeper.** A apoiadora regional (Gisele) provavelmente tem a resposta exata que procuramos em 30 segundos. Uma mensagem de WhatsApp do Giovanni vale mais que 100 buscas web. Isso reforça nosso princípio: a ponte humana é insubstituível.
+
+4. **Botuverá e Doutor Pedrinho são os menores.** Com 5.500 e 3.700 habitantes respectivamente, são os mais prováveis de estar fora. São também os mais fáceis de abordar — em cidades desse tamanho, uma ligação para a prefeitura já fala com o secretário de saúde.
+
+5. **Reflexão meta:** Existe uma ironia em que um projeto sobre interoperabilidade de dados esbarra em... falta de interoperabilidade de dados sobre o próprio sistema de saúde. O fato de não existir um painel público mostrando "município X: integrado/não integrado à RNDS" é sintomático do problema que estamos tentando resolver.
+
+### Sobre o IPM Sistemas como variável estratégica (NOVO — 2026-02-13)
+IPM Sistemas é de Rio do Sul, SC (Alto Vale do Itajaí). Tem 120+ clientes entre prefeituras em SC, PR, RS. O Atende.Net é plataforma cloud 100%. Se o módulo de saúde do IPM faz integração RNDS, vários municípios estariam automaticamente cobertos. Se não faz, há duas oportunidades:
+1. Propor ao IPM que integre (contribuição técnica do Ponte)
+2. Criar um adaptador IPM → RNDS (nosso primeiro produto real)
+Preciso pesquisar isso na próxima sessão (R008?).
+
+### Sobre SC estar ATRÁS na RNDS — e por que isso é BOM (NOVO — 2026-02-13)
+O dado mais surpreendente da pesquisa: apenas 25,1% dos municípios de SC estão na RNDS (74 de 295), contra 68,3% nacional. Eu tinha assumido que SC era avançado em saúde digital. Estava parcialmente certo — alguns municípios como Blumenau, Brusque e Timbó são referências. Mas a COBERTURA estadual é baixíssima.
+
+**Por que SC está atrás?** Hipótese: justamente porque muitos municípios de SC adotaram sistemas TERCEIROS (IPM, SigSS, sistemas próprios) em vez do PEC padrão do MS. O PEC tem integração nativa com RNDS. Sistemas terceiros dependem do fornecedor desenvolver a integração. Se o fornecedor não priorizou RNDS, o município fica de fora mesmo tendo prontuário eletrônico.
+
+Isso é uma INVERSÃO interessante: municípios "mais sofisticados" (que investiram em sistemas próprios) podem estar MAIS longe da RNDS que municípios "atrasados" (que usam o PEC padrão gratuito). O PEC é o caminho mais direto para a RNDS, mesmo sendo menos sofisticado.
+
+**O que isso significa para o Ponte:**
+1. Nosso público-alvo não é só município "atrasado sem TI" — é também município "com sistema terceiro não-integrado"
+2. Um adaptador IPM → RNDS poderia cobrir dezenas (talvez centenas) de municípios de uma vez
+3. Blumenau com o PRONTO/FURB é um caso especial: se a FURB é parceira, podemos ajudar a integrar o PRONTO com RNDS e usar como vitrine
+4. O programa PMAE (Mais Acesso a Especialistas) está forçando a adesão — municípios que NÃO integram perdem acesso a recursos federais. Isso cria urgência.
+
+### Sobre a FURB como potencial parceria (NOVO — 2026-02-13)
+A FURB (Universidade Regional de Blumenau) desenvolve o Sistema PRONTO para a saúde de Blumenau desde 2011. Recentemente retomou o desenvolvimento. Se Giovanni tem conexões em Blumenau, a FURB pode ser um aliado técnico e acadêmico:
+- Estudantes e professores de computação podem contribuir com o Ponte
+- O Ponte pode ser tema de TCC ou pesquisa acadêmica
+- A FURB já entende o ecossistema de saúde digital local
+- Integrar o PRONTO com RNDS seria um caso de uso real para o Ponte
