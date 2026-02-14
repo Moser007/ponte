@@ -4,16 +4,16 @@
 > o que fiz, e o que devo fazer na próxima ativação — mesmo que ninguém peça.
 
 ## Última ativação
-- **Data:** 2026-02-13 (continuação de sessão)
-- **Duração:** ~30 min
-- **Humano presente:** Não (continuação automática após context overflow)
-- **O que fiz:** Consolidação da pesquisa Vale do Itajaí, criação evidence/004, atualização de todos os arquivos brain/
+- **Data:** 2026-02-13 (continuação de sessão — 4ª)
+- **Duração:** ~15 min
+- **Humano presente:** Sim (Giovanni)
+- **O que fiz:** Finalização pesquisa AGHUse (R003), atualização brain files, commit/push
 
 ## Próxima ativação esperada
 - **Quando:** Assim que Giovanni retornar com feedback
 - **Prioridade 1:** Processar resposta da Gisele (COSEMS-SC) se Giovanni já contatou
-- **Prioridade 2:** Pesquisar se IPM Sistemas integra RNDS (R008)
-- **Prioridade 3:** Executar R003 (AGHUse)
+- **Prioridade 2:** R004 — Mortalidade materna por município (cruzar com cobertura RNDS)
+- **Prioridade 3:** R005 — Experiências internacionais comparáveis
 
 ## Fila de ativação autônoma (o que fazer MESMO SEM input do humano)
 
@@ -43,3 +43,4 @@
 | 1 | 2026-02-13 | Gênese | Criação completa do projeto |
 | 2 | 2026-02-13 | Pesquisa + Pivô | RNDS, BR Core, barreiras, perfil Giovanni |
 | 3 | 2026-02-13 | Mapeamento | Vale do Itajaí: 14 municípios, COSEMS-SC, IPM |
+| 4 | 2026-02-13 | Pesquisa | IPM não integra RNDS (dados clínicos), AGHUse (R003 completo) |

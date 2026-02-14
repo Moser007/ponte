@@ -150,3 +150,28 @@ Os 6 municípios do Vale do Itajaí usando IPM (Indaial, Timbó, Pomerode, Ascur
 3. Pressão regulatória crescente (Portarias 5.663/2024 e 6.656/2025) cria urgência
 
 **Documento:** evidence/005-ipm-rnds-integration-analysis.md
+
+---
+
+## 2026-02-13 (noite, parte 5) — Dia 0.98: AGHUse — Aliado, Não Concorrente
+
+**O que aconteceu:**
+- Pesquisa completa sobre AGHUse (R003 da fila)
+- 20+ buscas web cobrindo: HCPA, comunidade AGHUse, Ebserh, caso Bahia, piloto RNDS, stack técnica
+- Relatório consolidado: evidence/006-aghuse-analysis.md
+
+**Descobertas críticas:**
+1. **AGHUse é para HOSPITAIS, Ponte é para APS** — somos complementares, não concorrentes
+2. **Bahia já integrou AGHUse + RNDS** — 31 unidades funcionais, meta 95 até 2026. PRODEB (companhia de dados da Bahia) lidera
+3. **SC está no piloto RNDS federalizado** (8 estados) — momentum para aproveitar
+4. **Código NÃO é público** — acesso ao repositório requer convênio formal com HCPA
+5. **Stack pesada:** Java EE, JBoss Wildfly, PostgreSQL, PrimeFaces, Hibernate — monolito grande
+6. **Fork:** AGHU (Ebserh, 41 hospitais federais) vs AGHUse (HCPA, 20+ instituições diversas)
+7. **4 empresas credenciadas** para serviços AGHUse (Liberty, Lume, R Forti, Noxtec)
+8. **Chamamento público AGHU** (fev 2024) — qualquer hospital do SUS pode aderir, economia estimada R$ 3bi em 5 anos
+
+**Ação recomendada:**
+Estudar como Bahia implementou integração AGHUse → RNDS (FHIR R4). Mesmo sem acesso ao código AGHUse, a arquitetura da integração é documentada no RNDS-guia. Usar como referência técnica para nosso adaptador IPM → RNDS.
+
+**Decisão-chave:**
+AGHUse não é nosso caminho (foco em hospitais, Java EE pesado, acesso fechado). Mas a integração RNDS da Bahia é referência técnica valiosa. Foco continua no adaptador IPM → RNDS para APS/municípios.

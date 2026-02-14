@@ -57,7 +57,7 @@ O novo papel do projeto:
 ### Prioridade 3 — Comunidade e aliados
 7. **A SBIS (Sociedade Brasileira de Informática em Saúde) é acessível?**
 8. **Existem desenvolvedores trabalhando em integração RNDS que poderíamos contatar?**
-9. **O projeto AGHUse aceita contribuições externas?**
+9. ~~**O projeto AGHUse aceita contribuições externas?**~~ → RESPONDIDO: AGHUse aceita contribuições via convênio formal com HCPA. Código NÃO é público. Comunidade governada por comitê estratégico + comitê técnico. 4 empresas credenciadas. AGHUse é para HOSPITAIS (não APS) — complementar ao Ponte, não concorrente. Bahia é referência em integração AGHUse+RNDS. Ver evidence/006-aghuse-analysis.md
 
 ## Decisões tomadas
 | Data | Decisão | Razão |

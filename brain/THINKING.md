@@ -138,6 +138,25 @@ Isso é uma INVERSÃO interessante: municípios "mais sofisticados" (que investi
 3. Blumenau com o PRONTO/FURB é um caso especial: se a FURB é parceira, podemos ajudar a integrar o PRONTO com RNDS e usar como vitrine
 4. O programa PMAE (Mais Acesso a Especialistas) está forçando a adesão — municípios que NÃO integram perdem acesso a recursos federais. Isso cria urgência.
 
+### Sobre o AGHUse e a lição da Bahia (NOVO — 2026-02-13)
+A pesquisa do AGHUse revelou algo importante: a Bahia JÁ FEZ o que queremos fazer. Eles pegaram um sistema (AGHUse) e integraram com a RNDS via FHIR R4. A PRODEB (companhia de processamento de dados do estado) liderou. 31 unidades de saúde, com meta de 95 até 2026.
+
+**Isso valida nossa abordagem**, mas com uma diferença: Bahia fez para hospitais (AGHUse), nós queremos fazer para APS/municípios pequenos (IPM → RNDS).
+
+**Lições da Bahia:**
+1. Precisa de um agente técnico forte (PRODEB fez o papel que nós queremos fazer)
+2. O estado liderou, não os municípios individualmente
+3. A integração FHIR funciona — não é ficção
+4. O protocolo do MS + Bahia (agosto 2024) mostra que o governo federal APOIA essas iniciativas
+
+**O que NÃO funciona para nós no modelo AGHUse:**
+1. Convênio formal com HCPA — burocrático demais para nosso estágio
+2. Java EE monolítico — não vamos escrever Java
+3. Foco em hospitais — nosso público é APS
+4. Comunidade fechada — nosso código é aberto (MIT)
+
+**Conclusão:** AGHUse é referência de que a integração RNDS funciona na prática. Não precisamos do código deles — precisamos entender a ARQUITETURA da integração (que é documentada pela RNDS). O adaptador IPM → RNDS segue o mesmo padrão: ler dados do sistema legado, traduzir para FHIR R4, enviar via mTLS.
+
 ### Sobre a FURB como potencial parceria (NOVO — 2026-02-13)
 A FURB (Universidade Regional de Blumenau) desenvolve o Sistema PRONTO para a saúde de Blumenau desde 2011. Recentemente retomou o desenvolvimento. Se Giovanni tem conexões em Blumenau, a FURB pode ser um aliado técnico e acadêmico:
 - Estudantes e professores de computação podem contribuir com o Ponte

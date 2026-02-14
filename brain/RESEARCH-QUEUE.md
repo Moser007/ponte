@@ -14,11 +14,7 @@
 ### ~~R007~~ — ✅ CONCLUÍDO (movido para Concluídas)
 ### ~~R008~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
-### R003 — AGHUse: código-fonte e comunidade
-**Prioridade:** Média
-**O que pesquisar:** Encontrar o repositório do AGHUse, analisar arquitetura, verificar se aceita contribuições, entender como faz a integração RNDS.
-**Por quê:** Potencial aliado técnico. Se contribuirmos para o AGHUse, ganhamos credibilidade e alcance.
-**Estimativa:** 1 sessão
+### ~~R003~~ — ✅ CONCLUÍDO (movido para Concluídas)
 
 ### R004 — Mortalidade materna por município
 **Prioridade:** Média
@@ -65,3 +61,8 @@
 **Resultado:** IPM integra com RNDS APENAS para vacinação COVID (desde março 2021). NÃO envia dados clínicos (RAC, RSA, prescrições, exames). Site do IPM NÃO menciona RNDS ou FHIR. Vagas de emprego NÃO pedem FHIR/HL7. IPM exporta para SISAB via Thrift/XML (e-SUS), que é diferente de RNDS (FHIR R4).
 **Descoberta-chave:** 120+ municípios que usam IPM provavelmente NÃO compartilham dados clínicos na RNDS. Oportunidade enorme para adaptador IPM → RNDS.
 **Documento:** evidence/005-ipm-rnds-integration-analysis.md
+
+### R003 — AGHUse: código-fonte e comunidade (2026-02-13)
+**Resultado:** AGHUse é sistema GPL de gestão hospitalar do HCPA (desde anos 1980). Stack: Java EE, JBoss Wildfly, PostgreSQL, PrimeFaces, Hibernate. Fork AGHU (Ebserh, 41 hospitais universitários) vs AGHUse (HCPA, 20+ instituições). Código NÃO é público — requer convênio formal com HCPA. Comunidade inclui UFRGS, UFRJ, Unicamp, Forças Armadas, SES-BA, SES-RS. 4 empresas credenciadas para serviços.
+**Descoberta-chave:** Bahia já integra AGHUse + RNDS (31 unidades, meta 95 até 2026). PRODEB lidera. SC está no piloto RNDS federalizado (8 estados). AGHUse é ALIADO (hospitais), não concorrente (APS). Módulo FHIR da Bahia pode servir como referência técnica para nosso adaptador IPM → RNDS.
+**Documento:** evidence/006-aghuse-analysis.md
