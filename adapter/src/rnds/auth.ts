@@ -2,13 +2,22 @@
  * Autenticação RNDS — Stub.
  *
  * Fluxo real (documentado para implementação futura):
- * 1. Carregar certificado digital ICP-Brasil (.pfx / .pem)
- * 2. Configurar https.Agent com mTLS (cert + key + ca)
- * 3. GET https://ehr-auth.saude.gov.br/api/token (homologação)
- *    ou GET https://ehr-auth-hmg.saude.gov.br/api/token (homologação)
- * 4. Receber access_token JWT (validade: 30 minutos)
- * 5. Usar token em header: X-Authorization-Server: Bearer {token}
+ * 1. Carregar certificado digital ICP-Brasil (.pfx) — formato e-CPF ou e-CNPJ, A1 ou A3
+ * 2. Configurar https.Agent com mTLS (pfx + passphrase)
+ * 3. GET https://ehr-auth-hmg.saude.gov.br/api/token  (homologação)
+ *    GET https://ehr-auth.saude.gov.br/api/token      (produção — centralizado)
+ * 4. Receber JSON: { access_token, scope, token_type, expires_in }
+ *    - access_token: JWT, validade 30 minutos
+ *    - O mTLS substitui credenciais no body (sem client_id/secret)
+ * 5. Headers obrigatórios em todas as chamadas EHR:
+ *    - X-Authorization-Server: Bearer {access_token}
+ *    - Authorization: {CNS do profissional responsável}
  * 6. Renovar token a cada 25min (margem de segurança)
+ *
+ * Endpoints EHR por estado (produção):
+ *   SC: sc-ehr-services.saude.gov.br
+ *   Padrão: {uf}-ehr-services.saude.gov.br (todos os 27 estados)
+ *   Homologação: ehr-services.hmg.saude.gov.br (único)
  */
 
 export interface RndsAuth {

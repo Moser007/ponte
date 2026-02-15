@@ -4,8 +4,10 @@ import type { RndsAuth } from './auth.js';
 /**
  * Cliente RNDS — Stub.
  *
- * Endpoint real:
- *   POST https://{UF}-ehr-services.saude.gov.br/api/fhir/r4/Bundle
+ * Envio de Bundle RAC:
+ *   POST https://{ehr}/api/fhir/r4/Bundle
+ *   - Homologação: ehr-services.hmg.saude.gov.br
+ *   - Produção SC: sc-ehr-services.saude.gov.br
  *
  * Headers obrigatórios:
  *   Content-Type: application/fhir+json
@@ -13,7 +15,21 @@ import type { RndsAuth } from './auth.js';
  *   Authorization: {CNS do profissional responsável}
  *
  * Resposta de sucesso: HTTP 201 Created
- *   Header Location contém o ID atribuído pela RNDS
+ *   Headers de resposta:
+ *   - Location: URL do recurso na RNDS (evidência de homologação)
+ *   - content-location: identificador alternativo do registro
+ *
+ * Contexto de atendimento (pode ser necessário antes do Bundle):
+ *   POST https://{ehr}/api/contexto-atendimento
+ *   Body: { cnes, cnsProfissional, cnsPaciente }
+ *
+ * Consultas disponíveis:
+ *   GET /api/fhir/r4/Patient?identifier={cns}
+ *   GET /api/fhir/r4/Practitioner/{cns}
+ *   GET /api/fhir/r4/Organization/{cnes}
+ *
+ * Bundle.identifier.system deve ser:
+ *   "http://www.saude.gov.br/fhir/r4/NamingSystem/BRRNDS-{identificador-requisitante}"
  */
 
 export interface RndsSubmitResult {
