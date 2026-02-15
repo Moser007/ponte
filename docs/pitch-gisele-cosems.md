@@ -26,6 +26,10 @@ Nosso adaptador resolve isso.
 Precisamos de um município parceiro no Vale do Itajaí que use IPM
 para testarmos na homologação RNDS. O COSEMS poderia indicar algum?
 
+Vi que o 10º Congresso COSEMS-SC está em Chapecó em março com sessão
+sobre SUS Digital em municípios pequenos — nosso projeto se encaixa
+perfeitamente nesse tema.
+
 Posso explicar melhor por ligação se preferir. Obrigado!
 ```
 
@@ -46,7 +50,7 @@ Claro! Em resumo:
 
 - O Ponte é um adaptador que lê os dados do IPM e traduz para FHIR R4
   (formato da RNDS). É gratuito, open-source (licença MIT), e já está
-  funcional com 114 testes automatizados.
+  funcional com 145 testes automatizados e 18 recursos FHIR por atendimento.
 
 - Precisamos de um município que: (1) use IPM, (2) queira fazer o
   credenciamento de homologação no DATASUS, e (3) nos dê acesso às
@@ -126,7 +130,7 @@ Posso explicar por ligação. Qual o melhor horário?
 - **120+** municípios usam IPM Atende.Net em SC — nenhum envia dados clínicos à RNDS
 - **5 portarias/decretos** de 2024-2025 exigem integração FHIR R4 com RNDS
 - Portaria 7.495/2025: municípios sem RNDS perdem acesso a programas federais
-- O adaptador Ponte tem **114 testes automatizados** e gera Bundle RAC conforme BR Core
+- O adaptador Ponte tem **145 testes automatizados e 18 recursos FHIR por atendimento** e gera Bundle RAC conforme BR Core
 - Licença MIT — 100% gratuito e open-source
 
 ---
