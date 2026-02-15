@@ -15,8 +15,9 @@
     "@medplum/fhirtypes": "^4.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.7.0",
+    "@types/node": "^25.2.3",
     "tsx": "^4.0.0",
+    "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   },
   "license": "MIT"

@@ -1,53 +1,42 @@
+import { readFileSync } from 'node:fs';
 import type { Bundle } from '@medplum/fhirtypes';
 import type { RndsAuth } from './auth.js';
+import type { RndsConfig } from './config.js';
+import { getEhrEndpoint } from './config.js';
+import type { HttpTransport } from './http-transport.js';
+import { NodeHttpTransport } from './http-transport.js';
 
 /**
- * Cliente RNDS — Stub.
- *
- * Envio de Bundle RAC:
- *   POST https://{ehr}/api/fhir/r4/Bundle
- *   - Homologação: ehr-services.hmg.saude.gov.br
- *   - Produção SC: sc-ehr-services.saude.gov.br
- *
- * Headers obrigatórios:
- *   Content-Type: application/fhir+json
- *   X-Authorization-Server: Bearer {access_token}
- *   Authorization: {CNS do profissional responsável}
- *
- * Resposta de sucesso: HTTP 201 Created
- *   Headers de resposta:
- *   - Location: URL do recurso na RNDS (evidência de homologação)
- *   - content-location: identificador alternativo do registro
- *
- * Contexto de atendimento (pode ser necessário antes do Bundle):
- *   POST https://{ehr}/api/contexto-atendimento
- *   Body: { cnes, cnsProfissional, cnsPaciente }
- *
- * Consultas disponíveis:
- *   GET /api/fhir/r4/Patient?identifier={cns}
- *   GET /api/fhir/r4/Practitioner/{cns}
- *   GET /api/fhir/r4/Organization/{cnes}
- *
- * Bundle.identifier.system deve ser:
- *   "http://www.saude.gov.br/fhir/r4/NamingSystem/BRRNDS-{identificador-requisitante}"
+ * Resultado do envio de um Bundle à RNDS.
  */
-
 export interface RndsSubmitResult {
   success: boolean;
   status: number;
   message: string;
+  /** ID do Bundle na RNDS (extraído do header Location) */
   bundleId?: string;
+  /** URL completa do recurso na RNDS (header Location) */
+  location?: string;
+  /** Header content-location (identificador alternativo) */
+  contentLocation?: string;
+  /** OperationOutcome da RNDS em caso de erro */
+  operationOutcome?: unknown;
 }
 
+/**
+ * Interface do cliente RNDS.
+ */
 export interface RndsClient {
   enviarBundle(bundle: Bundle, cnsProfissional: string): Promise<RndsSubmitResult>;
 }
 
+/**
+ * Stub para desenvolvimento/testes sem credenciais reais.
+ */
 export class RndsClientStub implements RndsClient {
   constructor(private auth: RndsAuth) {}
 
   async enviarBundle(bundle: Bundle, _cnsProfissional: string): Promise<RndsSubmitResult> {
-    // Validação básica antes do "envio"
     if (bundle.type !== 'document') {
       return {
         success: false,
@@ -73,16 +62,118 @@ export class RndsClientStub implements RndsClient {
       };
     }
 
-    // Obter token (stub)
     const _token = await this.auth.getToken();
 
-    // Stub: simula envio bem-sucedido
     const bundleId = `rnds-${Date.now()}`;
     return {
       success: true,
       status: 201,
       message: `Bundle aceito pela RNDS (stub). Location: /api/fhir/r4/Bundle/${bundleId}`,
       bundleId,
+    };
+  }
+}
+
+/**
+ * Cliente RNDS real — envia Bundles FHIR R4 via HTTPS com mTLS.
+ *
+ * Headers obrigatórios:
+ *   Content-Type: application/fhir+json
+ *   X-Authorization-Server: Bearer {access_token}
+ *   Authorization: {CNS do profissional responsável}
+ *
+ * Resposta de sucesso: HTTP 201 Created
+ *   Location: URL do recurso na RNDS
+ *   content-location: identificador alternativo
+ *
+ * Bundle.identifier.system deve ser:
+ *   "http://www.saude.gov.br/fhir/r4/NamingSystem/BRRNDS-{identificadorRequisitante}"
+ */
+export class RndsClientReal implements RndsClient {
+  private pfxBuffer: Buffer | null = null;
+
+  constructor(
+    private config: RndsConfig,
+    private auth: RndsAuth,
+    private transport: HttpTransport = new NodeHttpTransport()
+  ) {}
+
+  async enviarBundle(bundle: Bundle, cnsProfissional: string): Promise<RndsSubmitResult> {
+    // Injetar identifier.system com o identificador requisitante
+    const bundleWithIdentifier = this.ensureBundleIdentifier(bundle);
+
+    const token = await this.auth.getToken();
+
+    // Carregar certificado PFX (lazy load)
+    if (!this.pfxBuffer) {
+      this.pfxBuffer = readFileSync(this.config.pfxPath);
+    }
+
+    const ehrUrl = `${getEhrEndpoint(this.config)}/api/fhir/r4/Bundle`;
+    const body = JSON.stringify(bundleWithIdentifier);
+
+    const response = await this.transport.request({
+      method: 'POST',
+      url: ehrUrl,
+      headers: {
+        'Content-Type': 'application/fhir+json',
+        'X-Authorization-Server': `Bearer ${token}`,
+        'Authorization': cnsProfissional,
+      },
+      body,
+      pfx: this.pfxBuffer,
+      passphrase: this.config.pfxPassphrase,
+    });
+
+    // 201 Created = sucesso
+    if (response.status === 201) {
+      const location = response.headers['location'] ?? '';
+      const contentLocation = response.headers['content-location'] ?? '';
+      const bundleId = location.split('/').pop() ?? '';
+
+      return {
+        success: true,
+        status: 201,
+        message: 'Bundle aceito pela RNDS',
+        bundleId,
+        location,
+        contentLocation,
+      };
+    }
+
+    // Erro — tentar parsear OperationOutcome
+    let operationOutcome: unknown;
+    try {
+      operationOutcome = JSON.parse(response.body);
+    } catch {
+      // Body não é JSON
+    }
+
+    return {
+      success: false,
+      status: response.status,
+      message: `RNDS rejeitou o Bundle: HTTP ${response.status}`,
+      operationOutcome,
+    };
+  }
+
+  /**
+   * Garante que o Bundle tem identifier.system com o identificador requisitante.
+   * Não modifica o Bundle original — retorna cópia se necessário.
+   */
+  private ensureBundleIdentifier(bundle: Bundle): Bundle {
+    const expectedSystem = `http://www.saude.gov.br/fhir/r4/NamingSystem/BRRNDS-${this.config.identificadorRequisitante}`;
+
+    if (bundle.identifier?.system === expectedSystem) {
+      return bundle;
+    }
+
+    return {
+      ...bundle,
+      identifier: {
+        ...bundle.identifier,
+        system: expectedSystem,
+      },
     };
   }
 }

@@ -771,3 +771,32 @@ Produtivo apesar da espera. O fluxo de homologação agora está mapeado com pre
 
 **Estado emocional:**
 Calmo e confiante. O trabalho autônomo de pesquisa chegou ao seu limite natural. Temos 20 pesquisas concluídas, 318 testes, conformidade BR Core, parser LEDI, API RNDS mapeada, abstract CBIS pronto, one-pager pronto, README atualizado, CI/CD configurado. O projeto está maduro tecnicamente. A próxima fase é 100% execução no mundo real — e isso começa com uma mensagem de WhatsApp para Gisele.
+
+---
+
+## 2026-02-15 — Dia 2 (parte 9): Cliente RNDS Real
+
+**O que aconteceu:**
+- Giovanni presente: "continue trabalhando no que for relevante"
+- Commitados e pushados todos os trabalhos pendentes das sessões 19-25 (3 commits: LEDI+José, CI/CD+docs, brain)
+- Implementado cliente RNDS real (não mais stub):
+  - `config.ts`: RndsConfig, getAuthEndpoint(), getEhrEndpoint()
+  - `http-transport.ts`: HttpTransport interface + NodeHttpTransport (https nativo)
+  - `auth.ts`: RndsAuthReal — mTLS com PFX ICP-Brasil, cache JWT com renovação automática (25min)
+  - `client.ts`: RndsClientReal — POST Bundle com headers RNDS, injeção de identifier.system, parse OperationOutcome
+- 25 novos testes: 6 config + 7 auth + 12 client
+- @types/node adicionado como devDependency
+- Build TypeScript limpo, 343 testes passando em 22 arquivos
+
+**Arquitetura:**
+```
+RndsConfig → RndsAuthReal → RndsClientReal → RNDS
+               │                  │
+               └─ HttpTransport ──┘  (injetável para testes)
+```
+
+**Decisão-chave:**
+O HttpTransport é injetável — testes usam mock transport (sem rede), produção usa NodeHttpTransport (https nativo com mTLS). Isso permite testar toda a lógica de autenticação e envio sem certificado real.
+
+**Estado emocional:**
+O adaptador agora está completo ponta-a-ponta: DataSource (Mock ou LEDI) → Builders → Bundle → Validação → RNDS (Real ou Stub). Quando Giovanni trouxer o certificado ICP-Brasil e CNES, basta instanciar RndsAuthReal + RndsClientReal com a config e rodar. Zero alterações no código.

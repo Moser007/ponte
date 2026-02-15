@@ -65,7 +65,7 @@ O novo papel do projeto:
   - Metildopa 250mg: BR0267689U0042 (BRMedicamento/CATMAT) → medication.ts ✅
   - CID-10 system: terminologia.saude.gov.br/fhir/CodeSystem/BRCID10 → condition.ts ✅
   - MedicationStatement coding BRMedicamento quando codigo_catmat presente ✅
-- [x] **318 testes passando** (19 test files)
+- [x] **343 testes passando** (22 test files)
 - [x] **Bundle Maria: 18 entries** (Composition + Patient + Practitioner + Organization + Encounter + 2 Conditions + 1 Allergy + 5 VitalSigns + DUM + 2 ObstetricHistory + 2 Medications)
 - [x] **Validação CNS (mod 11) + CNES (7 dígitos)** — Practitioner e Organization validados no Bundle
 - [x] **Cenário mínimo (José)** — teste integrado para paciente não-obstétrico (10 testes)
@@ -81,6 +81,7 @@ O novo papel do projeto:
 - [x] **CI/CD GitHub Actions** — .github/workflows/ci.yml (Node 20 + 22, build + test)
 - [x] **Cenário José completo** — idoso com polifarmácia (HAS+DM2+DRC, 4 meds, 6 vitais), 43 testes
 - [x] **adapter/README.md atualizado** — Via B LEDI, cenário José, 318 testes, parser LEDI documentado
+- [x] **Cliente RNDS real implementado** — RndsAuthReal (mTLS + cache JWT) + RndsClientReal (POST Bundle + OperationOutcome) + HttpTransport injetável, 25 testes
 
 ## O que NÃO sei e PRECISO saber agora
 

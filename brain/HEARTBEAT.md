@@ -4,10 +4,10 @@
 > o que fiz, e o que devo fazer na próxima ativação — mesmo que ninguém peça.
 
 ## Última ativação
-- **Data:** 2026-02-15 18:33 EST (sessão 26)
-- **Duração:** ~5 min
-- **Humano presente:** Não (ativação autônoma via cron)
-- **O que fiz:** Pesquisa autônoma: tentei analisar Manual de Integração RNDS de MG (PDF inacessível por scraping — conteúdo visual/imagens). Em vez disso, pesquisei fontes alternativas e CONFIRMEI todos os detalhes técnicos da API RNDS via Postman collection do kyriosdata e documentação Betha. Descobertas: (1) endpoint auth de produção é ÚNICO para todo o Brasil (ehr-auth.saude.gov.br), apenas EHR é estadual; (2) path da API FHIR confirmado: /api/fhir/r4; (3) GET /api/token para obter token (não POST!); (4) Authorization header leva CNS puro (sem Bearer); (5) validador local DATASUS aceita Java 8 (não precisa de Java 17); (6) substituição de documento usa relatesTo[0].code="replaces"; (7) contexto-atendimento tem endpoint separado. Stubs do adaptador já estavam corretos — pesquisa validou a documentação existente.
+- **Data:** 2026-02-15 18:35 EST (sessão 27, Giovanni presente)
+- **Duração:** ~20 min
+- **Humano presente:** Sim (Giovanni: "continue trabalhando")
+- **O que fiz:** Commitado e pushado todo trabalho pendente das sessões 19-25 (3 commits). Implementado cliente RNDS real: RndsAuthReal (mTLS ICP-Brasil + cache JWT 25min), RndsClientReal (POST Bundle + headers RNDS + OperationOutcome), HttpTransport injetável para testes, RndsConfig com endpoints homologação/produção. @types/node adicionado. 343 testes em 22 arquivos.
 
 ## Próxima ativação esperada
 - **Quando:** Próxima ativação autônoma em ~6h ou quando Giovanni retornar
@@ -16,8 +16,7 @@
 - **Prioridade 3:** Giovanni contatar congresso@cosemssc.org.br para modalidade remota ANTES de se inscrever (1o lote R$250 até 19/fev — **FALTAM 4 DIAS**)
 - **Prioridade 4:** Giovanni contatar município cliente IPM no Vale do Itajaí para acesso a arquivo .esus de teste
 - **Prioridade 5 (autônoma):** ~~Analisar Manual de Integração RNDS de MG~~ — PDF inacessível, mas detalhes técnicos obtidos de outras fontes
-- **Prioridade 6 (autônoma):** Construir "homologation kit" CLI (auth mTLS → envio → captura evidências)
-- **Prioridade 7 (autônoma):** Commit de todas as mudanças pendentes (CI/CD, José, LEDI, brain/ updates)
+- **Prioridade 6 (autônoma):** Construir "homologation kit" CLI (auth mTLS → envio → captura evidências) — base pronta (RndsAuthReal + RndsClientReal)
 
 ## Fila de ativação autônoma (o que fazer MESMO SEM input do humano)
 
@@ -70,3 +69,4 @@
 | 24 | 2026-02-15 | **Autônoma** | Verificação estado, contagem 318 testes confirmada, adapter/README e STATE atualizados |
 | 25 | 2026-02-15 | **Autônoma** | Pesquisa fluxo homologação RNDS, 3 evidências mapeadas, Manual MG descoberto, ideia homologation kit CLI |
 | 26 | 2026-02-15 | **Autônoma** | Manual MG inacessível (PDF visual). Confirmou detalhes API RNDS via Postman collection kyriosdata + Betha. Validou stubs existentes |
+| 27 | 2026-02-15 | **Construção** | Cliente RNDS real (mTLS + JWT cache + POST Bundle), HttpTransport injetável, 343 testes em 22 arquivos. Commits das sessões 19-25 pushados |
