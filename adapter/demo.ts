@@ -1,7 +1,7 @@
 import { MockDataSource } from './src/datasource/mock-datasource.js';
 import { RndsAuthStub } from './src/rnds/auth.js';
 import { RndsClientStub } from './src/rnds/client.js';
-import { processar, resetUuidCounter } from './src/index.js';
+import { processar } from './src/index.js';
 
 async function runDemo() {
   console.log('='.repeat(64));
@@ -13,7 +13,6 @@ async function runDemo() {
   console.log('Gerando Bundle RAC para envio a RNDS...');
   console.log();
 
-  resetUuidCounter();
   const dataSource = new MockDataSource();
   const auth = new RndsAuthStub();
   const rndsClient = new RndsClientStub(auth);
@@ -30,6 +29,13 @@ async function runDemo() {
   console.log(`  CPF: ${paciente?.cpf}`);
   console.log(`  Nascimento: ${paciente?.data_nascimento}`);
   console.log(`  Raca/Cor: ${paciente?.raca_cor}`);
+  if (paciente?.gestante) {
+    console.log(`  Gestante: SIM`);
+    console.log(`  DUM: ${paciente.dum}`);
+    console.log(`  Gestas previas: ${paciente.gestas_previas}`);
+    console.log(`  Partos: ${paciente.partos}`);
+    console.log(`  Maternidade ref.: ${paciente.maternidade_referencia}`);
+  }
   console.log();
 
   const atendimentos = await dataSource.getAtendimentos(paciente!.id);
@@ -54,6 +60,7 @@ async function runDemo() {
   for (const s of sinais) {
     console.log(`    - PA: ${s.pa_sistolica}/${s.pa_diastolica} mmHg`);
     console.log(`    - Peso: ${s.peso} kg`);
+    if (s.glicemia_capilar != null) console.log(`    - Glicemia capilar: ${s.glicemia_capilar} mg/dL`);
     console.log(`    - IG: ${s.semanas_gestacionais} semanas`);
   }
   console.log();

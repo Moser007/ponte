@@ -1,12 +1,148 @@
 import type { Observation } from '@medplum/fhirtypes';
 import type { IpmSinalVital } from '../types/ipm.js';
 
+/**
+ * Constrói Observation para DUM (Data da Última Menstruação).
+ * LOINC 8665-2 "Last menstrual period start date".
+ * Usa valueDateTime (data) em vez de valueQuantity (número).
+ */
+export function buildDumObservation(
+  dum: string,
+  uuid: string,
+  patientRef: string
+): Observation {
+  return {
+    resourceType: 'Observation',
+    id: uuid,
+    meta: {
+      profile: ['https://br-core.saude.gov.br/fhir/StructureDefinition/br-core-observation'],
+    },
+    status: 'final',
+    category: [
+      {
+        coding: [
+          {
+            system: 'http://terminology.hl7.org/CodeSystem/observation-category',
+            code: 'survey',
+            display: 'Survey',
+          },
+        ],
+      },
+    ],
+    code: {
+      coding: [
+        {
+          system: 'http://loinc.org',
+          code: '8665-2',
+          display: 'Last menstrual period start date',
+        },
+      ],
+    },
+    subject: {
+      reference: patientRef,
+    },
+    valueDateTime: dum,
+  };
+}
+
 interface VitalSignDef {
   loincCode: string;
   display: string;
   value: number;
   unit: string;
   ucumCode: string;
+}
+
+/**
+ * Constrói Observations para histórico obstétrico (gestas prévias e partos).
+ * LOINC 11996-6 "[#] Pregnancies" e LOINC 11977-6 "[#] Parity".
+ * Relevante para SAO (Sumário de Alta Obstétrico, Portaria 8.025/2025).
+ */
+export function buildObstetricHistory(
+  data: { gestas_previas?: number; partos?: number },
+  uuids: string[],
+  patientRef: string
+): Observation[] {
+  const observations: Observation[] = [];
+  let idx = 0;
+
+  if (data.gestas_previas != null) {
+    observations.push({
+      resourceType: 'Observation',
+      id: uuids[idx++],
+      meta: {
+        profile: ['https://br-core.saude.gov.br/fhir/StructureDefinition/br-core-observation'],
+      },
+      status: 'final',
+      category: [
+        {
+          coding: [
+            {
+              system: 'http://terminology.hl7.org/CodeSystem/observation-category',
+              code: 'survey',
+              display: 'Survey',
+            },
+          ],
+        },
+      ],
+      code: {
+        coding: [
+          {
+            system: 'http://loinc.org',
+            code: '11996-6',
+            display: '[#] Pregnancies',
+          },
+        ],
+      },
+      subject: { reference: patientRef },
+      valueQuantity: {
+        value: data.gestas_previas,
+        unit: '{#}',
+        system: 'http://unitsofmeasure.org',
+        code: '{#}',
+      },
+    });
+  }
+
+  if (data.partos != null) {
+    observations.push({
+      resourceType: 'Observation',
+      id: uuids[idx++],
+      meta: {
+        profile: ['https://br-core.saude.gov.br/fhir/StructureDefinition/br-core-observation'],
+      },
+      status: 'final',
+      category: [
+        {
+          coding: [
+            {
+              system: 'http://terminology.hl7.org/CodeSystem/observation-category',
+              code: 'survey',
+              display: 'Survey',
+            },
+          ],
+        },
+      ],
+      code: {
+        coding: [
+          {
+            system: 'http://loinc.org',
+            code: '11977-6',
+            display: '[#] Parity',
+          },
+        ],
+      },
+      subject: { reference: patientRef },
+      valueQuantity: {
+        value: data.partos,
+        unit: '{#}',
+        system: 'http://unitsofmeasure.org',
+        code: '{#}',
+      },
+    });
+  }
+
+  return observations;
 }
 
 /**

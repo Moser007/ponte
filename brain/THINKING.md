@@ -349,3 +349,96 @@ Mas há uma questão: para C4+C5 (AllergyIntolerance code), preciso dos códigos
 Para A4 (MedicationStatement coding), preciso de códigos CATMAT ou SNOMED para insulina NPH e metildopa. Também pesquisa R013.
 
 Essas pesquisas de terminologia são parte do trabalho que nunca acaba em FHIR. Cada medicamento, cada alergeno, cada procedimento precisa ser mapeado. Para o MVP, podemos ter um mapeamento parcial + fallback para texto livre. Mas para homologação RNDS, os bindings required DEVEM ter códigos válidos.
+
+### Sobre o 9º Congresso COSEMS-SC e o timing perfeito (NOVO — 2026-02-14, sessão 13)
+
+A pesquisa autônoma de hoje revelou que o **9º Congresso do COSEMS-SC & 8ª Mostra Catarina "Brasil, aqui tem SUS"** acontece em 2026. Inscrições do 2º lote: **R$ 300,00, de 20/02 a 13/03/2026**. Isso é daqui a 6 dias.
+
+**Por que isso é game-changing para o Ponte:**
+1. É o maior encontro de secretários municipais de saúde de SC — EXATAMENTE nosso público-alvo
+2. O COSEMS-SC está coordenando Planos de Ação de Saúde Digital (Domínio 3: Sistemas e Plataformas de Interoperabilidade, Domínio 4: Telessaúde) — é EXATAMENTE o que o Ponte resolve
+3. O objetivo declarado é implementar a "Rede Catarinense de Dados de Saúde" — nosso adaptador é uma peça dessa rede
+4. Giovanni poderia apresentar o Ponte como solução para municípios que usam IPM e precisam integrar com RNDS
+5. Gisele do COSEMS-SC (nossa contato) estará lá
+
+**O problema:** Giovanni mora nos EUA. Presença física é improvável. Mas:
+- Pode contatar Gisele ANTES do congresso e pedir para apresentar o Ponte remotamente
+- Pode preparar um pitch deck / one-pager para distribuição no congresso
+- Pode se inscrever se houver modalidade remota
+- No mínimo, o congresso é pretexto perfeito para o primeiro contato com Gisele: "Olá Gisele, vi que o Congresso do COSEMS-SC está chegando. Temos um projeto open-source que pode ajudar municípios com IPM a integrar com a RNDS..."
+
+**Sobre o Decreto 12.560/2025 e a permanência da RNDS:**
+O Decreto elevou a RNDS de programa para **política de Estado**. Isso é significativo: programas mudam com governos, políticas de Estado permanecem. A RNDS agora está ancorada nos Arts. 47 e 47-A da Lei 8.080/1990 (a lei orgânica do SUS). Isso significa que qualquer investimento em integração RNDS é investimento de longo prazo — não vai ser descartado na próxima eleição. Isso fortalece o argumento para municípios investirem tempo no Ponte.
+
+### Sobre o que fazer enquanto espero o Giovanni (NOVO — 2026-02-14, sessão 13)
+
+Situação: sem pesquisas pendentes, sem input do Giovanni. O código está com 136 testes passando. O Bundle é conforme com BR Core. O que posso fazer autonomamente?
+
+**Opções técnicas que NÃO dependem de Giovanni:**
+1. **Preparar pitch deck / one-pager** para o Congresso COSEMS-SC — documento Markdown que Giovanni pode converter em PDF
+2. **Melhorar a documentação do adapter/** — README com instruções de uso, arquitetura, como contribuir
+3. **Implementar leitura de arquivo LEDI/Thrift** — a Via B não depende de acesso ao banco IPM
+4. **Adicionar mais cenários de teste** — gestante sem complicações, idoso com polifarmácia, criança com vacinação
+5. **Criar script de validação** — que gera o Bundle e tenta validar com HL7 FHIR Validator (se Java 17+ disponível)
+
+**Decisão:** Na próxima ativação, se Giovanni não trouxer novidades, vou preparar o one-pager para COSEMS-SC. É a ação com melhor ROI — pode desbloquear o contato com Gisele e o congresso.
+
+### Sobre a estratégia de comunicação com Gisele (NOVO — 2026-02-14, sessão 13)
+
+A mensagem que preparamos no NEXT-ACTIONS.md é boa mas pode ser melhor com o contexto do Congresso. Nova versão sugerida:
+
+"Olá Gisele, tudo bem? Sou Giovanni Moser, desenvolvedor de tecnologia e advogado. Vi que o 9º Congresso do COSEMS-SC está chegando e que vocês estão trabalhando nos Planos de Saúde Digital (Domínio 3 — Interoperabilidade). Estou construindo o Ponte (github.com/Moser007/ponte), um projeto open-source gratuito (MIT) que cria um adaptador para conectar sistemas como o IPM Atende.Net à RNDS para dados clínicos. Já temos o adaptador funcional com Bundle RAC FHIR R4 conforme ao BR Core (136 testes passando). Gostaríamos de encontrar um município do Médio Vale do Itajaí que use IPM e queira ser piloto. O Ponte ajuda o município a cumprir o Decreto 12.560 e a Portaria 7.495. Seria possível conversarmos?"
+
+Essa versão é melhor porque:
+1. Referencia o Congresso (mostra que estamos atentos ao ecossistema)
+2. Menciona o Domínio 3 (mostra alinhamento com a agenda do COSEMS)
+3. Cita resultados concretos (145 testes, Bundle RAC, BR Core)
+4. Menciona regulação específica (Decreto 12.560, Portaria 7.495, 8.025)
+5. Pede algo específico (município piloto no Vale do Itajaí com IPM)
+
+### Sobre o SAO e o cenário completo da Maria (NOVO — 2026-02-14, sessão 13 cont.)
+
+A Portaria 8.025/2025 criou o SAO (Sumário de Alta Obstétrico) na RNDS. Isso é um game-changer para o cenário Maria:
+
+**O fluxo completo agora seria:**
+1. Maria vai ao pré-natal na UBS Vila Nova (IPM) → Ponte gera **RAC** → RNDS
+2. Maria chega à maternidade em emergência → Obstetra consulta RNDS → vê o RAC
+3. Maria recebe alta da maternidade → Hospital gera **SAO** → RNDS
+4. Maria retorna ao pré-natal na UBS → Enfermeira consulta RNDS → vê o SAO
+
+O SAO fecha o ciclo. Sem ele, a informação flui numa direção só (UBS → hospital). Com o SAO, o cuidado é bidirecional. O Ponte hoje resolve a etapa 1. A etapa 3 é responsabilidade do hospital (que pode usar AGHUse, PRONTO, ou outro sistema). Mas se o hospital usa sistema legado que não gera SAO... precisamos de outro adaptador.
+
+**Decisão estratégica:** Por enquanto, focar no RAC (etapa 1). O SAO é documentação complementar que pode ser implementada depois. Mas pesquisar o modelo SAO (R016) para estar preparado.
+
+### Sobre o Bundle de 18 entries e a completude clínica (NOVO — 2026-02-14)
+
+O Bundle da Maria agora conta uma história obstétrica COMPLETA:
+- **Paciente:** Maria Silva Santos, 39 anos, parda, G3P1 (3a gestação, 1 parto anterior)
+- **DUM:** 10/04/2025 → IG ~32 semanas na data do atendimento (20/11/2025)
+- **Diagnósticos:** Diabetes gestacional (O24.4) + Hipertensão gestacional (O13) — gestação de ALTO RISCO
+- **Alergia:** Penicilina — gravidade ALTA, reação anafilaxia — CRÍTICO para decisões de antibiótico no parto
+- **Vitais:** PA 130/85 (hipertensão confirmada), peso 78kg, glicemia 135 mg/dL (diabetes confirmada)
+- **Medicamentos:** Insulina NPH 10UI 2x/dia + Metildopa 250mg 3x/dia — controle adequado
+- **Maternidade ref:** Regional de Blumenau (no mock data, ainda não no Bundle)
+
+Para um obstetra que recebe Maria em emergência, esse Bundle responde TODAS as perguntas críticas:
+1. Ela é de alto risco? SIM (diabetes + hipertensão)
+2. Quais medicamentos está usando? Insulina + metildopa (não suspender)
+3. Tem alergia? SIM, penicilina — NÃO USAR ampicilina/amoxicilina no parto
+4. IG? ~32 semanas — pré-termo, preparar UTI neonatal
+5. PA controlada? 130/85 — limítrofe, monitorar
+6. Glicemia? 135 mg/dL — elevada, ajustar insulina
+7. Histórico obstétrico? G3P1 — uma gestação anterior resultou em parto
+
+São 18 recursos FHIR R4 que podem literalmente salvar duas vidas (mãe + bebê) em 30 segundos de consulta.
+
+### Sobre a maternidade de referência como dado faltante (NOVO — 2026-02-14)
+
+O mock data tem `maternidade_referencia: 'Maternidade Regional de Blumenau'`, mas esse dado NÃO está no Bundle. Ele é clinicamente importante para regulação: saber para onde a gestante deveria ser encaminhada.
+
+Opções FHIR para representar:
+1. **ServiceRequest** — encaminhamento formal para a maternidade
+2. **Flag** — sinalizador com referência à Organization da maternidade
+3. **Extension** em Patient — extensão personalizada
+
+A opção 1 (ServiceRequest) é mais FHIR-idiomática e poderia incluir classificação de risco. Mas isso é complexidade adicional. Anotar para implementação futura.

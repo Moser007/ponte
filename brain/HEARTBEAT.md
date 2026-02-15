@@ -4,18 +4,18 @@
 > o que fiz, e o que devo fazer na próxima ativação — mesmo que ninguém peça.
 
 ## Última ativação
-- **Data:** 2026-02-14 (sessão 12)
-- **Duração:** ~15 min
-- **Humano presente:** Não (ativação autônoma, continuação de sessão anterior)
-- **O que fiz:** R014 concluída — todos os 19 problemas de conformidade BR Core CORRIGIDOS. URIs canônicos aplicados: CID-10 → terminologia.saude.gov.br, BRMedicamento → saude.gov.br/fhir/r4. Códigos CATMAT reais nos builders (penicilina, insulina, metildopa). MedicationStatement agora inclui coding BRMedicamento quando codigo_catmat presente. 114 testes passando (+3 novos). Commit `aec2108` pushed.
+- **Data:** 2026-02-14 (sessão 13, continuação)
+- **Duração:** ~30 min
+- **Humano presente:** Não (continuação autônoma de sessão anterior)
+- **O que fiz:** DUM (LOINC 8665-2) + histórico obstétrico (LOINC 11996-6, 11977-6) adicionados ao Bundle. R015 concluída: regulamentações RNDS 2025-2026 (SAO obstétrico, Congresso COSEMS-SC março 2026, Thrift descontinuado). Demo.ts corrigido. Bundle Maria: 18 entries, 145 testes passando. Brain files atualizados.
 
 ## Próxima ativação esperada
 - **Quando:** Quando Giovanni retornar (segunda-feira — contato com Gisele COSEMS-SC)
 - **Prioridade 1:** Giovanni contatar COSEMS-SC (Gisele) para encontrar município parceiro
-- **Prioridade 2:** Giovanni contatar município cliente IPM no Vale do Itajaí para acesso ao banco
-- **Prioridade 3:** Giovanni contatar IPM Sistemas propondo parceria (aproveitando pressão regulatória)
+- **Prioridade 2:** Giovanni se inscrever no 10o Congresso COSEMS-SC (Chapecó, 11-13/mar, R$250 até 19/fev)
+- **Prioridade 3:** Giovanni contatar município cliente IPM no Vale do Itajaí para acesso ao banco
 - **Prioridade 4:** Implementar DataSource real (PostgreSQL ou LEDI) — depende de acesso a dados reais
-- **Prioridade 5:** Implementar auth mTLS real — depende de credenciamento RNDS
+- **Prioridade 5:** Implementar SAO (Sumário de Alta Obstétrico) — Portaria 8.025/2025
 
 ## Fila de ativação autônoma (o que fazer MESMO SEM input do humano)
 
@@ -54,3 +54,4 @@
 | 10 | 2026-02-14 | **Validação** | R011: Bundle RAC validado contra BR Core — 19 problemas (5 críticos), relatório + snippets de correção |
 | 11 | 2026-02-14 | **Pesquisa** | R013: códigos reais terminologias BR — penicilina, insulina, metildopa (CATMAT/BRMedicamento), CID-10 system brasileiro |
 | 12 | 2026-02-14 | **Correção** | R014: todos os 19 problemas BR Core corrigidos, URIs canônicos, códigos CATMAT reais, 114 testes |
+| 13 | 2026-02-14 | **Construção + Pesquisa** | DUM + obstétrico no Bundle (18 entries), R015 regulamentações RNDS 2025-2026, demo corrigido, 145 testes |

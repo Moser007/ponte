@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildVitalSigns } from '../../src/builders/vital-signs.js';
+import { buildVitalSigns, buildDumObservation, buildObstetricHistory } from '../../src/builders/vital-signs.js';
 import type { IpmSinalVital } from '../../src/types/ipm.js';
 
 const sinaisVitais: IpmSinalVital = {
@@ -113,5 +113,96 @@ describe('buildVitalSigns', () => {
     expect(ga).toBeDefined();
     expect(ga?.valueQuantity?.value).toBe(32);
     expect(ga?.valueQuantity?.code).toBe('wk');
+  });
+});
+
+describe('buildDumObservation', () => {
+  const dum = buildDumObservation('2025-04-10', 'uuid-dum-1', 'urn:uuid:patient-1');
+
+  it('should return Observation resourceType', () => {
+    expect(dum.resourceType).toBe('Observation');
+  });
+
+  it('should set LOINC 8665-2 code', () => {
+    expect(dum.code?.coding?.[0]?.code).toBe('8665-2');
+    expect(dum.code?.coding?.[0]?.system).toBe('http://loinc.org');
+  });
+
+  it('should use valueDateTime (not valueQuantity)', () => {
+    expect(dum.valueDateTime).toBe('2025-04-10');
+    expect(dum.valueQuantity).toBeUndefined();
+  });
+
+  it('should set survey category (not vital-signs)', () => {
+    expect(dum.category?.[0]?.coding?.[0]?.code).toBe('survey');
+  });
+
+  it('should set br-core-observation profile', () => {
+    expect(dum.meta?.profile).toContain(
+      'https://br-core.saude.gov.br/fhir/StructureDefinition/br-core-observation'
+    );
+  });
+
+  it('should reference patient', () => {
+    expect(dum.subject?.reference).toBe('urn:uuid:patient-1');
+  });
+
+  it('should set id from uuid parameter', () => {
+    expect(dum.id).toBe('uuid-dum-1');
+  });
+});
+
+describe('buildObstetricHistory', () => {
+  const obs = buildObstetricHistory(
+    { gestas_previas: 3, partos: 2 },
+    ['uuid-obs-1', 'uuid-obs-2'],
+    'urn:uuid:patient-1'
+  );
+
+  it('should return 2 observations for gestas + partos', () => {
+    expect(obs).toHaveLength(2);
+  });
+
+  it('should build pregnancies count with LOINC 11996-6', () => {
+    const gravida = obs.find((o) => o.code?.coding?.[0]?.code === '11996-6');
+    expect(gravida).toBeDefined();
+    expect(gravida?.valueQuantity?.value).toBe(3);
+    expect(gravida?.valueQuantity?.code).toBe('{#}');
+  });
+
+  it('should build parity with LOINC 11977-6', () => {
+    const parity = obs.find((o) => o.code?.coding?.[0]?.code === '11977-6');
+    expect(parity).toBeDefined();
+    expect(parity?.valueQuantity?.value).toBe(2);
+    expect(parity?.valueQuantity?.code).toBe('{#}');
+  });
+
+  it('should set survey category', () => {
+    for (const o of obs) {
+      expect(o.category?.[0]?.coding?.[0]?.code).toBe('survey');
+    }
+  });
+
+  it('should set br-core-observation profile', () => {
+    for (const o of obs) {
+      expect(o.meta?.profile).toContain(
+        'https://br-core.saude.gov.br/fhir/StructureDefinition/br-core-observation'
+      );
+    }
+  });
+
+  it('should return only gestas when partos is undefined', () => {
+    const partial = buildObstetricHistory(
+      { gestas_previas: 1 },
+      ['uuid-x'],
+      'urn:uuid:p'
+    );
+    expect(partial).toHaveLength(1);
+    expect(partial[0].code?.coding?.[0]?.code).toBe('11996-6');
+  });
+
+  it('should return empty array when no obstetric data', () => {
+    const empty = buildObstetricHistory({}, [], 'urn:uuid:p');
+    expect(empty).toHaveLength(0);
   });
 });

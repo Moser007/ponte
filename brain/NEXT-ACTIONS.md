@@ -19,6 +19,15 @@ O adaptador IPM → RNDS está funcional com dados mock (cenário Maria). 111 te
 ### MARCO ALCANÇADO: Credenciamento RNDS Mapeado (2026-02-14)
 Processo completo documentado. Descoberta: Giovanni NÃO pode se credenciar sozinho (precisa CNES). Caminho: município parceiro via COSEMS-SC.
 
+### MARCO ALCANÇADO: Bundle Completo com 18 Entries (2026-02-14)
+Bundle Maria: 18 recursos FHIR R4 incluindo DUM (LOINC 8665-2), histórico obstétrico (G3P1), glicemia capilar, idade gestacional, nome social, CIAP-2, validação CPF, UUIDs reais. 145 testes passando.
+
+### OPORTUNIDADE URGENTE: 10o Congresso COSEMS-SC — Chapecó, 11-13 março 2026
+Sessão: "SUS Digital e a qualificação da APS em municípios de pequeno porte em SC" (12/mar, 8:30-10:00).
+**Inscrição:** R$ 250 (1o lote até 19/fev) / R$ 300 (2o lote até 13/mar).
+**Contato:** congresso@cosemssc.org.br | (48) 3364-4003
+**Por que ir:** É o maior encontro de secretários municipais de saúde de SC. Sessão sobre exatamente nosso tema. Gisele estará lá. Possibilidade de apresentar o Ponte remotamente.
+
 ### BLOCKER ATUAL: Sem CNES, sem acesso à RNDS
 O código está pronto. A barreira agora é 100% burocrática/relacional: precisamos de um município parceiro.
 

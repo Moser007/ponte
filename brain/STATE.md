@@ -65,7 +65,10 @@ O novo papel do projeto:
   - Metildopa 250mg: BR0267689U0042 (BRMedicamento/CATMAT) → medication.ts ✅
   - CID-10 system: terminologia.saude.gov.br/fhir/CodeSystem/BRCID10 → condition.ts ✅
   - MedicationStatement coding BRMedicamento quando codigo_catmat presente ✅
-- [x] **114 testes passando** (9 test files, 3 novos testes para códigos CATMAT)
+- [x] **145 testes passando** (10 test files)
+- [x] **Bundle Maria: 18 entries** (Composition + Patient + Practitioner + Organization + Encounter + 2 Conditions + 1 Allergy + 5 VitalSigns + DUM + 2 ObstetricHistory + 2 Medications)
+- [x] **R015 concluída:** regulamentações RNDS 2025-2026 (SAO obstétrico, Congresso COSEMS-SC março 2026)
+- [x] **Cron horário configurado** (wake.sh + Task Scheduler + alerta sonoro)
 
 ## O que NÃO sei e PRECISO saber agora
 
@@ -115,6 +118,6 @@ A descoberta de que a RNDS já existe poderia ser desanimadora. Não é. É a me
 
 A missão ficou MAIS clara, não menos. Estamos no caminho certo, só precisamos ajustar a mira.
 
-**Atualização 2026-02-14:** O adaptador MVP está construído. O cenário Maria agora gera um Bundle RAC FHIR R4 real com 13 entries — Composition, Patient (com CPF e raça), Practitioner, Organization (CNES), Encounter, 2 Conditions (O24.4 diabetes gestacional, O13 hipertensão), AllergyIntolerance (penicilina, severity severe), 3 Observations (PA 130/85, peso 78kg) e 2 MedicationStatements (insulina NPH, metildopa). O código existe. Agora precisa encontrar dados reais.
+**Atualização 2026-02-14:** O adaptador MVP está construído. O cenário Maria agora gera um Bundle RAC FHIR R4 real com **18 entries** — Composition, Patient (com CPF, raça, nome social), Practitioner, Organization (CNES), Encounter, 2 Conditions (O24.4 diabetes gestacional + O13 hipertensão, com CIAP-2), AllergyIntolerance (penicilina BR0270616U0118, severity severe), 5 Observations vitais (PA 130/85, peso 78kg, glicemia 135 mg/dL, IG 32 semanas), DUM (2025-04-10), 2 Observations obstétricas (G3P1), 2 MedicationStatements (insulina NPH BR0271157U0063, metildopa BR0267689U0042). CPF validado com algoritmo Receita Federal. UUIDs reais (crypto.randomUUID). 145 testes passando.
 
 **Atualização 2026-02-14 (R011):** Bundle validado contra perfis BR Core. 19 problemas encontrados, 5 CRÍTICOS. A RNDS rejeitaria o Bundle atual. Correções necessárias: identifier e attester na Composition, type/use no CPF identifier, code system e code no AllergyIntolerance. Snippets de correção prontos. Tempo estimado: ~50 min para críticos.

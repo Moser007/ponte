@@ -40,8 +40,9 @@ describe('Maria scenario — end-to-end', () => {
 
   it('should have correct number of entries', () => {
     // Composition + Patient + Practitioner + Organization + Encounter
-    // + 2 Conditions + 1 Allergy + 5 VitalSigns (PA×2 + peso + glicemia + IG) + 2 Medications = 15
-    expect(bundle.entry).toHaveLength(15);
+    // + 2 Conditions + 1 Allergy + 5 VitalSigns (PA×2 + peso + glicemia + IG)
+    // + 1 DUM + 2 ObstetricHistory (gestas + partos) + 2 Medications = 18
+    expect(bundle.entry).toHaveLength(18);
   });
 
   it('should have timestamp', () => {
@@ -63,12 +64,12 @@ describe('Maria scenario — end-to-end', () => {
     expect(diagSection?.entry).toHaveLength(2);
   });
 
-  it('should have sinaisVitais section with 5 observations', () => {
+  it('should have sinaisVitais section with 8 observations (5 vitals + DUM + 2 obstetric)', () => {
     const comp = bundle.entry?.[0]?.resource as Composition;
     const vsSection = comp.section?.find((s) =>
       s.code?.coding?.some((c) => c.code === '8716-3')
     );
-    expect(vsSection?.entry).toHaveLength(5);
+    expect(vsSection?.entry).toHaveLength(8);
   });
 
   it('should have alergias section with 1 allergy', () => {
@@ -205,6 +206,39 @@ describe('Maria scenario — end-to-end', () => {
     expect(glucose).toBeDefined();
     expect(glucose?.valueQuantity?.value).toBe(135);
     expect(glucose?.valueQuantity?.code).toBe('mg/dL');
+  });
+
+  it('should have DUM (Last Menstrual Period) 2025-04-10', () => {
+    const observations = bundle.entry
+      ?.filter((e) => e.resource?.resourceType === 'Observation')
+      .map((e) => e.resource as Observation);
+    const dum = observations?.find(
+      (o) => o.code?.coding?.[0]?.code === '8665-2'
+    );
+    expect(dum).toBeDefined();
+    expect(dum?.valueDateTime).toBe('2025-04-10');
+  });
+
+  it('should have gravida (pregnancies) count of 2', () => {
+    const observations = bundle.entry
+      ?.filter((e) => e.resource?.resourceType === 'Observation')
+      .map((e) => e.resource as Observation);
+    const gravida = observations?.find(
+      (o) => o.code?.coding?.[0]?.code === '11996-6'
+    );
+    expect(gravida).toBeDefined();
+    expect(gravida?.valueQuantity?.value).toBe(2);
+  });
+
+  it('should have parity count of 1', () => {
+    const observations = bundle.entry
+      ?.filter((e) => e.resource?.resourceType === 'Observation')
+      .map((e) => e.resource as Observation);
+    const parity = observations?.find(
+      (o) => o.code?.coding?.[0]?.code === '11977-6'
+    );
+    expect(parity).toBeDefined();
+    expect(parity?.valueQuantity?.value).toBe(1);
   });
 
   // --- Medications ---

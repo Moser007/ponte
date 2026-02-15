@@ -8,7 +8,7 @@ import { buildOrganization } from './builders/organization.js';
 import { buildEncounter } from './builders/encounter.js';
 import { buildCondition } from './builders/condition.js';
 import { buildAllergyIntolerance } from './builders/allergy.js';
-import { buildVitalSigns } from './builders/vital-signs.js';
+import { buildVitalSigns, buildDumObservation, buildObstetricHistory } from './builders/vital-signs.js';
 import { buildMedicationStatement } from './builders/medication.js';
 import { buildComposition } from './builders/composition.js';
 import { assembleRacBundle } from './bundle/rac-assembler.js';
@@ -133,7 +133,34 @@ export async function processar(
     conditionRefs: conditionUuids.map((u) => `urn:uuid:${u}`),
   });
 
-  const allVitalSignUuids = vitalSignUuids.flat();
+  // DUM (Data da Última Menstruação) — vem do paciente, não dos sinais vitais
+  let dumObservation: Resource | undefined;
+  let dumUuid: string | undefined;
+  if (paciente.dum) {
+    dumUuid = generateUuid();
+    dumObservation = buildDumObservation(paciente.dum, dumUuid, `urn:uuid:${patientUuid}`);
+  }
+
+  // Histórico obstétrico (gestas prévias, partos) — dados do paciente
+  const obstetricUuids: string[] = [];
+  let obstetricObs: Resource[] = [];
+  if (paciente.gestas_previas != null || paciente.partos != null) {
+    let count = 0;
+    if (paciente.gestas_previas != null) count++;
+    if (paciente.partos != null) count++;
+    for (let i = 0; i < count; i++) obstetricUuids.push(generateUuid());
+    obstetricObs = buildObstetricHistory(
+      { gestas_previas: paciente.gestas_previas, partos: paciente.partos },
+      obstetricUuids,
+      `urn:uuid:${patientUuid}`
+    );
+  }
+
+  const allVitalSignUuids = [
+    ...vitalSignUuids.flat(),
+    ...(dumUuid ? [dumUuid] : []),
+    ...obstetricUuids,
+  ];
 
   const composition = buildComposition(
     compositionUuid,
@@ -161,6 +188,8 @@ export async function processar(
     ...conditions,
     ...allergies,
     ...allVitalSigns,
+    ...(dumObservation ? [dumObservation] : []),
+    ...obstetricObs,
     ...medications,
   ];
 

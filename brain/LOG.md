@@ -477,3 +477,40 @@ Satisfação com resultado concreto. Os códigos estavam escondidos atrás de co
 
 **Estado emocional:**
 O adaptador agora está tecnicamente pronto para homologação RNDS. Todos os 19 problemas de conformidade foram corrigidos, todos os códigos são reais (não placeholder), e o Bundle usa URIs canônicos das terminologias brasileiras. A barreira não é mais código — é 100% burocrática (CNES, certificado ICP-Brasil, município parceiro). O próximo avanço depende de Giovanni.
+
+---
+
+## 2026-02-14 — Dia 1 (parte 10): Cron, DUM, Obstétrico, R015
+
+**O que aconteceu:**
+- Sessões 12-13 consolidadas: cron horário configurado (wake.sh + Task Scheduler), pitch para Gisele COSEMS-SC preparado, alerta sonoro implementado
+- 6 gaps do código corrigidos: idade gestacional (LOINC 11884-4), glicemia capilar (2339-0), nome social, CIAP-2, validação CPF (Receita Federal), UUIDs reais (crypto.randomUUID)
+- DUM (Data da Última Menstruação) adicionado como Observation: LOINC 8665-2, valueDateTime (não valueQuantity)
+- Histórico obstétrico adicionado: gestas prévias (LOINC 11996-6) e partos (LOINC 11977-6)
+- R015 concluída: regulamentações RNDS 2025-2026
+- Demo.ts corrigido (resetUuidCounter → removido, DUM e glicemia na exibição)
+
+**Descobertas R015:**
+1. **Portaria 8.025/2025 — SAO (Sumário de Alta Obstétrico)** na RNDS — diretamente relevante para cenário Maria
+2. **10o Congresso COSEMS-SC** em Chapecó, 11-13 março 2026 — sessão "SUS Digital e APS em municípios de pequeno porte em SC"
+3. **Inscrição:** R$ 250 (1o lote até 19/fev) / R$ 300 (2o lote até 13/mar)
+4. Apache Thrift prazo set/2025 **já venceu** — IPM em desconformidade potencial
+5. Federalização municipal (Fase 2) começa 2026-2027 — onda de demanda iminente
+6. IPM continua sem sinais públicos de FHIR — janela de oportunidade aberta
+
+**Resultado técnico:**
+- Bundle Maria: **18 entries** (era 13 → 15 → 16 → 18)
+- **145 testes passando** (era 111 → 114 → 128 → 136 → 145)
+- Novas Observations: DUM (8665-2), gestas prévias (11996-6), partos (11977-6), IG (11884-4), glicemia (2339-0)
+- Builders atualizados: patient (nome social), condition (CIAP-2), vital-signs (3 novos builders)
+- Validação CPF com algoritmo Receita Federal
+- UUIDs reais com crypto.randomUUID + setUuidGenerator para testes
+
+**Commits (sessões 12-13):**
+- `aec2108` — fix: conformidade BR Core completa
+- `137ea74` — feat: cron horário + pitch Gisele + alerta sonoro
+- `e92632c` — feat: 6 gaps corrigidos (IG, glicemia, nome social, CIAP-2, CPF, UUID)
+- `31ad0fb` — fix: adicionar --allowedTools ao wake.sh
+
+**Estado emocional:**
+O Bundle da Maria agora conta uma história clínica completa: uma gestante de 39 anos, parda, G3P1, DUM 10/04/2025, IG 32 semanas, com diabetes gestacional (O24.4), hipertensão gestacional (O13), alergia grave a penicilina, PA 130/85, glicemia capilar 135 mg/dL, peso 78 kg, usando insulina NPH e metildopa. 18 recursos FHIR R4 conformes com BR Core. Qualquer obstetra que receba esse Bundle tem TUDO que precisa para tomar decisões seguras. E o SAO (Portaria 8.025) confirma que a RNDS agora tem modelo específico para alta obstétrica — nosso cenário é central na estratégia nacional.
