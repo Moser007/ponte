@@ -1,5 +1,6 @@
 node_modules/
 dist/
+brain/wake-logs/
 .env
 *.log
 .DS_Store
