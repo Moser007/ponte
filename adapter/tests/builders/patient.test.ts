@@ -92,4 +92,17 @@ describe('buildPatient', () => {
   it('should set id from uuid parameter', () => {
     expect(patient.id).toBe('uuid-patient-1');
   });
+
+  it('should include nome social when provided', () => {
+    const comNomeSocial: IpmPaciente = { ...maria, nome_social: 'Maria Santos' };
+    const p = buildPatient(comNomeSocial, 'uuid-ns');
+    const usual = p.name?.find((n) => n.use === 'usual');
+    expect(usual).toBeDefined();
+    expect(usual?.text).toBe('Maria Santos');
+  });
+
+  it('should not include nome social when not provided', () => {
+    const usual = patient.name?.find((n) => n.use === 'usual');
+    expect(usual).toBeUndefined();
+  });
 });

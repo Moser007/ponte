@@ -75,4 +75,18 @@ describe('buildCondition', () => {
     const cond = buildCondition(hipertensao, 'uuid-cond-2', 'urn:uuid:patient-1');
     expect(cond.code?.coding?.[0]?.code).toBe('O13');
   });
+
+  it('should include CIAP-2 when provided', () => {
+    const comCiap: IpmProblema = { ...diabetesGestacional, ciap: 'W85' };
+    const cond = buildCondition(comCiap, 'uuid-ciap', 'urn:uuid:patient-1');
+    const ciap = cond.code?.coding?.find((c) =>
+      c.system?.includes('BRCIAP2')
+    );
+    expect(ciap).toBeDefined();
+    expect(ciap?.code).toBe('W85');
+  });
+
+  it('should not include CIAP-2 when not provided', () => {
+    expect(condition.code?.coding).toHaveLength(1);
+  });
 });

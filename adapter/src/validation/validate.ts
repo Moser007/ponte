@@ -96,13 +96,45 @@ function validateComposition(
   }
 }
 
-function validatePatient(patient: Patient, errors: string[], _warnings: string[]): void {
+/**
+ * Valida CPF com dígitos verificadores (algoritmo Receita Federal).
+ */
+export function isValidCpf(cpf: string): boolean {
+  const digits = cpf.replace(/\D/g, '');
+  if (digits.length !== 11) return false;
+  // Rejeitar sequências repetidas (ex: 111.111.111-11)
+  if (/^(\d)\1{10}$/.test(digits)) return false;
+
+  // Primeiro dígito verificador
+  let sum = 0;
+  for (let i = 0; i < 9; i++) {
+    sum += parseInt(digits[i]) * (10 - i);
+  }
+  let remainder = (sum * 10) % 11;
+  if (remainder === 10) remainder = 0;
+  if (remainder !== parseInt(digits[9])) return false;
+
+  // Segundo dígito verificador
+  sum = 0;
+  for (let i = 0; i < 10; i++) {
+    sum += parseInt(digits[i]) * (11 - i);
+  }
+  remainder = (sum * 10) % 11;
+  if (remainder === 10) remainder = 0;
+  if (remainder !== parseInt(digits[10])) return false;
+
+  return true;
+}
+
+function validatePatient(patient: Patient, errors: string[], warnings: string[]): void {
   // CPF é obrigatório
-  const hasCpf = patient.identifier?.some(
+  const cpfIdentifier = patient.identifier?.find(
     (id) => id.system === 'https://saude.gov.br/fhir/sid/cpf' && id.value
   );
-  if (!hasCpf) {
+  if (!cpfIdentifier) {
     errors.push('Patient deve ter CPF (system: https://saude.gov.br/fhir/sid/cpf)');
+  } else if (!isValidCpf(cpfIdentifier.value!)) {
+    warnings.push(`CPF "${cpfIdentifier.value}" tem dígitos verificadores inválidos`);
   }
 
   // Raça/cor é obrigatória

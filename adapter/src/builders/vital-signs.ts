@@ -100,6 +100,26 @@ export function buildVitalSigns(
     });
   }
 
+  if (ipm.glicemia_capilar != null) {
+    vitals.push({
+      loincCode: '2339-0',
+      display: 'Glucose [Mass/volume] in Blood',
+      value: ipm.glicemia_capilar,
+      unit: 'mg/dL',
+      ucumCode: 'mg/dL',
+    });
+  }
+
+  if (ipm.semanas_gestacionais != null) {
+    vitals.push({
+      loincCode: '11884-4',
+      display: 'Gestational age Estimated',
+      value: ipm.semanas_gestacionais,
+      unit: 'weeks',
+      ucumCode: 'wk',
+    });
+  }
+
   return vitals.map((v, i): Observation => ({
     resourceType: 'Observation',
     id: uuids[i],

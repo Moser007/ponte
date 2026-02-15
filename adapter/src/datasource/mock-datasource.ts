@@ -136,6 +136,7 @@ export class MockDataSource implements IpmDataSource {
       pa_sistolica: 130,
       pa_diastolica: 85,
       peso: 78,
+      glicemia_capilar: 135,
       semanas_gestacionais: 32,
       data_medicao: '2025-11-20T09:15:00-03:00',
     },

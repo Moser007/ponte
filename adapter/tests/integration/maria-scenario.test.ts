@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { MockDataSource } from '../../src/datasource/mock-datasource.js';
 import { RndsAuthStub } from '../../src/rnds/auth.js';
 import { RndsClientStub } from '../../src/rnds/client.js';
-import { processar, resetUuidCounter } from '../../src/index.js';
+import { processar, setUuidGenerator } from '../../src/index.js';
 import type { Bundle, Patient, Condition, AllergyIntolerance, Observation, MedicationStatement, Composition, Encounter } from '@medplum/fhirtypes';
 
 describe('Maria scenario — end-to-end', () => {
@@ -10,7 +10,12 @@ describe('Maria scenario — end-to-end', () => {
   let bundle: Bundle;
 
   beforeEach(async () => {
-    resetUuidCounter();
+    let counter = 0;
+    setUuidGenerator(() => {
+      counter++;
+      const hex = counter.toString(16).padStart(12, '0');
+      return `00000000-0000-4000-a000-${hex}`;
+    });
     const dataSource = new MockDataSource();
     const auth = new RndsAuthStub();
     const rndsClient = new RndsClientStub(auth);
@@ -35,8 +40,8 @@ describe('Maria scenario — end-to-end', () => {
 
   it('should have correct number of entries', () => {
     // Composition + Patient + Practitioner + Organization + Encounter
-    // + 2 Conditions + 1 Allergy + 3 VitalSigns + 2 Medications = 13
-    expect(bundle.entry).toHaveLength(13);
+    // + 2 Conditions + 1 Allergy + 5 VitalSigns (PA×2 + peso + glicemia + IG) + 2 Medications = 15
+    expect(bundle.entry).toHaveLength(15);
   });
 
   it('should have timestamp', () => {
@@ -58,12 +63,12 @@ describe('Maria scenario — end-to-end', () => {
     expect(diagSection?.entry).toHaveLength(2);
   });
 
-  it('should have sinaisVitais section with 3 observations', () => {
+  it('should have sinaisVitais section with 5 observations', () => {
     const comp = bundle.entry?.[0]?.resource as Composition;
     const vsSection = comp.section?.find((s) =>
       s.code?.coding?.some((c) => c.code === '8716-3')
     );
-    expect(vsSection?.entry).toHaveLength(3);
+    expect(vsSection?.entry).toHaveLength(5);
   });
 
   it('should have alergias section with 1 allergy', () => {
@@ -178,6 +183,30 @@ describe('Maria scenario — end-to-end', () => {
     expect(weight?.valueQuantity?.code).toBe('kg');
   });
 
+  it('should have gestational age 32 weeks', () => {
+    const observations = bundle.entry
+      ?.filter((e) => e.resource?.resourceType === 'Observation')
+      .map((e) => e.resource as Observation);
+    const ga = observations?.find(
+      (o) => o.code?.coding?.[0]?.code === '11884-4'
+    );
+    expect(ga).toBeDefined();
+    expect(ga?.valueQuantity?.value).toBe(32);
+    expect(ga?.valueQuantity?.code).toBe('wk');
+  });
+
+  it('should have capillary glucose 135 mg/dL', () => {
+    const observations = bundle.entry
+      ?.filter((e) => e.resource?.resourceType === 'Observation')
+      .map((e) => e.resource as Observation);
+    const glucose = observations?.find(
+      (o) => o.code?.coding?.[0]?.code === '2339-0'
+    );
+    expect(glucose).toBeDefined();
+    expect(glucose?.valueQuantity?.value).toBe(135);
+    expect(glucose?.valueQuantity?.code).toBe('mg/dL');
+  });
+
   // --- Medications ---
 
   it('should have Insulina NPH medication', () => {
@@ -229,6 +258,13 @@ describe('Maria scenario — end-to-end', () => {
   it('should successfully submit to RNDS (stub)', () => {
     expect(result.envio?.success).toBe(true);
     expect(result.envio?.status).toBe(201);
+  });
+
+  // --- CPF Validation ---
+
+  it('should warn about invalid CPF digits', () => {
+    // Mock CPF 12345678901 has invalid check digits
+    expect(result.validation.warnings.some((w) => w.includes('CPF'))).toBe(true);
   });
 
   // --- Error handling ---

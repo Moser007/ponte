@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import type { Bundle, Resource } from '@medplum/fhirtypes';
 import type { IpmDataSource } from './datasource/ipm-datasource.js';
 import type { RndsClient, RndsSubmitResult } from './rnds/client.js';
@@ -13,16 +14,19 @@ import { buildComposition } from './builders/composition.js';
 import { assembleRacBundle } from './bundle/rac-assembler.js';
 import { validateBundle } from './validation/validate.js';
 
-let uuidCounter = 0;
+type UuidGenerator = () => string;
 
-function generateUuid(): string {
-  uuidCounter++;
-  const hex = uuidCounter.toString(16).padStart(12, '0');
-  return `00000000-0000-4000-a000-${hex}`;
+let uuidGen: UuidGenerator = () => randomUUID();
+
+/**
+ * Substitui o gerador de UUID (para testes determinísticos).
+ */
+export function setUuidGenerator(gen: UuidGenerator): void {
+  uuidGen = gen;
 }
 
-export function resetUuidCounter(): void {
-  uuidCounter = 0;
+function generateUuid(): string {
+  return uuidGen();
 }
 
 export interface ProcessarResult {
@@ -94,6 +98,8 @@ export async function processar(
     if (sv.freq_cardiaca != null) count++;
     if (sv.freq_respiratoria != null) count++;
     if (sv.saturacao_o2 != null) count++;
+    if (sv.glicemia_capilar != null) count++;
+    if (sv.semanas_gestacionais != null) count++;
     const uuids = Array.from({ length: count }, () => generateUuid());
     vitalSignUuids.push(uuids);
     const observations = buildVitalSigns(sv, uuids, `urn:uuid:${patientUuid}`);

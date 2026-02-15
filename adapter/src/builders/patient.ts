@@ -66,6 +66,14 @@ export function buildPatient(ipm: IpmPaciente, uuid: string): Patient {
             }
           : {}),
       },
+      ...(ipm.nome_social
+        ? [
+            {
+              use: 'usual' as const,
+              text: ipm.nome_social,
+            },
+          ]
+        : []),
     ],
     gender: ipm.sexo === 'F' ? 'female' : 'male',
     birthDate: ipm.data_nascimento,

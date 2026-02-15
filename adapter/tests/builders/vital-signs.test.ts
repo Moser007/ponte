@@ -88,4 +88,30 @@ describe('buildVitalSigns', () => {
       expect(obs.valueQuantity?.system).toBe('http://unitsofmeasure.org');
     }
   });
+
+  it('should build glicemia capilar with LOINC 2339-0', () => {
+    const withGlicemia: IpmSinalVital = {
+      ...sinaisVitais,
+      glicemia_capilar: 135,
+    };
+    const uuids4 = ['uuid-vs-1', 'uuid-vs-2', 'uuid-vs-3', 'uuid-vs-4'];
+    const obs = buildVitalSigns(withGlicemia, uuids4, 'urn:uuid:patient-1');
+    const glucose = obs.find((o) => o.code?.coding?.[0]?.code === '2339-0');
+    expect(glucose).toBeDefined();
+    expect(glucose?.valueQuantity?.value).toBe(135);
+    expect(glucose?.valueQuantity?.code).toBe('mg/dL');
+  });
+
+  it('should build gestational age with LOINC 11884-4', () => {
+    const withIG: IpmSinalVital = {
+      ...sinaisVitais,
+      semanas_gestacionais: 32,
+    };
+    const uuids4 = ['uuid-vs-1', 'uuid-vs-2', 'uuid-vs-3', 'uuid-vs-4'];
+    const obs = buildVitalSigns(withIG, uuids4, 'urn:uuid:patient-1');
+    const ga = obs.find((o) => o.code?.coding?.[0]?.code === '11884-4');
+    expect(ga).toBeDefined();
+    expect(ga?.valueQuantity?.value).toBe(32);
+    expect(ga?.valueQuantity?.code).toBe('wk');
+  });
 });

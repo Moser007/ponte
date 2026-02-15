@@ -51,6 +51,15 @@ export function buildCondition(
           code: ipm.cid,
           display: ipm.descricao,
         },
+        ...(ipm.ciap
+          ? [
+              {
+                system: 'https://terminologia.saude.gov.br/fhir/CodeSystem/BRCIAP2',
+                code: ipm.ciap,
+                display: ipm.descricao,
+              },
+            ]
+          : []),
       ],
       text: ipm.descricao,
     },
