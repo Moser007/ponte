@@ -1,4 +1,4 @@
-import type { Bundle, Patient, Composition } from '@medplum/fhirtypes';
+import type { Bundle, Patient, Practitioner, Organization, Composition } from '@medplum/fhirtypes';
 
 export interface ValidationResult {
   valid: boolean;
@@ -52,6 +52,12 @@ export function validateBundle(bundle: Bundle): ValidationResult {
     const resource = entry.resource;
     if (resource?.resourceType === 'Patient') {
       validatePatient(resource as Patient, errors, warnings);
+    }
+    if (resource?.resourceType === 'Practitioner') {
+      validatePractitioner(resource as Practitioner, errors, warnings);
+    }
+    if (resource?.resourceType === 'Organization') {
+      validateOrganization(resource as Organization, errors, warnings);
     }
   }
 
@@ -124,6 +130,65 @@ export function isValidCpf(cpf: string): boolean {
   if (remainder !== parseInt(digits[10])) return false;
 
   return true;
+}
+
+/**
+ * Valida CNS (Cartão Nacional de Saúde).
+ * Formato: 15 dígitos, primeiro dígito 1, 2, 7, 8 ou 9.
+ * Algoritmo: soma ponderada mod 11 == 0.
+ */
+export function isValidCns(cns: string): boolean {
+  const digits = cns.replace(/\D/g, '');
+  if (digits.length !== 15) return false;
+
+  const first = digits[0];
+  if (!['1', '2', '7', '8', '9'].includes(first)) return false;
+
+  // Soma ponderada: digit[i] * (15 - i) para i = 0..14
+  let sum = 0;
+  for (let i = 0; i < 15; i++) {
+    sum += parseInt(digits[i]) * (15 - i);
+  }
+  return sum % 11 === 0;
+}
+
+/**
+ * Valida CNES (Cadastro Nacional de Estabelecimentos de Saúde).
+ * Formato: 7 dígitos numéricos.
+ */
+export function isValidCnes(cnes: string): boolean {
+  const digits = cnes.replace(/\D/g, '');
+  return digits.length === 7 && /^\d{7}$/.test(digits);
+}
+
+function validatePractitioner(practitioner: Practitioner, errors: string[], warnings: string[]): void {
+  const cnsIdentifier = practitioner.identifier?.find(
+    (id) => id.system === 'https://saude.gov.br/fhir/sid/cns' && id.value
+  );
+  if (!cnsIdentifier) {
+    errors.push('Practitioner deve ter CNS (system: https://saude.gov.br/fhir/sid/cns)');
+  } else if (!isValidCns(cnsIdentifier.value!)) {
+    warnings.push(`Practitioner CNS "${cnsIdentifier.value}" tem formato inválido (deve ser 15 dígitos, mod 11)`);
+  }
+
+  if (!practitioner.name?.length || !practitioner.name[0]?.text) {
+    errors.push('Practitioner.name é obrigatório');
+  }
+}
+
+function validateOrganization(organization: Organization, errors: string[], warnings: string[]): void {
+  const cnesIdentifier = organization.identifier?.find(
+    (id) => id.system === 'https://saude.gov.br/fhir/sid/cnes' && id.value
+  );
+  if (!cnesIdentifier) {
+    errors.push('Organization deve ter CNES (system: https://saude.gov.br/fhir/sid/cnes)');
+  } else if (!isValidCnes(cnesIdentifier.value!)) {
+    warnings.push(`Organization CNES "${cnesIdentifier.value}" tem formato inválido (deve ser 7 dígitos)`);
+  }
+
+  if (!organization.name) {
+    errors.push('Organization.name é obrigatório');
+  }
 }
 
 function validatePatient(patient: Patient, errors: string[], warnings: string[]): void {

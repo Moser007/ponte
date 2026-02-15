@@ -48,7 +48,7 @@ O novo papel do projeto:
 - [x] Demo do cenário Maria — AGORA EM FHIR R4 REAL
 - [x] Roadmap de 90 dias — PRECISA ATUALIZAR
 - [x] Sistema de memória persistente (brain/)
-- [x] 12 pesquisas autônomas concluídas (R001-R013, exceto R012 que foi correção)
+- [x] 13 pesquisas autônomas concluídas (R001-R013 + R015-R016, exceto R012/R014 que foram correções)
 - [x] Modelo LEDI mapeado como proxy do schema IPM (evidence/010)
 - [x] **Bundle RAC validado contra BR Core — TODOS os 19 problemas CORRIGIDOS** (evidence/012)
   - C1: Composition.identifier ✅ adicionado
@@ -65,9 +65,13 @@ O novo papel do projeto:
   - Metildopa 250mg: BR0267689U0042 (BRMedicamento/CATMAT) → medication.ts ✅
   - CID-10 system: terminologia.saude.gov.br/fhir/CodeSystem/BRCID10 → condition.ts ✅
   - MedicationStatement coding BRMedicamento quando codigo_catmat presente ✅
-- [x] **145 testes passando** (10 test files)
+- [x] **163 testes passando** (12 test files)
 - [x] **Bundle Maria: 18 entries** (Composition + Patient + Practitioner + Organization + Encounter + 2 Conditions + 1 Allergy + 5 VitalSigns + DUM + 2 ObstetricHistory + 2 Medications)
+- [x] **Validação CNS (mod 11) + CNES (7 dígitos)** — Practitioner e Organization validados no Bundle
+- [x] **Cenário mínimo (José)** — teste integrado para paciente não-obstétrico (10 testes)
 - [x] **R015 concluída:** regulamentações RNDS 2025-2026 (SAO obstétrico, Congresso COSEMS-SC março 2026)
+- [x] **R016 concluída:** SAO (Sumário de Alta Obstétrico) — modelo informacional completo, 4 blocos, modelo FHIR não publicado. SAO gerado pelo hospital, NÃO pela APS
+- [x] **R017 concluída:** one-pager criado (docs/ponte-one-pager.md), pitch atualizado
 - [x] **Cron horário configurado** (wake.sh + Task Scheduler + alerta sonoro)
 
 ## O que NÃO sei e PRECISO saber agora

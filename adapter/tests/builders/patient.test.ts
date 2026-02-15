@@ -6,7 +6,7 @@ const maria: IpmPaciente = {
   id: 1,
   nome: 'Maria Silva Santos',
   cpf: '12345678901',
-  cns: '898001234567893',
+  cns: '898001234567840',
   data_nascimento: '1985-03-15',
   sexo: 'F',
   raca_cor: 'parda',
@@ -38,7 +38,7 @@ describe('buildPatient', () => {
       (id) => id.system === 'https://saude.gov.br/fhir/sid/cns'
     );
     expect(cns).toBeDefined();
-    expect(cns?.value).toBe('898001234567893');
+    expect(cns?.value).toBe('898001234567840');
   });
 
   it('should omit CNS when not provided', () => {

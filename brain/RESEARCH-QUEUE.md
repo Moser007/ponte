@@ -8,17 +8,6 @@
 
 ## Pendentes (executar na ordem)
 
-### R016 — Pesquisar modelo SAO (Sumário de Alta Obstétrico) da Portaria 8.025/2025
-**Por que:** A Portaria 8.025/2025 instituiu o SAO na RNDS — diretamente relevante para cenário Maria (pré-natal → maternidade → alta). O Ponte deveria gerar SAO além do RAC.
-**O que fazer:** Pesquisar o modelo informacional do SAO, perfis FHIR associados, seções obrigatórias, e avaliar implementação no adaptador.
-**Fontes:** gov.br/saude/seidigi/rnds/legislacao, hl7.org.br/fhir/core, terminologia.saude.gov.br
-**Depende de:** Nada — pode ser feito autonomamente.
-
-### R017 — Preparar one-pager / pitch do Ponte para Congresso COSEMS-SC
-**Por que:** 10o Congresso COSEMS-SC em Chapecó, 11-13 março 2026. Sessão: "SUS Digital e APS em municípios de pequeno porte em SC". Inscrição R$ 250 (até 19/fev) / R$ 300 (até 13/mar). Giovanni precisa de material pronto.
-**O que fazer:** Criar documento Markdown conciso (1-2 páginas) com: problema (75% de SC fora da RNDS), solução (adaptador IPM → RNDS), status (145 testes, 18 entries Bundle RAC conforme BR Core), pedido (município piloto), regulação (Decreto 12.560, Portaria 7.495, 8.025), contato.
-**Depende de:** Nada — pode ser feito autonomamente.
-
 ### R018 — Pesquisar formato LEDI/Thrift para implementar Via B do adaptador
 **Por que:** A Via B (ler exportação LEDI que o IPM já gera para o e-SUS) não depende de acesso ao banco PostgreSQL. Se implementarmos um parser LEDI → FHIR, qualquer município com IPM pode usar o Ponte sem precisar de credenciais do banco.
 **O que fazer:** Pesquisar documentação técnica do formato Thrift do e-SUS APS, estrutura dos arquivos LEDI exportados, e implementar parser TypeScript.
@@ -27,6 +16,15 @@
 ---
 
 ## Concluídas
+
+### R017 — Preparar one-pager / pitch do Ponte para Congresso COSEMS-SC (2026-02-14)
+**Resultado:** One-pager criado em docs/ponte-one-pager.md. Pitch para Gisele COSEMS-SC atualizado em docs/pitch-gisele-cosems.md com referência ao Congresso e dados atualizados (163 testes, 18 entries).
+**Documento:** docs/ponte-one-pager.md, docs/pitch-gisele-cosems.md
+
+### R016 — Pesquisar modelo SAO (Sumário de Alta Obstétrico) da Portaria 8.025/2025 (2026-02-14)
+**Resultado:** Pesquisa abrangente sobre o SAO. Portaria 8.025/2025 define modelo informacional com 4 blocos: (1) internação materna (G/P/A, tipo gravidez, IG, risco), (2) complicações obstétricas, (3) informações do parto (via de parto, trabalho de parto, intervenções), (4) dados neonatais (CPF/CNS do RN, sexo, nascimento, ressuscitação). 8 cenários de alta definidos. SAO = SA + 4 seções obstétricas. Modelo computacional FHIR NÃO PUBLICADO — DEINFO/DATASUS responsável. BR Core já tem building blocks: br-core-sumarioalta (7 seções com LOINC), perfis obstétricos (PregnancyStatus, EDD, Outcome, Breastfeeding), RAC com seção historiaObstetrica (LOINC 89213-3). SAO é gerado pelo HOSPITAL, não pela APS — Ponte NÃO deve gerar SAO (foco em APS/IPM). Proposta de mapeamento FHIR com LOINC codes candidatos elaborada para referência futura.
+**Descoberta-chave:** O SAO fecha o ciclo bidirecional de informação (UBS→hospital→UBS). Mas como é gerado pelo hospital, o Ponte deve focar em: (1) gerar RAC com dados obstétricos completos (já faz), (2) futuramente CONSUMIR SA/SAO da RNDS para exibir na UBS. O modelo computacional FHIR ainda não existe — monitorar publicação.
+**Documento:** evidence/015-sao-sumario-alta-obstetrico.md
 
 ### R015 — Regulamentações e novidades RNDS janeiro-fevereiro 2026 (2026-02-14)
 **Resultado:** Pesquisa abrangente sobre regulamentações RNDS/SUS Digital publicadas em 2025-2026. Marco regulatório: Decreto 12.560/2025 formalizou RNDS como política de Estado com CPF como chave única. 5 portarias em 12 meses expandiram domínios obrigatórios (vacinação, regulação, telessaúde, SA, SAO). Apache Thrift descontinuado para vacinação desde set/2025 (Portaria 5.663/2024). Portaria 6.656/2025 obriga envio diário de dados de regulação à RNDS. Portaria 7.495/2025 exige interoperabilidade RNDS no programa Agora Tem Especialistas. Portaria 8.025/2025 instituiu Sumário de Alta Obstétrico (SAO) na RNDS — diretamente relevante para cenário Maria. Federalização RNDS: Fase 1 (estados) até meados de 2026; Fase 2 (municípios) a seguir. 4a Oficina Nacional em fev/2026 em Belém/PA. IPM sem sinais de migração FHIR. COSEMS-SC Congresso em Chapecó 11-13/mar/2026 com sessão sobre SUS Digital em municípios pequenos. Open Health parado — sem regulamentação até 2028. Primeira portaria de 2026 (10.192, fev) prioriza PEC e integração RNDS para odontologia.

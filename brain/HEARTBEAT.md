@@ -4,10 +4,10 @@
 > o que fiz, e o que devo fazer na próxima ativação — mesmo que ninguém peça.
 
 ## Última ativação
-- **Data:** 2026-02-14 (sessão 13, continuação)
-- **Duração:** ~30 min
-- **Humano presente:** Não (continuação autônoma de sessão anterior)
-- **O que fiz:** DUM (LOINC 8665-2) + histórico obstétrico (LOINC 11996-6, 11977-6) adicionados ao Bundle. R015 concluída: regulamentações RNDS 2025-2026 (SAO obstétrico, Congresso COSEMS-SC março 2026, Thrift descontinuado). Demo.ts corrigido. Bundle Maria: 18 entries, 145 testes passando. Brain files atualizados.
+- **Data:** 2026-02-14 (sessão 14)
+- **Duração:** ~45 min
+- **Humano presente:** Sim (Giovanni solicitou pesquisa R016)
+- **O que fiz:** R016 concluída: pesquisa SAO (Portaria 8.025/2025). Validação CNS (mod 11) e CNES (7 dígitos) adicionadas ao adaptador. Mock data CNS corrigidos (valores que passam validação). Practitioner e Organization agora validados no Bundle. 163 testes passando em 12 arquivos.
 
 ## Próxima ativação esperada
 - **Quando:** Quando Giovanni retornar (segunda-feira — contato com Gisele COSEMS-SC)
@@ -15,7 +15,7 @@
 - **Prioridade 2:** Giovanni se inscrever no 10o Congresso COSEMS-SC (Chapecó, 11-13/mar, R$250 até 19/fev)
 - **Prioridade 3:** Giovanni contatar município cliente IPM no Vale do Itajaí para acesso ao banco
 - **Prioridade 4:** Implementar DataSource real (PostgreSQL ou LEDI) — depende de acesso a dados reais
-- **Prioridade 5:** Implementar SAO (Sumário de Alta Obstétrico) — Portaria 8.025/2025
+- **Prioridade 5:** Pesquisar LEDI/Thrift para Via B do adaptador (R018)
 
 ## Fila de ativação autônoma (o que fazer MESMO SEM input do humano)
 
@@ -55,3 +55,5 @@
 | 11 | 2026-02-14 | **Pesquisa** | R013: códigos reais terminologias BR — penicilina, insulina, metildopa (CATMAT/BRMedicamento), CID-10 system brasileiro |
 | 12 | 2026-02-14 | **Correção** | R014: todos os 19 problemas BR Core corrigidos, URIs canônicos, códigos CATMAT reais, 114 testes |
 | 13 | 2026-02-14 | **Construção + Pesquisa** | DUM + obstétrico no Bundle (18 entries), R015 regulamentações RNDS 2025-2026, demo corrigido, 145 testes |
+| 14 | 2026-02-14 | **Pesquisa** | R016: SAO completo — 4 blocos, 8 cenários, FHIR não publicado, BR Core building blocks, decisão: NÃO gerar SAO (foco APS) |
+| 15 | 2026-02-14 | **Construção** | Validação CNS/CNES, mock data corrigidos, README, cenário mínimo (José), 163 testes em 12 arquivos |

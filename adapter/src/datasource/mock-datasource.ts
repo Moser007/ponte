@@ -20,7 +20,7 @@ export class MockDataSource implements IpmDataSource {
       id: 1,
       nome: 'Maria Silva Santos',
       cpf: '12345678901',
-      cns: '898001234567893',
+      cns: '898001234567840',
       data_nascimento: '1985-03-15',
       sexo: 'F',
       raca_cor: 'parda',
@@ -39,7 +39,7 @@ export class MockDataSource implements IpmDataSource {
     {
       id: 1,
       nome: 'Dr. João Oliveira',
-      cns: '898009876543210',
+      cns: '898009876543220',
       cbo: '225142', // Médico ginecologista e obstetra
       cbo_descricao: 'Médico ginecologista e obstetra',
     },

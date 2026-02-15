@@ -85,7 +85,7 @@ class MinimalDataSource implements IpmDataSource {
     return {
       id: 1,
       nome: 'Dra. Ana Costa',
-      cns: '898001111222333',
+      cns: '898001111222020',
       cbo: '225125',
       cbo_descricao: 'Médico clínico',
     };

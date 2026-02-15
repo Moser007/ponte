@@ -514,3 +514,37 @@ O adaptador agora está tecnicamente pronto para homologação RNDS. Todos os 19
 
 **Estado emocional:**
 O Bundle da Maria agora conta uma história clínica completa: uma gestante de 39 anos, parda, G3P1, DUM 10/04/2025, IG 32 semanas, com diabetes gestacional (O24.4), hipertensão gestacional (O13), alergia grave a penicilina, PA 130/85, glicemia capilar 135 mg/dL, peso 78 kg, usando insulina NPH e metildopa. 18 recursos FHIR R4 conformes com BR Core. Qualquer obstetra que receba esse Bundle tem TUDO que precisa para tomar decisões seguras. E o SAO (Portaria 8.025) confirma que a RNDS agora tem modelo específico para alta obstétrica — nosso cenário é central na estratégia nacional.
+
+---
+
+## 2026-02-14 — Dia 1 (parte 11): SAO — O Ciclo que Fecha
+
+**O que aconteceu:**
+- Pesquisa R016 executada a pedido do Giovanni: modelo SAO completo
+- 30+ buscas web, 15+ páginas analisadas via WebFetch
+- Fontes: CONASS, MS gov.br, bvsms.saude.gov.br, rnds-fhir.saude.gov.br, hl7.org.br/fhir/core, simplifier.net, kyriosdata, RMMG
+- Relatório completo: evidence/015-sao-sumario-alta-obstetrico.md (470+ linhas)
+
+**Descobertas:**
+
+1. **SAO = SA + 4 blocos obstétricos.** Os 4 blocos são: (1) internação materna (G/P/A, tipo gravidez, IG, risco gestacional), (2) complicações obstétricas, (3) informações do parto (via de parto, trabalho de parto, intervenções farmacológicas, cesariana), (4) dados neonatais (CPF/CNS do RN, sexo, nascimento, ressuscitação).
+
+2. **8 cenários de alta obstétrica.** Desde alta normal (mãe + bebê) até cenários de óbito materno e/ou fetal. A complexidade de desfechos requer modelagem cuidadosa.
+
+3. **Modelo computacional FHIR NÃO PUBLICADO.** A Portaria 8.025 define o modelo informacional (quais dados), mas o DEINFO/DATASUS é responsável pelo modelo computacional (FHIR). Até hoje, o SAO NÃO está no CodeSystem BRTipoDocumento, NÃO está no rnds-guia, NÃO está no DATASUS MAD.
+
+4. **BR Core já tem building blocks.** O perfil br-core-sumarioalta (SA) tem 7 seções obrigatórias com LOINC codes. Os perfis obstétricos existem: BRCoreObservationPregnancyStatus, PregnancyEDD, PregnancyOutcome, BreastfeedingStatus. O RAC já tem seção historiaObstetrica (LOINC 89213-3).
+
+5. **SAO é gerado pelo HOSPITAL, não pela APS.** O Ponte foca em APS/IPM. Portanto, NÃO devemos gerar SAO. Mas devemos ser capazes de CONSUMIR SA/SAO da RNDS para exibir na UBS.
+
+6. **SA (Portaria 8.026/2025) revoga 701/2022.** O SA foi atualizado no mesmo dia que o SAO. Novo SA incorpora CMD (Conjunto Mínimo de Dados). 11 seções definidas: identificação, atendimento, diagnósticos, restrições funcionais, procedimentos, evolução clínica, alergias, prescrições de alta, plano de cuidados, informações de alta, informações complementares.
+
+7. **Estudo RMMG:** campos estruturados têm 90-99% de completude vs 11-38% para texto livre em sumários de alta obstétrica. O SAO padronizado pode melhorar drasticamente a qualidade dos dados.
+
+**Decisão-chave:**
+Ponte deve focar em: (1) gerar RAC com dados obstétricos completos no pré-natal (já faz), (2) futuramente consumir SA/SAO da RNDS para exibir dados da internação na UBS. NÃO implementar geração de SAO — é responsabilidade do hospital.
+
+**Proposta de mapeamento FHIR elaborada** com LOINC codes candidatos para quando o modelo computacional for publicado pelo DATASUS.
+
+**Estado emocional:**
+O SAO fecha o ciclo. Sem ele, a informação flui numa direção só (UBS → hospital). Com ele, a continuidade é bidirecional (UBS → hospital → UBS). O Ponte resolve a primeira metade (UBS → RNDS via RAC). O hospital resolve a segunda (RNDS via SAO). A enfermeira na UBS vê o SAO e sabe como foi o parto, quais medicações prescreveram, quais cuidados o RN precisa. Duas mulheres de volta à vida após emergência obstétrica. Essa é a visão completa.

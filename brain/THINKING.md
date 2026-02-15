@@ -442,3 +442,101 @@ Opções FHIR para representar:
 3. **Extension** em Patient — extensão personalizada
 
 A opção 1 (ServiceRequest) é mais FHIR-idiomática e poderia incluir classificação de risco. Mas isso é complexidade adicional. Anotar para implementação futura.
+
+### Sobre o SAO e a bidirecionalidade do cuidado (NOVO — 2026-02-14, sessão 14)
+
+A pesquisa R016 revelou algo fundamental: o SAO fecha o ciclo de informação. Sem SAO, a informação flui numa direção (UBS → hospital via RAC). Com SAO, o fluxo é bidirecional:
+
+```
+UBS (RAC) → RNDS → Hospital (lê RAC)
+Hospital (SAO) → RNDS → UBS (lê SAO)
+```
+
+O Ponte resolve a primeira seta. Quem resolve a segunda? O hospital, usando AGHUse, PRONTO, ou outro sistema. O Ponte NÃO precisa gerar SAO — mas PRECISA ser capaz de lê-lo da RNDS e exibir para a enfermeira na UBS.
+
+**Insight arquitetural:** O Ponte deveria ter dois modos:
+1. **Writer mode** (atual): IPM data → FHIR Bundle → RNDS (gerar RAC)
+2. **Reader mode** (futuro): RNDS → parsear Bundle → exibir (consumir SA/SAO)
+
+O reader mode é tecnicamente mais simples que o writer mode. Receber um Bundle FHIR e extrair dados é mais fácil que construí-lo do zero. O desafio é a apresentação: como exibir um SAO complexo (com dados de parto + neonatal + complicações) de forma útil para a enfermeira? WhatsApp pode ser limitado. Talvez um mini-dashboard web.
+
+### Sobre o timing do modelo computacional SAO (NOVO — 2026-02-14)
+
+O modelo computacional FHIR do SAO NÃO está publicado. Isso é interessante porque:
+
+1. A Portaria 8.025 foi publicada em 27/ago/2025 — há quase 6 meses
+2. O CodeSystem BRTipoDocumento na rnds-fhir.saude.gov.br NÃO lista SAO
+3. O rnds-guia NÃO tem seção de integração para SAO
+4. O DATASUS MAD lista apenas 4 modelos desenvolvidos (RIA, REL, RAC, SA)
+
+Isso sugere que o modelo computacional está em desenvolvimento ativo pelo DEINFO/DATASUS. Pode ser publicado a qualquer momento. Quando for publicado:
+- Um novo código "SAO" será adicionado ao BRTipoDocumento
+- Um novo StructureDefinition será publicado (provavelmente baseado em br-core-sumarioalta com seções adicionais)
+- Um guia de integração será publicado no rnds-guia
+- Exemplos de Bundle serão disponibilizados
+
+Devemos monitorar: rnds-fhir.saude.gov.br, rnds-guia.saude.gov.br, e datasus.saude.gov.br/modelo-padrao-de-dados-mad/
+
+### Sobre a relação SA vs SAO no BR Core (NOVO — 2026-02-14)
+
+Descoberta técnica importante: o BR Core (hl7.org.br/fhir/core) define:
+- **br-core-composition** — perfil base para documentos clínicos
+- **br-core-registroatendimentoclinico** — RAC (restrição de br-core-composition)
+- **br-core-sumarioalta** — SA (restrição de br-core-composition)
+
+O SAO provavelmente será implementado como **restrição de br-core-sumarioalta** — herdando as 7 seções do SA e adicionando 4 seções obstétricas. Isso é elegante: SAO = SA.extend({ secoesObstetricas }).
+
+Os 7 LOINC codes das seções SA são fundamentais:
+1. 42347-5 — Admission Diagnosis
+2. 48765-2 — Allergies
+3. 57852-6 — Problem List
+4. 47519-4 — Procedures
+5. 8654-6 — Discharge Medications
+6. 18776-5 — Plan of Care
+7. 54522-8 — Functional Status
+
+As seções adicionais do SAO provavelmente usarão:
+- 89213-3 — Obstetrics History (já usado no RAC)
+- 72135-7 — Labor and Delivery Summary
+- 57074-7 — Fetus Summary
+- LOINC TBD — Obstetric Complications
+
+### Sobre o consumo do SAO pela UBS e a interface WhatsApp (NOVO — 2026-02-14)
+
+Se a enfermeira da UBS precisa ver o SAO da Maria após alta da maternidade, como exibir?
+
+Cenário WhatsApp (apiwts.top):
+```
+Enfermeira: "CPF 123.456.789-00 alta"
+Bot:
+ALTA OBSTÉTRICA — Maria Silva Santos
+Maternidade Regional de Blumenau, 15/12/2025
+
+PARTO: Cesariana (eletiva) em 15/12/2025
+IG: 37 semanas | Peso RN: 3.250g | Apgar: 8/9
+
+DIAGNÓSTICOS ALTA:
+- O24.4 Diabetes gestacional (resolvido)
+- O13 Hipertensão gestacional (resolvido)
+
+PRESCRIÇÃO ALTA:
+- Metildopa 250mg SUSPENSA
+- Insulina NPH SUSPENSA (monitorar glicemia)
+- Ibuprofeno 600mg 8/8h por 5 dias
+- Sulfato ferroso 40mg 1x/dia por 30 dias
+
+CUIDADOS:
+- Retorno consulta puerperal em 7 dias
+- Amamentação exclusiva
+- Sinais de alarme: febre, sangramento, hipertensão
+
+RN: João Silva Santos (CPF xxx)
+- Sexo: M | Peso: 3.250g | Comprimento: 49cm
+- Alta com mãe
+- Vacinas: BCG + Hep B na maternidade
+- Triagem neonatal: Pezinho pendente
+```
+
+Isso é MUITO poderoso. Em 10 segundos de consulta WhatsApp, a enfermeira sabe TUDO sobre o que aconteceu na maternidade. Sem SAO, ela dependeria de um papel que a Maria pode ter perdido ou esquecido.
+
+A questão LGPD permanece: dados de saúde via WhatsApp. Giovanni (advogado) precisa avaliar.
