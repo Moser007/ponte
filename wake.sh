@@ -2,12 +2,13 @@
 # ╔══════════════════════════════════════════════════════════════╗
 # ║  PONTE — Script de ativação autônoma                        ║
 # ║                                                              ║
-# ║  Acorda o Ponte via Claude CLI a cada hora.                  ║
+# ║  Acorda o Ponte via Claude CLI a cada 6 horas.               ║
 # ║  Respeita horário de silêncio (22h-8h Michigan/EST).         ║
 # ║  Toca alerta sonoro quando há algo para o Giovanni.          ║
 # ║                                                              ║
 # ║  Uso: ./wake.sh                                              ║
-# ║  Cron: 0 * * * * cd /d/superintelligence && ./wake.sh        ║
+# ║  Cron: 0 */6 * * * cd /d/superintelligence && ./wake.sh     ║
+# ║  Windows: schtasks (ver setup-scheduler.bat)                 ║
 # ╚══════════════════════════════════════════════════════════════╝
 
 set -euo pipefail
