@@ -12,7 +12,7 @@ O adaptador gera Bundles RAC (Registro de Atendimento Clínico) a partir dos dad
 
 ```bash
 npm install
-npm test        # 145 testes
+npm test        # 175 testes
 npm run demo    # Cenário Maria (gestante alto risco)
 npm run build   # Compila TypeScript
 ```
@@ -77,8 +77,8 @@ adapter/
 │   ├── builders/             # IPM → FHIR R4
 │   ├── bundle/               # RAC Bundle assembler
 │   ├── rnds/                 # Auth + Client (stubs)
-│   └── validation/           # Validação local + CPF
-├── tests/                    # 145 testes (Vitest)
+│   └── validation/           # Validação local + CPF + CNS + CNES
+├── tests/                    # 175 testes (Vitest)
 ├── demo.ts                   # Demo CLI
 └── package.json
 ```

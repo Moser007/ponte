@@ -21,7 +21,7 @@ O **Ponte** é um adaptador que lê dados do IPM e gera documentos FHIR R4 compa
 - 18 recursos FHIR R4 por atendimento (Composition, Patient, Encounter, Conditions, Allergies, VitalSigns, DUM, Obstetric History, Medications)
 - Perfis BR Core conformes (CPF, CNS, raça/cor, CID-10, CIAP-2, LOINC, UCUM, BRMedicamento/CATMAT)
 - Validação local + validação CPF (algoritmo Receita Federal)
-- 145 testes automatizados passando
+- 175 testes automatizados passando
 - Demo funcional do cenário "Maria" — gestante de alto risco
 
 ## Cenário Maria (demo real)

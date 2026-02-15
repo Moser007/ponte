@@ -50,7 +50,7 @@ Claro! Em resumo:
 
 - O Ponte é um adaptador que lê os dados do IPM e traduz para FHIR R4
   (formato da RNDS). É gratuito, open-source (licença MIT), e já está
-  funcional com 145 testes automatizados e 18 recursos FHIR por atendimento.
+  funcional com 175 testes automatizados e 18 recursos FHIR por atendimento.
 
 - Precisamos de um município que: (1) use IPM, (2) queira fazer o
   credenciamento de homologação no DATASUS, e (3) nos dê acesso às
@@ -130,7 +130,7 @@ Posso explicar por ligação. Qual o melhor horário?
 - **120+** municípios usam IPM Atende.Net em SC — nenhum envia dados clínicos à RNDS
 - **5 portarias/decretos** de 2024-2025 exigem integração FHIR R4 com RNDS
 - Portaria 7.495/2025: municípios sem RNDS perdem acesso a programas federais
-- O adaptador Ponte tem **145 testes automatizados e 18 recursos FHIR por atendimento** e gera Bundle RAC conforme BR Core
+- O adaptador Ponte tem **175 testes automatizados e 18 recursos FHIR por atendimento** e gera Bundle RAC conforme BR Core
 - Licença MIT — 100% gratuito e open-source
 
 ---
