@@ -70,7 +70,37 @@ describe('buildEncounter', () => {
     expect(encounter.diagnosis).toHaveLength(2);
   });
 
-  it('should set priority', () => {
+  it('should set priority to eletivo for prenatal', () => {
     expect(encounter.priority?.coding?.[0]?.code).toBe('01');
+    expect(encounter.priority?.coding?.[0]?.display).toBe('Eletivo');
+  });
+
+  it('should map urgencia to EMER class', () => {
+    const urgencia: IpmAtendimento = { ...atendimento, tipo: 'urgencia' };
+    const enc = buildEncounter(urgencia, 'uuid-urg', refs);
+    expect(enc.class?.code).toBe('EMER');
+    expect(enc.class?.display).toBe('Emergency');
+  });
+
+  it('should map urgencia to type 05', () => {
+    const urgencia: IpmAtendimento = { ...atendimento, tipo: 'urgencia' };
+    const enc = buildEncounter(urgencia, 'uuid-urg', refs);
+    expect(enc.type?.[0]?.coding?.[0]?.code).toBe('05');
+    expect(enc.type?.[0]?.coding?.[0]?.display).toBe('Atendimento de urgência');
+  });
+
+  it('should map urgencia to priority 02', () => {
+    const urgencia: IpmAtendimento = { ...atendimento, tipo: 'urgencia' };
+    const enc = buildEncounter(urgencia, 'uuid-urg', refs);
+    expect(enc.priority?.coding?.[0]?.code).toBe('02');
+    expect(enc.priority?.coding?.[0]?.display).toBe('Urgência');
+  });
+
+  it('should default to AMB for unknown encounter types', () => {
+    const retorno: IpmAtendimento = { ...atendimento, tipo: 'retorno' };
+    const enc = buildEncounter(retorno, 'uuid-ret', refs);
+    expect(enc.class?.code).toBe('AMB');
+    expect(enc.type?.[0]?.coding?.[0]?.code).toBe('04');
+    expect(enc.priority?.coding?.[0]?.code).toBe('01');
   });
 });

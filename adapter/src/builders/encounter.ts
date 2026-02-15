@@ -2,6 +2,40 @@ import type { Encounter } from '@medplum/fhirtypes';
 import type { IpmAtendimento } from '../types/ipm.js';
 
 /**
+ * Mapeia tipo IPM → class/type/priority do Encounter.
+ */
+function mapEncounterType(tipo: string): {
+  classCode: string;
+  classDisplay: string;
+  typeCode: string;
+  typeDisplay: string;
+  priorityCode: string;
+  priorityDisplay: string;
+} {
+  switch (tipo) {
+    case 'urgencia':
+      return {
+        classCode: 'EMER',
+        classDisplay: 'Emergency',
+        typeCode: '05',
+        typeDisplay: 'Atendimento de urgência',
+        priorityCode: '02',
+        priorityDisplay: 'Urgência',
+      };
+    default:
+      // consulta, prenatal, retorno, etc. → ambulatorial
+      return {
+        classCode: 'AMB',
+        classDisplay: 'Ambulatory',
+        typeCode: '04',
+        typeDisplay: 'Consulta',
+        priorityCode: '01',
+        priorityDisplay: 'Eletivo',
+      };
+  }
+}
+
+/**
  * Constrói recurso BRCoreEncounter a partir de dados do IPM.
  */
 export function buildEncounter(
@@ -14,6 +48,8 @@ export function buildEncounter(
     conditionRefs: string[];
   }
 ): Encounter {
+  const mapping = mapEncounterType(ipm.tipo);
+
   return {
     resourceType: 'Encounter',
     id: uuid,
@@ -23,16 +59,16 @@ export function buildEncounter(
     status: ipm.data_fim ? 'finished' : 'in-progress',
     class: {
       system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
-      code: 'AMB',
-      display: 'Ambulatory',
+      code: mapping.classCode,
+      display: mapping.classDisplay,
     },
     type: [
       {
         coding: [
           {
             system: 'http://www.saude.gov.br/fhir/r4/CodeSystem/BRAtendimentoPrestado',
-            code: '04',
-            display: 'Consulta',
+            code: mapping.typeCode,
+            display: mapping.typeDisplay,
           },
         ],
       },
@@ -41,8 +77,8 @@ export function buildEncounter(
       coding: [
         {
           system: 'https://br-core.saude.gov.br/fhir/CodeSystem/BRCaraterAtendimento',
-          code: '01',
-          display: 'Eletivo',
+          code: mapping.priorityCode,
+          display: mapping.priorityDisplay,
         },
       ],
     },
