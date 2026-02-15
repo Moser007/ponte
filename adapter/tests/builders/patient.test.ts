@@ -105,4 +105,36 @@ describe('buildPatient', () => {
     const usual = patient.name?.find((n) => n.use === 'usual');
     expect(usual).toBeUndefined();
   });
+
+  it('should include telecom when telefone is provided', () => {
+    const comTel: IpmPaciente = { ...maria, telefone: '47991234567' };
+    const p = buildPatient(comTel, 'uuid-tel');
+    expect(p.telecom).toHaveLength(1);
+    expect(p.telecom?.[0]?.system).toBe('phone');
+    expect(p.telecom?.[0]?.value).toBe('47991234567');
+    expect(p.telecom?.[0]?.use).toBe('mobile');
+  });
+
+  it('should not include telecom when telefone is absent', () => {
+    expect(patient.telecom).toBeUndefined();
+  });
+
+  it('should include address when endereco is provided', () => {
+    const comEnd: IpmPaciente = { ...maria, endereco: 'Rua XV de Novembro, 100' };
+    const p = buildPatient(comEnd, 'uuid-end');
+    expect(p.address).toHaveLength(1);
+    expect(p.address?.[0]?.text).toBe('Rua XV de Novembro, 100');
+    expect(p.address?.[0]?.use).toBe('home');
+  });
+
+  it('should include municipio_ibge in address when provided', () => {
+    const comMun: IpmPaciente = { ...maria, municipio_ibge: '4202404' };
+    const p = buildPatient(comMun, 'uuid-mun');
+    expect(p.address).toHaveLength(1);
+    expect(p.address?.[0]?.city).toBe('4202404');
+  });
+
+  it('should not include address when neither endereco nor municipio_ibge is provided', () => {
+    expect(patient.address).toBeUndefined();
+  });
 });

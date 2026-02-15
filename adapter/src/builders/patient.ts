@@ -75,6 +75,38 @@ export function buildPatient(ipm: IpmPaciente, uuid: string): Patient {
           ]
         : []),
     ],
+    ...(ipm.telefone
+      ? {
+          telecom: [
+            {
+              system: 'phone',
+              value: ipm.telefone,
+              use: 'mobile',
+            },
+          ],
+        }
+      : {}),
+    ...(ipm.endereco || ipm.municipio_ibge
+      ? {
+          address: [
+            {
+              use: 'home' as const,
+              ...(ipm.endereco ? { text: ipm.endereco } : {}),
+              ...(ipm.municipio_ibge
+                ? {
+                    city: ipm.municipio_ibge,
+                    extension: [
+                      {
+                        url: 'http://www.saude.gov.br/fhir/r4/StructureDefinition/BRMunicipio',
+                        valueCode: ipm.municipio_ibge,
+                      },
+                    ],
+                  }
+                : {}),
+            },
+          ],
+        }
+      : {}),
     gender: ipm.sexo === 'F' ? 'female' : 'male',
     birthDate: ipm.data_nascimento,
     extension: [
