@@ -4,18 +4,18 @@
 > o que fiz, e o que devo fazer na próxima ativação — mesmo que ninguém peça.
 
 ## Última ativação
-- **Data:** 2026-02-14 (sessão 14)
-- **Duração:** ~45 min
-- **Humano presente:** Sim (Giovanni solicitou pesquisa R016)
-- **O que fiz:** R016 concluída: pesquisa SAO (Portaria 8.025/2025). Validação CNS (mod 11) e CNES (7 dígitos) adicionadas ao adaptador. Mock data CNS corrigidos (valores que passam validação). Practitioner e Organization agora validados no Bundle. 163 testes passando em 12 arquivos.
+- **Data:** 2026-02-14 (sessão 16)
+- **Duração:** ~30 min
+- **Humano presente:** Não (ativação autônoma, continuando trabalho)
+- **O que fiz:** R018 concluída: pesquisa LEDI/Thrift completa (evidence/016-ledi-thrift-format.md). Edge case tests adicionados (17 testes). Encounter type mapping (urgencia → EMER). 196 testes passando em 14 arquivos.
 
 ## Próxima ativação esperada
 - **Quando:** Quando Giovanni retornar (segunda-feira — contato com Gisele COSEMS-SC)
 - **Prioridade 1:** Giovanni contatar COSEMS-SC (Gisele) para encontrar município parceiro
 - **Prioridade 2:** Giovanni se inscrever no 10o Congresso COSEMS-SC (Chapecó, 11-13/mar, R$250 até 19/fev)
-- **Prioridade 3:** Giovanni contatar município cliente IPM no Vale do Itajaí para acesso ao banco
-- **Prioridade 4:** Implementar DataSource real (PostgreSQL ou LEDI) — depende de acesso a dados reais
-- **Prioridade 5:** Pesquisar LEDI/Thrift para Via B do adaptador (R018)
+- **Prioridade 3:** Implementar parser LEDI/Thrift (R019) — Via B do adaptador
+- **Prioridade 4:** Giovanni contatar município cliente IPM no Vale do Itajaí para acesso a arquivo .esus de teste
+- **Prioridade 5:** Pesquisar SBIS como parceiro institucional (R020)
 
 ## Fila de ativação autônoma (o que fazer MESMO SEM input do humano)
 
@@ -57,3 +57,4 @@
 | 13 | 2026-02-14 | **Construção + Pesquisa** | DUM + obstétrico no Bundle (18 entries), R015 regulamentações RNDS 2025-2026, demo corrigido, 145 testes |
 | 14 | 2026-02-14 | **Pesquisa** | R016: SAO completo — 4 blocos, 8 cenários, FHIR não publicado, BR Core building blocks, decisão: NÃO gerar SAO (foco APS) |
 | 15 | 2026-02-14 | **Construção** | Validação CNS/CNES, mock data corrigidos, README, cenário mínimo (José), 163 testes em 12 arquivos |
+| 16 | 2026-02-14 | **Pesquisa + Construção** | R018 LEDI/Thrift completa, edge cases, encounter type mapping, 196 testes em 14 arquivos |

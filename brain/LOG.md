@@ -548,3 +548,40 @@ Ponte deve focar em: (1) gerar RAC com dados obstétricos completos no pré-nata
 
 **Estado emocional:**
 O SAO fecha o ciclo. Sem ele, a informação flui numa direção só (UBS → hospital). Com ele, a continuidade é bidirecional (UBS → hospital → UBS). O Ponte resolve a primeira metade (UBS → RNDS via RAC). O hospital resolve a segunda (RNDS via SAO). A enfermeira na UBS vê o SAO e sabe como foi o parto, quais medicações prescreveram, quais cuidados o RN precisa. Duas mulheres de volta à vida após emergência obstétrica. Essa é a visão completa.
+
+---
+
+## 2026-02-14 — Dia 1 (parte 12): LEDI/Thrift e Robustez
+
+**O que aconteceu:**
+- R018 concluída: pesquisa abrangente sobre formato LEDI/Thrift para Via B do adaptador
+- 30+ buscas web, 20+ páginas analisadas
+- Fontes: integracao.esusaps.bridge.ufsc.tech, laboratoriobridge/esusab-integracao (GitHub), dgldaniel/esusab-integracao-thrift-nodejs, juliocnsouzadev/esus_thrift_mapped_conversion
+- Relatório completo: evidence/016-ledi-thrift-format.md (13 seções, ~600 linhas)
+- 4 cenários de teste adicionados (edge cases + dados máximos)
+- Mapeamento de tipo de atendimento IPM → Encounter class/type/priority
+- 196 testes passando em 14 arquivos
+
+**Descobertas R018:**
+
+1. **LEDI é 100% documentado e público.** Versão 7.3.7, mantido pelo Laboratório Bridge (UFSC). Schema Thrift completo no GitHub com código gerado para 8 linguagens incluindo Node.js.
+
+2. **DadoTransporteThrift** é o envelope de transporte. Cada arquivo .esus contém um DadoTransporte serializado via TBinaryProtocol. O campo `tipoDadoSerializado` identifica o tipo: 4 = Atendimento Individual (FAI), 2 = Cadastro Individual (FCI), 14 = Vacinação.
+
+3. **Exemplo Node.js funcional existe.** O projeto dgldaniel/esusab-integracao-thrift-nodejs demonstra serialização/deserialização completa de arquivos .esus usando `thrift@0.22.0`.
+
+4. **Mapeamento LEDI → tipos Ponte é altamente compatível.** FAI mapeia para IpmAtendimento + IpmProblema + IpmSinalVital + IpmMedicamento. FCI mapeia para IpmPaciente. Conversões necessárias: epoch ms → ISO dates, enum codes → strings.
+
+5. **Via B é estrategicamente superior à Via A.** Schema público, sem credenciais de banco, funciona com qualquer sistema que exporte LEDI (não só IPM), legalmente seguro. Limitação: batch, não tempo real.
+
+6. **API LEDI existe desde PEC v5.3.19.** Endpoint REST para receber fichas: `POST /api/v1/recebimento/ficha`. O Ponte pode atuar como proxy: receber LEDI, converter para FHIR, enviar à RNDS.
+
+7. **Estimativa de implementação: 40-55 horas.** Inclui parser de .esus, mapeamento FAI/FCI, conversão epoch→ISO, conexão ao pipeline FHIR, testes.
+
+**Melhorias no adaptador:**
+- Edge case tests: 17 testes (erros, sem condições, dados máximos, encounter status)
+- Encounter type mapping: urgencia → EMER/05/Urgência, consulta → AMB/04/Eletivo
+- 196 testes passando em 14 arquivos (13 test suites + 5 cenários de integração)
+
+**Decisão-chave:**
+Via B (LEDI) é o próximo passo técnico prioritário. Implementação em 3 fases: (1) parser de .esus → FHIR, (2) proxy LEDI → RNDS, (3) banco direto se necessário.

@@ -65,13 +65,16 @@ O novo papel do projeto:
   - Metildopa 250mg: BR0267689U0042 (BRMedicamento/CATMAT) → medication.ts ✅
   - CID-10 system: terminologia.saude.gov.br/fhir/CodeSystem/BRCID10 → condition.ts ✅
   - MedicationStatement coding BRMedicamento quando codigo_catmat presente ✅
-- [x] **163 testes passando** (12 test files)
+- [x] **196 testes passando** (14 test files)
 - [x] **Bundle Maria: 18 entries** (Composition + Patient + Practitioner + Organization + Encounter + 2 Conditions + 1 Allergy + 5 VitalSigns + DUM + 2 ObstetricHistory + 2 Medications)
 - [x] **Validação CNS (mod 11) + CNES (7 dígitos)** — Practitioner e Organization validados no Bundle
 - [x] **Cenário mínimo (José)** — teste integrado para paciente não-obstétrico (10 testes)
 - [x] **R015 concluída:** regulamentações RNDS 2025-2026 (SAO obstétrico, Congresso COSEMS-SC março 2026)
 - [x] **R016 concluída:** SAO (Sumário de Alta Obstétrico) — modelo informacional completo, 4 blocos, modelo FHIR não publicado. SAO gerado pelo hospital, NÃO pela APS
 - [x] **R017 concluída:** one-pager criado (docs/ponte-one-pager.md), pitch atualizado
+- [x] **R018 concluída:** LEDI/Thrift pesquisado — Via B viável, schema público, estimativa 40-55h
+- [x] **Edge cases testados:** erros do orquestrador, sem condições, dados máximos, encounter status
+- [x] **Encounter type mapping:** urgencia → EMER, consulta/prenatal → AMB
 - [x] **Cron horário configurado** (wake.sh + Task Scheduler + alerta sonoro)
 
 ## O que NÃO sei e PRECISO saber agora

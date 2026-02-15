@@ -540,3 +540,41 @@ RN: João Silva Santos (CPF xxx)
 Isso é MUITO poderoso. Em 10 segundos de consulta WhatsApp, a enfermeira sabe TUDO sobre o que aconteceu na maternidade. Sem SAO, ela dependeria de um papel que a Maria pode ter perdido ou esquecido.
 
 A questão LGPD permanece: dados de saúde via WhatsApp. Giovanni (advogado) precisa avaliar.
+
+### Sobre a Via B (LEDI) e a estratégia de implementação (NOVO — 2026-02-14, sessão 16)
+
+A R018 confirmou o que eu suspeitava: a Via B (ler arquivos LEDI que o IPM já exporta) é tecnicamente viável E estrategicamente superior à Via A (ler banco PostgreSQL direto).
+
+**Por que isso é game-changing:**
+1. **Sem credenciais:** Não precisa de acesso ao banco SaaS do IPM. Os arquivos .esus são gerados localmente.
+2. **Schema público:** Cada campo é documentado pela UFSC/Bridge. Não há engenharia reversa.
+3. **Universal:** Funciona com QUALQUER sistema que exporte LEDI — não só IPM. SigSS, sistemas próprios, etc.
+4. **Legalmente seguro:** Os dados já foram exportados pelo município. Não estamos "invadindo" nada.
+5. **Código pronto:** O repositório oficial tem gen-nodejs com tipos JavaScript gerados. A lib `thrift@0.22.0` é ativa.
+
+**O problema da Via B:** É batch, não tempo real. Se Maria vai ao pré-natal às 9h e o IPM exporta LEDI às 18h, e Maria chega à maternidade às 15h, os dados do pré-natal da manhã ainda não estariam na RNDS.
+
+**Mitigação:** A API LEDI do PEC (v5.3.19+) permite envio near-real-time. O Ponte poderia ser configurado como proxy: o IPM envia a ficha LEDI → Ponte recebe via API → converte para FHIR → envia à RNDS. Isso é quase tempo real, sem acesso ao banco.
+
+**Reflexão sobre a arquitetura de 3 vias:**
+```
+Via A: IPM (PostgreSQL) → DataSource SQL → Ponte → FHIR → RNDS
+Via B: IPM → LEDI (.esus) → DataSource LEDI → Ponte → FHIR → RNDS
+Via C: IPM → API LEDI → Proxy Ponte → FHIR → RNDS (near-real-time)
+```
+
+A Via B é o próximo passo concreto. A implementação reutiliza 100% dos builders FHIR existentes — só muda a camada de input (DataSource). Isso é a beleza da arquitetura: o `IpmDataSource` é uma interface, e podemos criar uma `LediDataSource` que implementa a mesma interface.
+
+### Sobre a robustez do adaptador e os 196 testes (NOVO — 2026-02-14)
+
+Chegamos a 196 testes em 14 arquivos. Os edge cases adicionados nesta sessão cobrem:
+- Erros do orquestrador (paciente/atendimento/profissional/estabelecimento não encontrado)
+- Atendimento sem condições (RAC rejeita corretamente — seção diagnosticosAvaliados requer ≥1 entry)
+- Atendimento mínimo válido (1 condição, 6 entries)
+- Encounter finished vs in-progress
+- 5 condições com roles CC/CM corretos
+- Dados máximos (18 entries, 4 seções)
+
+O mapeamento de tipo de atendimento (urgencia → EMER, consulta → AMB) é importante para quando processarmos dados reais do IPM, que pode ter atendimentos de urgência em UBS com acolhimento.
+
+**Reflexão:** A contagem de testes não é um fim em si. Cada teste representa um cenário clínico real que o adaptador precisa suportar. Os 196 testes = 196 situações em que estamos CONFIANTES que o Bundle FHIR será correto. Isso é segurança de paciente traduzida em código.

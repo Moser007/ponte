@@ -8,14 +8,23 @@
 
 ## Pendentes (executar na ordem)
 
-### R018 — Pesquisar formato LEDI/Thrift para implementar Via B do adaptador
-**Por que:** A Via B (ler exportação LEDI que o IPM já gera para o e-SUS) não depende de acesso ao banco PostgreSQL. Se implementarmos um parser LEDI → FHIR, qualquer município com IPM pode usar o Ponte sem precisar de credenciais do banco.
-**O que fazer:** Pesquisar documentação técnica do formato Thrift do e-SUS APS, estrutura dos arquivos LEDI exportados, e implementar parser TypeScript.
-**Depende de:** Nada — documentação LEDI é pública.
+### R019 — Implementar parser LEDI/Thrift (Via B) para arquivos .esus
+**Por que:** R018 confirmou que Via B é viável. Próximo passo é implementar o parser que lê arquivos .esus e converte para tipos Ponte (IpmPaciente, IpmAtendimento, etc.).
+**O que fazer:** (1) Copiar gen-nodejs do repositório oficial, (2) instalar `thrift@0.22.0`, (3) implementar deserialização de DadoTransporteThrift, (4) parsear FAI (tipo 4) e FCI (tipo 2), (5) mapear para tipos Ponte, (6) conectar ao pipeline FHIR existente.
+**Depende de:** R018 concluída. Acesso a arquivo .esus real seria ideal para testes, mas podemos gerar fixtures de teste.
+
+### R020 — Pesquisar e contatar SBIS como parceiro institucional
+**Por que:** A SBIS tem convênio com MS para ser elo entre RNDS e desenvolvedores. O Ponte pode se posicionar como caso de uso do ecossistema SBIS para ganhar legitimidade e acesso facilitado à RNDS.
+**O que fazer:** Pesquisar estrutura SBIS, programas para desenvolvedores, como se afiliar, custo, benefícios.
+**Depende de:** Nada.
 
 ---
 
 ## Concluídas
+
+### R018 — Pesquisar formato LEDI/Thrift para implementar Via B do adaptador (2026-02-14)
+**Resultado:** Pesquisa abrangente sobre LEDI/Thrift. Schema 100% público (UFSC/Bridge). DadoTransporteThrift é envelope de transporte com TBinaryProtocol. 16 tipos de ficha mapeados. Código Node.js gerado existe no repositório oficial. Exemplo funcional Node.js encontrado (dgldaniel). Mapeamento LEDI → tipos Ponte altamente compatível. Via B estrategicamente superior: sem credenciais, schema público, universal. API LEDI existe desde PEC v5.3.19. Estimativa: 40-55h de implementação.
+**Documento:** evidence/016-ledi-thrift-format.md
 
 ### R017 — Preparar one-pager / pitch do Ponte para Congresso COSEMS-SC (2026-02-14)
 **Resultado:** One-pager criado em docs/ponte-one-pager.md. Pitch para Gisele COSEMS-SC atualizado em docs/pitch-gisele-cosems.md com referência ao Congresso e dados atualizados (163 testes, 18 entries).
