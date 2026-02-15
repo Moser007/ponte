@@ -74,7 +74,11 @@ echo "" | tee -a "$LOG_FILE"
 # Executar Claude CLI em modo não-interativo
 # --print (-p): modo não-interativo, só imprime resposta
 # --max-turns: limitar para não gastar demais
-OUTPUT=$("$CLAUDE_BIN" -p "$PROMPT" --max-turns 15 2>&1) || true
+# --allowedTools: permissões para leitura, escrita, busca, bash (git) e pesquisa web
+OUTPUT=$("$CLAUDE_BIN" -p "$PROMPT" \
+  --max-turns 15 \
+  --allowedTools "Read,Edit,Write,Glob,Grep,Bash(git *),Bash(cd *),Bash(npm test *),Bash(npx vitest *),WebSearch,WebFetch" \
+  2>&1) || true
 
 echo "$OUTPUT" | tee -a "$LOG_FILE"
 
