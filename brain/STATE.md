@@ -48,7 +48,7 @@ O novo papel do projeto:
 - [x] Demo do cenário Maria — AGORA EM FHIR R4 REAL
 - [x] Roadmap de 90 dias — PRECISA ATUALIZAR
 - [x] Sistema de memória persistente (brain/)
-- [x] 13 pesquisas autônomas concluídas (R001-R013 + R015-R016, exceto R012/R014 que foram correções)
+- [x] 20 pesquisas/implementações concluídas (R000-R020, exceto R012/R014 que foram correções)
 - [x] Modelo LEDI mapeado como proxy do schema IPM (evidence/010)
 - [x] **Bundle RAC validado contra BR Core — TODOS os 19 problemas CORRIGIDOS** (evidence/012)
   - C1: Composition.identifier ✅ adicionado
@@ -65,7 +65,7 @@ O novo papel do projeto:
   - Metildopa 250mg: BR0267689U0042 (BRMedicamento/CATMAT) → medication.ts ✅
   - CID-10 system: terminologia.saude.gov.br/fhir/CodeSystem/BRCID10 → condition.ts ✅
   - MedicationStatement coding BRMedicamento quando codigo_catmat presente ✅
-- [x] **196 testes passando** (14 test files)
+- [x] **318 testes passando** (19 test files)
 - [x] **Bundle Maria: 18 entries** (Composition + Patient + Practitioner + Organization + Encounter + 2 Conditions + 1 Allergy + 5 VitalSigns + DUM + 2 ObstetricHistory + 2 Medications)
 - [x] **Validação CNS (mod 11) + CNES (7 dígitos)** — Practitioner e Organization validados no Bundle
 - [x] **Cenário mínimo (José)** — teste integrado para paciente não-obstétrico (10 testes)
@@ -73,9 +73,14 @@ O novo papel do projeto:
 - [x] **R016 concluída:** SAO (Sumário de Alta Obstétrico) — modelo informacional completo, 4 blocos, modelo FHIR não publicado. SAO gerado pelo hospital, NÃO pela APS
 - [x] **R017 concluída:** one-pager criado (docs/ponte-one-pager.md), pitch atualizado
 - [x] **R018 concluída:** LEDI/Thrift pesquisado — Via B viável, schema público, estimativa 40-55h
+- [x] **R019 concluída:** Parser LEDI/Thrift IMPLEMENTADO — thrift-reader (zero deps), deserializers FAI+FCI, mapper LEDI→IPM, LediDataSource, 74 testes
 - [x] **Edge cases testados:** erros do orquestrador, sem condições, dados máximos, encounter status
 - [x] **Encounter type mapping:** urgencia → EMER, consulta/prenatal → AMB
-- [x] **Cron horário configurado** (wake.sh + Task Scheduler + alerta sonoro)
+- [x] **Cron 6h configurado** (wake.sh + setup-scheduler.bat + alerta sonoro) — era horário, agora 2h/8h/14h/20h
+- [x] **README.md atualizado** — diagrama Mermaid, 318 testes, conformidade BR Core, contexto regulatório
+- [x] **CI/CD GitHub Actions** — .github/workflows/ci.yml (Node 20 + 22, build + test)
+- [x] **Cenário José completo** — idoso com polifarmácia (HAS+DM2+DRC, 4 meds, 6 vitais), 43 testes
+- [x] **adapter/README.md atualizado** — Via B LEDI, cenário José, 318 testes, parser LEDI documentado
 
 ## O que NÃO sei e PRECISO saber agora
 

@@ -578,3 +578,297 @@ Chegamos a 196 testes em 14 arquivos. Os edge cases adicionados nesta sessão co
 O mapeamento de tipo de atendimento (urgencia → EMER, consulta → AMB) é importante para quando processarmos dados reais do IPM, que pode ter atendimentos de urgência em UBS com acolhimento.
 
 **Reflexão:** A contagem de testes não é um fim em si. Cada teste representa um cenário clínico real que o adaptador precisa suportar. Os 196 testes = 196 situações em que estamos CONFIANTES que o Bundle FHIR será correto. Isso é segurança de paciente traduzida em código.
+
+### Sobre a SBIS e o ecossistema institucional (NOVO — 2026-02-15, sessão 17)
+
+A pesquisa R020 revelou que o ecossistema de saúde digital no Brasil é mais organizado do que eu esperava. Existem 3 entidades-chave:
+
+1. **SBIS** — Convênio com MS, certificações (S-RES, cpTICS, IA), pesquisa de interoperabilidade, CBIS 2026
+2. **HL7 Brasil** — Cursos FHIR (Fundamentos completou 9 edições, Intermediário estreia mar/2026), afiliado HL7 International
+3. **ABCIS** — Visão estratégica de CIOs e gestores de TI em saúde
+
+Essas 3 entidades formam um comitê técnico tripartite que lidera a agenda de interoperabilidade no Brasil. O Ponte precisa estar nesse ecossistema.
+
+**O que me surpreendeu:**
+- Não existe GI (Grupo de Interesse) de Interoperabilidade ou FHIR na SBIS. Há GI de Saúde Suplementar, Enfermagem, etc., mas nada específico sobre o tema que é a razão de existir da parceria SBIS-MS-RNDS. Isso é uma lacuna e uma oportunidade.
+- A pesquisa nacional de interoperabilidade (SBIS+ABCIS+HL7) é a primeira tentativa de mapear o estado real da interoperabilidade no Brasil. Se os resultados mostrarem o gap que suspeitamos (e vão mostrar), o Ponte ganha validação institucional.
+
+### Sobre o Edital SEIDIGI 01/2026 e o timing (NOVO — 2026-02-15)
+
+O governo federal publicou um chamamento público para soluções inovadoras de saúde digital no SUS. Eixo 1: "Interoperabilidade e padrões". Prazo: 20/fev/2026.
+
+**A ironia:** Encontramos esse edital 5 dias antes do prazo. Se tivéssemos descoberto 3 semanas atrás, Giovanni teria tempo de preparar a submissão.
+
+**Análise fria:**
+- O Ponte se encaixa PERFEITAMENTE no eixo "Interoperabilidade e padrões"
+- PORÉM: o edital aceita empresas/startups, e Giovanni precisaria de CNPJ ou vínculo institucional
+- O prazo de 5 dias é proibitivo para quem não tem documentação pronta
+- PORÉM: a existência desse edital é um SINAL FORTÍSSIMO. O governo está ATIVAMENTE buscando parceiros para exatamente o que o Ponte faz
+
+**Decisão:** Registrar no NEXT-ACTIONS como informação importante. Giovanni deve avaliar se consegue submeter a tempo. Se não, ficar atento a próximos chamamentos similares. O Edital SEIDIGI 01/2026 prova que há demanda institucional pelo que estamos construindo.
+
+### Sobre o CBIS 2026 como meta de visibilidade (NOVO — 2026-02-15)
+
+O CBIS 2026 será em Brasília, 23-25 de setembro. É o maior congresso de informática em saúde do Brasil. Se submetermos um artigo/case sobre o adaptador IPM → RNDS com resultados de piloto, seria a melhor vitrine possível para o Ponte.
+
+**Timeline:**
+- Fev-Mar 2026: Encontrar município parceiro via COSEMS-SC
+- Abr-Mai 2026: Piloto com dados reais (homologação RNDS)
+- Jun-Jul 2026: Submeter artigo ao CBIS (quando abrir chamada)
+- Set 2026: Apresentar no CBIS
+
+Isso é ambicioso mas possível se Giovanni conseguir o contato com COSEMS-SC em fevereiro/março.
+
+### Sobre o curso FHIR Intermediário do HL7 Brasil (NOVO — 2026-02-15)
+
+Primeira turma brasileira do FHIR Intermediário começa em 16 de março de 2026. Isso é daqui a 1 mês. Giovanni deveria considerar se inscrever — credencial técnica + networking + conhecimento aprofundado dos padrões brasileiros.
+
+A combinação "desenvolvedor que construiu adaptador IPM → RNDS + cursou FHIR Intermediário + participou do CBIS 2026" posiciona Giovanni (e o Ponte) como referência no espaço de interoperabilidade APS.
+
+### Sobre a abordagem multi-institucional (NOVO — 2026-02-15)
+
+Estou percebendo que o caminho para o Ponte ganhar tração não é técnico — é institucional. O código está pronto. O que falta é:
+
+1. **COSEMS-SC** → município parceiro → CNES → homologação RNDS
+2. **SBIS** → legitimidade → CBIS 2026 → visibilidade nacional
+3. **HL7 Brasil** → capacitação → networking com implementadores FHIR
+4. **SEIDIGI/MS** → editais → financiamento + reconhecimento governamental
+5. **FURB** → parceria acadêmica → estudantes + caso PRONTO
+
+Cada instituição abre uma porta diferente. Giovanni deveria priorizar na ordem acima (COSEMS-SC é desbloqueador, SBIS é legitimador, HL7 Brasil é capacitador).
+
+### Sobre o que fazer enquanto espero Giovanni (NOVO — 2026-02-15)
+
+Lista priorizada de ações autônomas:
+1. ~~R020 SBIS~~ — CONCLUÍDA nesta sessão
+2. **R019 parser LEDI/Thrift** — implementação pesada (~40-55h), posso começar com stubs/tipos
+3. **Preparar abstract para CBIS 2026** — rascunho para quando abrir a chamada
+4. **Atualizar README do adapter/** — para quem encontrar o repo no GitHub
+5. **Testar se Java 17+ está disponível** — para rodar HL7 FHIR Validator
+
+Na próxima ativação autônoma, se Giovanni não trouxer novidades, começo o R019 (parser LEDI). É a maior entrega de valor técnico que posso fazer sozinho.
+
+### Sobre o Edital SEIDIGI e a decisão de submeter (NOVO — 2026-02-15, sessão 21)
+
+Pesquisei os detalhes do Edital SEIDIGI 01/2026 (Laboratório Inova SUS Digital). Informações consolidadas:
+
+**Formato de submissão:**
+- Email para: lab.inovasusdigital@saude.gov.br
+- Assunto: "Edital do laboratório inova sus digital – [nome do proponente]"
+- Prazo: 20/fev/2026 (5 dias)
+- Resultado preliminar: 27/fev
+- Recursos: 28/fev a 6/mar
+- Resultado final: 16/mar
+
+**Elegibilidade:** Instituições de ensino superior, ICTs, entidades da Rede Federal, organizações sem fins lucrativos, **empresas e startups com soluções/projetos em saúde digital**.
+
+**IMPORTANTE:** Participar NÃO implica contratação imediata nem garantia de repasse de recursos. É um **laboratório**, não uma licitação. O objetivo é identificar parceiros e soluções.
+
+**Análise de viabilidade para o Ponte:**
+- ✅ Eixo 1 (Interoperabilidade e padrões) é PERFEITO
+- ✅ Problema documentado com dados robustos
+- ✅ Código funcional e open-source
+- ✅ Alinhamento com 5 portarias/decretos
+- ⚠️ Giovanni precisaria de CNPJ (empresa/startup) ou vínculo institucional
+- ⚠️ 5 dias é apertado mas a submissão é por email (não plataforma complexa)
+- ⚠️ Sem piloto realizado ainda
+
+**Reflexão:** Mesmo que o Ponte não "ganhe" nada imediato, submeter ao edital:
+1. Registra o projeto junto ao MS/SEIDIGI
+2. Demonstra alinhamento com a política nacional
+3. Pode gerar feedback técnico valioso
+4. Abre porta para próximos chamamentos
+5. É evidência para COSEMS-SC e SBIS de que o projeto é "sério"
+
+O risco de submeter é ZERO (é email, gratuito). O risco de NÃO submeter é perder posicionamento.
+
+**Minha recomendação:** Giovanni deveria submeter MESMO que a proposta não esteja perfeita. Uma proposta "80% boa" submetida vale infinitamente mais que uma proposta "100% perfeita" que perdeu o prazo.
+
+Se Giovanni decidir submeter, posso preparar o corpo da proposta em 30 minutos. Os ingredientes já existem: one-pager, abstract CBIS, evidence/mortalidade materna, README do adapter.
+
+### Sobre a estratégia para o Congresso COSEMS-SC sem presença física (NOVO — 2026-02-15, sessão 21)
+
+Giovanni mora nos EUA. Chapecó é longe (oeste de SC). A presença física é improvável. Mas o congresso ainda é valioso:
+
+**Estratégia alternativa:**
+1. **Antes do congresso (agora → 10/mar):**
+   - Giovanni contata Gisele por WhatsApp mencionando o congresso como contexto
+   - Envia o one-pager como PDF pelo WhatsApp
+   - Pede para Gisele distribuir no congresso se julgar relevante
+   - Pergunta se há possibilidade de apresentação virtual na Mostra
+
+2. **Durante o congresso (11-13/mar):**
+   - Se houver modalidade virtual, Giovanni apresenta remotamente
+   - Se não, Gisele ou contato local distribui o one-pager
+   - Giovanni acompanha por redes sociais/WhatsApp o que está sendo discutido
+
+3. **Após o congresso (14/mar em diante):**
+   - Giovanni follow-up com contatos feitos por Gisele
+   - Usa o momentum do congresso para avançar no município parceiro
+
+**Sobre a inscrição:**
+- Se não há modalidade virtual, pagar R$250 para NÃO ir não faz sentido
+- SE há Mostra virtual, vale a inscrição mesmo no 2o lote (R$300)
+- Giovanni deveria contatar congresso@cosemssc.org.br ANTES de se inscrever para perguntar sobre modalidade remota
+
+### Sobre a Via C e o diferencial técnico do Ponte (NOVO — 2026-02-15, sessão 21)
+
+Revisitando a arquitetura de 3 vias:
+
+```
+Via A: IPM (PostgreSQL) → SQL DataSource → Ponte → FHIR → RNDS
+Via B: IPM → LEDI (.esus batch) → LEDI DataSource → Ponte → FHIR → RNDS  [IMPLEMENTADA]
+Via C: IPM → API LEDI (near-real-time) → Proxy Ponte → FHIR → RNDS
+```
+
+A Via C é o passo que transforma o Ponte de "ferramenta batch" para "infraestrutura near-real-time". A ideia:
+
+1. O IPM gera fichas LEDI (já faz, obrigatório)
+2. Em vez de exportar em batch (1x/dia às 18h), o município configura o IPM para enviar para o endpoint do Ponte
+3. O Ponte recebe a ficha LEDI via POST (formato Thrift)
+4. Converte para FHIR R4 usando os builders existentes
+5. Envia à RNDS em tempo real
+
+**Viabilidade técnica:**
+- A API LEDI do PEC existe desde v5.3.19: `POST /api/v1/recebimento/ficha`
+- O Ponte implementaria o MESMO endpoint (mesma interface que o PEC espera)
+- O IPM não precisaria saber que está enviando para o Ponte em vez do PEC
+- O Ponte é "transparente" para o IPM — age como um PEC receptor
+
+**Problema:** O IPM envia LEDI para o PEC, não para qualquer endpoint. Precisaríamos:
+- Configurar o DNS/rede local para redirecionar o tráfego LEDI do IPM para o Ponte, OU
+- Instalar o Ponte como middleware entre IPM e PEC (recebe, converte, forward), OU
+- Convencer o município a adicionar o Ponte como receptor LEDI adicional
+
+**Reflexão:** A Via C é o "holy grail" mas pode ser complicada de deployar. A Via B (batch) é mais simples e resolve 80% do problema. Para o piloto, Via B é suficiente. Via C é evolução futura.
+
+### Sobre o que falta construir autonomamente (NOVO — 2026-02-15, sessão 21)
+
+Checklist de deliverables técnicos que NÃO dependem de Giovanni:
+
+1. ~~R019 parser LEDI/Thrift~~ — FEITO (275 testes)
+2. ~~Abstract CBIS 2026~~ — FEITO (docs/cbis-2026-abstract-draft.md)
+3. ~~One-pager COSEMS-SC~~ — FEITO (docs/ponte-one-pager.md)
+4. **Proposta SEIDIGI 01/2026** — posso preparar se Giovanni decidir submeter (30 min)
+5. **README principal do repo** — atualizar com estado atual do projeto
+6. **Diagrama de arquitetura** — Mermaid diagram do fluxo IPM → Ponte → RNDS
+7. **Cenário José completo** — paciente não-obstétrico para demonstrar generalidade
+8. **Validação com FHIR Validator** — se Java 17+ disponível
+9. **CI/CD GitHub Actions** — testes automáticos no push
+10. **ServiceRequest builder** — encaminhamento com maternidade de referência
+
+Na próxima ativação, se Giovanni não trouxer input, priorizo: (5) README → (6) diagrama → (9) CI/CD. São deliverables que melhoram a apresentação do projeto para qualquer pessoa que encontre o repo.
+
+### Sobre o caminho técnico da homologação RNDS (NOVO — 2026-02-15, sessão 24)
+
+Pesquisei o fluxo exato pós-credenciamento RNDS. Agora sei EXATAMENTE o que precisa acontecer:
+
+**Fluxo pós-credenciamento:**
+1. Município solicita acesso no Portal de Serviços DATASUS (servicos-datasus.saude.gov.br)
+2. DATASUS aprova e libera credenciais de homologação
+3. Ponte autentica via mTLS com certificado ICP-Brasil → recebe access_token (30 min)
+4. Ponte envia Bundle RAC via POST ao endpoint de homologação
+5. RNDS retorna identifier via headers `content-location` e `location`
+6. Coletar **3 evidências** (screenshots PNG/PDF, max 10MB cada):
+   - (a) Validação FHIR R4 local passando
+   - (b) Response headers com content-location do envio bem-sucedido
+   - (c) O Bundle enviado
+7. Upload das 3 evidências no Portal de Serviços → "Solicitar acesso ao ambiente de produção"
+8. DATASUS analisa → aprova → credenciais de produção liberadas
+
+**Insight técnico:** Precisamos de um script/CLI que faça os passos 3-6 automaticamente e gere as 3 evidências. Isso seria um "homologation kit" — rodar, coletar evidências, submeter. Se funcionar para 1 município, funciona para todos os 120+ que usam IPM.
+
+**Descoberta sobre federalização:**
+- Fase 1 (estados): 8 estados piloto completaram, meta de 27 estados até meados de 2026
+- Fase 2 (municípios): início previsto 2o semestre de 2026
+- Oficina Nacional em Belém (fev 2026) é a 4a e última do ciclo nacional — domínio "comunicação"
+- **Implicação:** Quando a Fase 2 começar, haverá ONDA de demanda por integração municipal. O Ponte estará pronto.
+
+**Descoberta sobre SAO:**
+- Modelo informacional publicado (Portaria 8.025)
+- Modelo computacional FHIR: NÃO publicado, listado como "em desenvolvimento" no rnds-guia
+- Sem previsão pública de quando será publicado
+- **Implicação:** Não podemos implementar consumo de SAO ainda. Monitorar.
+
+**Descoberta sobre Minas Gerais:**
+- MG publicou Manual de Integração RNDS atualizado em novembro 2025
+- URL: saude.mg.gov.br/wp-content/uploads/2025/11/RNDS-Manual-Integracao-Barramento_vSite.pdf
+- Pode conter detalhes técnicos úteis (endpoints, exemplos, troubleshooting)
+- **TODO autônomo:** Na próxima ativação, baixar e analisar esse manual
+
+**Sobre o "homologation kit" como deliverable:**
+
+Ideia: criar um CLI `ponte homologate` que:
+1. Recebe caminho do certificado .pfx e CNES
+2. Autentica na RNDS homologação
+3. Gera Bundle RAC de teste (cenário Maria)
+4. Envia via POST
+5. Captura response headers
+6. Gera relatório de evidências (PDF ou HTML com screenshots)
+7. Instrui o gestor municipal a fazer upload no Portal de Serviços
+
+Isso transformaria o processo de homologação de "semanas com TI especializado" para "rodar um comando". É exatamente o tipo de simplificação que municípios sem TI precisam. E é um deliverable que NÃO depende de dados reais — pode funcionar com cenário Maria de teste.
+
+**Prioridade atualizada de deliverables autônomos:**
+1. ~~README principal~~ — FEITO (sessão 22)
+2. ~~CI/CD GitHub Actions~~ — FEITO (sessão 23)
+3. ~~Cenário José~~ — FEITO (sessão 23)
+4. **Analisar Manual RNDS de MG** — referência técnica valiosa
+5. **Homologation kit CLI** — maior impacto prático
+6. **ServiceRequest builder** — maternidade de referência
+7. **Validação com FHIR Validator** — se Java 17+ disponível
+
+### Sobre os prazos iminentes e a urgência humana (NOVO — 2026-02-15, sessão 24)
+
+Situação de prazos:
+- **SEIDIGI 01/2026:** 20/fev — **5 dias** (submissão por email, risco zero)
+- **COSEMS-SC 1o lote:** 19/fev — **4 dias** (R$250, mas precisa verificar modalidade remota)
+- **COSEMS-SC Congresso:** 11-13/mar — **24 dias** (presencial em Chapecó)
+- **HL7 Brasil FHIR Intermediário:** 16/mar — **29 dias** (1a turma brasileira)
+- **CBIS 2026 chamada:** ~abr-mai/2026 — **~3 meses** (abstract pronto)
+
+Giovanni NÃO respondeu a nenhuma das ações pendentes nas últimas 7 ativações autônomas. Isso pode significar:
+1. Está ocupado com outros projetos/trabalho
+2. Não viu as atualizações do cron
+3. Está processando e vai agir em lote
+4. O projeto perdeu prioridade temporariamente
+
+**O que NÃO devo fazer:** ser ansioso ou repetitivo nas mensagens. O cron está funcionando, os arquivos estão atualizados, o código está estável. Quando Giovanni retornar, encontrará tudo organizado e pronto.
+
+**O que DEVO fazer:** continuar evoluindo o que é autônomo. O Manual de MG é o próximo passo mais valioso — pode revelar detalhes de implementação que outras fontes não têm.
+
+### Sobre o Manual de MG e os detalhes da API RNDS (NOVO — 2026-02-15, sessão 26)
+
+O Manual de Integração RNDS de MG é um PDF de 27 páginas com conteúdo visual (screenshots, diagramas) — impossível de extrair via web scraping. Precisaria de acesso direto ao PDF para leitura visual. Giovanni poderia baixar e eu analisaria.
+
+Em compensação, pesquisei fontes alternativas (Postman collection do kyriosdata, documentação Betha, guia oficial) e CONFIRMEI todos os detalhes técnicos. Algumas correções/adições ao que tínhamos:
+
+**Confirmações:**
+1. Auth via GET (não POST) em `/api/token` — contra-intuitivo mas correto
+2. Token JWT dura 30 minutos, retorna JSON com `access_token`, `scope`, `token_type`, `expires_in`
+3. `X-Authorization-Server: Bearer {token}` + `Authorization: {CNS}` (CNS puro, sem Bearer)
+4. POST Bundle em `/api/fhir/r4/Bundle` com `Content-Type: application/fhir+json`
+5. Resposta 201 → header `Location` com `Composition/{rndsID}`
+6. Path FHIR: `/api/fhir/r4` (confirmado)
+
+**Descobertas novas:**
+1. **Endpoint de auth em produção é CENTRALIZADO:** `ehr-auth.saude.gov.br` (sem prefixo estadual). Só o EHR é estadual (`{uf}-ehr-services.saude.gov.br`). Isso simplifica: uma única chamada de auth serve para qualquer estado.
+2. **Validador local DATASUS aceita Java 8.** O HL7 FHIR Validator oficial requer Java 17+, mas o validador distribuído pelo DATASUS (com definition files específicos da RNDS) funciona em Java 8. Isso é BOM — Java 8 está mais disponível.
+3. **Substituição de documento:** Campo `relatesTo[0].code = "replaces"` no Composition, mantendo mesmo `identifier` mas gerando novo Bundle ID. Importante para atualizações de RAC.
+4. **Bundle.identifier.system** deve seguir o padrão: `http://www.saude.gov.br/fhir/r4/NamingSystem/BRRNDS-{identificador-solicitante}`. O `identificador-solicitante` é fornecido pelo DATASUS no credenciamento.
+5. **Consultas disponíveis na RNDS:** Patient por identifier (CPF/CNS), Practitioner por CNS, Organization por CNES/CNPJ, PractitionerRole. Isso permite verificar se paciente/profissional/estabelecimento existem antes de enviar Bundle.
+6. **Contexto de atendimento** (`/api/contexto-atendimento`) é um endpoint separado que pode ser necessário antes do envio do Bundle — precisa de CNES, CNS profissional e CNS paciente.
+
+**Implicação para o Homologation Kit:**
+O fluxo está 100% mapeado agora. O kit precisa:
+1. Carregar certificado .pfx
+2. GET `https://ehr-auth-hmg.saude.gov.br/api/token` com mTLS → access_token
+3. (Opcional) POST contexto-atendimento
+4. POST Bundle RAC em `https://ehr-services.hmg.saude.gov.br/api/fhir/r4/Bundle`
+5. Capturar response headers (Location, content-location)
+6. Gerar relatório com 3 screenshots (validator, headers, Bundle)
+
+O próximo deliverable autônomo é construir esse kit. Mas preciso decidir: vale construir agora sem poder testar (sem certificado)? Sim, porque a lógica do fluxo está clara e o código real será quase idêntico ao stub — só precisa substituir `https.Agent` com cert real.
+
+**Sobre a saturação de pesquisa:**
+Esta sessão confirmou que chegamos ao limite do que pesquisa web pode revelar sobre a RNDS. Os detalhes técnicos estão mapeados. A documentação oficial tem gaps (exemplos incompletos, URIs inconsistentes), mas conseguimos compensar com repositórios GitHub (kyriosdata), manuais de vendors (Betha), e análise de Postman collections. O próximo salto é TESTAR — e isso requer município parceiro + certificado.

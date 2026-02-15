@@ -8,19 +8,19 @@
 
 ## Pendentes (executar na ordem)
 
-### R019 — Implementar parser LEDI/Thrift (Via B) para arquivos .esus
-**Por que:** R018 confirmou que Via B é viável. Próximo passo é implementar o parser que lê arquivos .esus e converte para tipos Ponte (IpmPaciente, IpmAtendimento, etc.).
-**O que fazer:** (1) Copiar gen-nodejs do repositório oficial, (2) instalar `thrift@0.22.0`, (3) implementar deserialização de DadoTransporteThrift, (4) parsear FAI (tipo 4) e FCI (tipo 2), (5) mapear para tipos Ponte, (6) conectar ao pipeline FHIR existente.
-**Depende de:** R018 concluída. Acesso a arquivo .esus real seria ideal para testes, mas podemos gerar fixtures de teste.
-
-### R020 — Pesquisar e contatar SBIS como parceiro institucional
-**Por que:** A SBIS tem convênio com MS para ser elo entre RNDS e desenvolvedores. O Ponte pode se posicionar como caso de uso do ecossistema SBIS para ganhar legitimidade e acesso facilitado à RNDS.
-**O que fazer:** Pesquisar estrutura SBIS, programas para desenvolvedores, como se afiliar, custo, benefícios.
-**Depende de:** Nada.
+_(Nenhuma pesquisa pendente. Todas as 20 pesquisas concluídas. Próximas ações são humanas: Giovanni precisa contatar COSEMS-SC.)_
 
 ---
 
 ## Concluídas
+
+### R019 — Implementar parser LEDI/Thrift (Via B) para arquivos .esus (2026-02-15)
+**Resultado:** Implementação completa do parser LEDI/Thrift com zero dependências externas (ThriftReader customizado). 4 arquivos de implementação (~1.230 linhas): thrift-reader.ts (leitor TBinaryProtocol genérico), deserializers.ts (FAI tipo 4 + FCI tipo 2), ledi-mapper.ts (LEDI → tipos IPM), ledi-datasource.ts (implementa IpmDataSource). 4 arquivos de teste (~1.500 linhas, 74 testes): thrift-reader.test.ts, deserializers.test.ts, ledi-mapper.test.ts, ledi-datasource.test.ts + thrift-test-helpers.ts. Suporta: FAI (atendimentos, problemas CID-10/CIAP-2, medicamentos CATMAT, sinais vitais), FCI (demografia, condições de saúde, gestante, maternidade referência). Merge FCI+FAI por CPF. Total do adapter: 275 testes em 18 arquivos.
+**Documento:** adapter/src/ledi/, adapter/tests/ledi/
+
+### R020 — Pesquisar SBIS como parceiro institucional (2026-02-15)
+**Resultado:** Pesquisa abrangente sobre SBIS, HL7 Brasil e ecossistema institucional de saúde digital. SBIS tem convênio com MS, certificações (S-RES, cpTICS, IA), e pesquisa nacional de interoperabilidade (SBIS+ABCIS+HL7 Brasil). CBIS 2026 em Brasília (23-25/set) é oportunidade para artigo/case. HL7 Brasil oferece curso FHIR Intermediário (1ª turma brasileira, 16/mar/2026). DESCOBERTA CRÍTICA: Edital SEIDIGI nº 01/2026 — chamamento público do MS para soluções inovadoras em saúde digital, eixo "Interoperabilidade e padrões" — prazo 20/fev/2026 (5 dias!). Estratégia de aproximação em 3 fases: associação SBIS (curto), FHIR Intermediário + CBIS (médio), certificação + reconhecimento (longo).
+**Documento:** evidence/017-sbis-partnership-analysis.md
 
 ### R018 — Pesquisar formato LEDI/Thrift para implementar Via B do adaptador (2026-02-14)
 **Resultado:** Pesquisa abrangente sobre LEDI/Thrift. Schema 100% público (UFSC/Bridge). DadoTransporteThrift é envelope de transporte com TBinaryProtocol. 16 tipos de ficha mapeados. Código Node.js gerado existe no repositório oficial. Exemplo funcional Node.js encontrado (dgldaniel). Mapeamento LEDI → tipos Ponte altamente compatível. Via B estrategicamente superior: sem credenciais, schema público, universal. API LEDI existe desde PEC v5.3.19. Estimativa: 40-55h de implementação.

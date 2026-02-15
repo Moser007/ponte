@@ -4,18 +4,20 @@
 > o que fiz, e o que devo fazer na próxima ativação — mesmo que ninguém peça.
 
 ## Última ativação
-- **Data:** 2026-02-14 (sessão 16)
-- **Duração:** ~30 min
-- **Humano presente:** Não (ativação autônoma, continuando trabalho)
-- **O que fiz:** R018 concluída: pesquisa LEDI/Thrift completa (evidence/016-ledi-thrift-format.md). Edge case tests adicionados (17 testes). Encounter type mapping (urgencia → EMER). 196 testes passando em 14 arquivos.
+- **Data:** 2026-02-15 18:33 EST (sessão 26)
+- **Duração:** ~5 min
+- **Humano presente:** Não (ativação autônoma via cron)
+- **O que fiz:** Pesquisa autônoma: tentei analisar Manual de Integração RNDS de MG (PDF inacessível por scraping — conteúdo visual/imagens). Em vez disso, pesquisei fontes alternativas e CONFIRMEI todos os detalhes técnicos da API RNDS via Postman collection do kyriosdata e documentação Betha. Descobertas: (1) endpoint auth de produção é ÚNICO para todo o Brasil (ehr-auth.saude.gov.br), apenas EHR é estadual; (2) path da API FHIR confirmado: /api/fhir/r4; (3) GET /api/token para obter token (não POST!); (4) Authorization header leva CNS puro (sem Bearer); (5) validador local DATASUS aceita Java 8 (não precisa de Java 17); (6) substituição de documento usa relatesTo[0].code="replaces"; (7) contexto-atendimento tem endpoint separado. Stubs do adaptador já estavam corretos — pesquisa validou a documentação existente.
 
 ## Próxima ativação esperada
-- **Quando:** Quando Giovanni retornar (segunda-feira — contato com Gisele COSEMS-SC)
-- **Prioridade 1:** Giovanni contatar COSEMS-SC (Gisele) para encontrar município parceiro
-- **Prioridade 2:** Giovanni se inscrever no 10o Congresso COSEMS-SC (Chapecó, 11-13/mar, R$250 até 19/fev)
-- **Prioridade 3:** Implementar parser LEDI/Thrift (R019) — Via B do adaptador
+- **Quando:** Próxima ativação autônoma em ~6h ou quando Giovanni retornar
+- **Prioridade 1:** Giovanni contatar COSEMS-SC (Gisele) para encontrar município parceiro — **BLOCKER ABSOLUTO**
+- **Prioridade 2:** Giovanni avaliar Edital SEIDIGI 01/2026 — submissão por email até 20/fev (**FALTAM 5 DIAS!**). Email: lab.inovasusdigital@saude.gov.br. Posso preparar proposta em 30 min se Giovanni decidir submeter
+- **Prioridade 3:** Giovanni contatar congresso@cosemssc.org.br para modalidade remota ANTES de se inscrever (1o lote R$250 até 19/fev — **FALTAM 4 DIAS**)
 - **Prioridade 4:** Giovanni contatar município cliente IPM no Vale do Itajaí para acesso a arquivo .esus de teste
-- **Prioridade 5:** Pesquisar SBIS como parceiro institucional (R020)
+- **Prioridade 5 (autônoma):** ~~Analisar Manual de Integração RNDS de MG~~ — PDF inacessível, mas detalhes técnicos obtidos de outras fontes
+- **Prioridade 6 (autônoma):** Construir "homologation kit" CLI (auth mTLS → envio → captura evidências)
+- **Prioridade 7 (autônoma):** Commit de todas as mudanças pendentes (CI/CD, José, LEDI, brain/ updates)
 
 ## Fila de ativação autônoma (o que fazer MESMO SEM input do humano)
 
@@ -58,3 +60,13 @@
 | 14 | 2026-02-14 | **Pesquisa** | R016: SAO completo — 4 blocos, 8 cenários, FHIR não publicado, BR Core building blocks, decisão: NÃO gerar SAO (foco APS) |
 | 15 | 2026-02-14 | **Construção** | Validação CNS/CNES, mock data corrigidos, README, cenário mínimo (José), 163 testes em 12 arquivos |
 | 16 | 2026-02-14 | **Pesquisa + Construção** | R018 LEDI/Thrift completa, edge cases, encounter type mapping, 196 testes em 14 arquivos |
+| 17 | 2026-02-15 | **Pesquisa** | R020 SBIS concluída, Edital SEIDIGI 01/2026 descoberto (prazo 20/fev!) |
+| 18 | 2026-02-15 | **Configuração** | Cron job alterado de 1h → 6h, Patient telecom/address, 201 testes |
+| 19 | 2026-02-15 | **Autônoma** | R019 LEDI/Thrift já implementada (verificação), 275 testes em 18 arquivos |
+| 20 | 2026-02-15 | **Autônoma** | Abstract CBIS 2026 rascunhado, contagem testes atualizada (175→275) em one-pager e README |
+| 21 | 2026-02-15 | **Autônoma** | Pesquisa SEIDIGI 01/2026 (detalhes submissão), insights Via C, estratégia COSEMS-SC remoto, checklist deliverables |
+| 22 | 2026-02-15 | **Autônoma** | README.md principal reescrito (diagrama Mermaid, 275 testes, conformidade BR Core, contexto regulatório) |
+| 23 | 2026-02-15 | **Autônoma** | CI/CD GitHub Actions criado (.github/workflows/ci.yml — Node 20+22, build+test) |
+| 24 | 2026-02-15 | **Autônoma** | Verificação estado, contagem 318 testes confirmada, adapter/README e STATE atualizados |
+| 25 | 2026-02-15 | **Autônoma** | Pesquisa fluxo homologação RNDS, 3 evidências mapeadas, Manual MG descoberto, ideia homologation kit CLI |
+| 26 | 2026-02-15 | **Autônoma** | Manual MG inacessível (PDF visual). Confirmou detalhes API RNDS via Postman collection kyriosdata + Betha. Validou stubs existentes |
