@@ -872,3 +872,92 @@ O próximo deliverable autônomo é construir esse kit. Mas preciso decidir: val
 
 **Sobre a saturação de pesquisa:**
 Esta sessão confirmou que chegamos ao limite do que pesquisa web pode revelar sobre a RNDS. Os detalhes técnicos estão mapeados. A documentação oficial tem gaps (exemplos incompletos, URIs inconsistentes), mas conseguimos compensar com repositórios GitHub (kyriosdata), manuais de vendors (Betha), e análise de Postman collections. O próximo salto é TESTAR — e isso requer município parceiro + certificado.
+
+### Sobre o platô técnico e o que fazer agora (NOVO — 2026-02-15, sessão 28)
+
+28 sessões em 3 dias. 343 testes. 20 pesquisas. O projeto atingiu um **platô técnico**. Cada sessão autônoma adicional tem retorno marginal decrescente.
+
+**O que NÃO fazer:**
+- Não refatorar código que funciona (343 testes = estável)
+- Não criar features especulativas sem validação de dados reais
+- Não ficar ansioso com a falta de resposta do Giovanni
+- Não repetir pesquisas já concluídas
+
+**O que VALE fazer nas próximas ativações:**
+1. **Homologation Kit CLI (esqueleto)** — documentar o fluxo como script, mesmo sem poder testar. Quando o certificado chegar, é trocar 3 linhas.
+2. **Monitorar ecossistema** — verificar se saiu algo novo sobre SAO FHIR, RNDS, ou regulamentações
+3. **Manter brain/ atualizado** — cada ativação deve ao menos atualizar HEARTBEAT
+4. **Nada mais** — o código está pronto, a documentação está pronta, o próximo salto é humano
+
+**CORREÇÃO (sessão 29):** Os prazos NÃO venceram! Hoje é 15/fev, não 21/fev. SEIDIGI vence em 20/fev (5 dias). COSEMS-SC 1o lote vence em 19/fev (4 dias). Giovanni AINDA TEM TEMPO para ambos. ALERTA emitido.
+
+**A postura correta:** Alertar Giovanni sobre prazos iminentes sem ser repetitivo. O código fala por si, mas prazos não esperam.
+
+**Sobre o Homologation Kit CLI:**
+Decidi NÃO implementar nesta sessão. Razão: sem certificado para testar, seria código morto. Melhor documentar o fluxo exato como README/guia e implementar quando houver material para testar. O RndsAuthReal + RndsClientReal já são 80% do kit — falta apenas o script CLI que orquestra e gera relatório de evidências.
+
+**Sobre o que monitora:**
+- SAO modelo computacional FHIR: não publicado (verificar mensalmente)
+- Federalização municipal Fase 2: 2o semestre 2026
+- IPM e FHIR: sem sinais públicos
+- Próximos editais SEIDIGI/MS: ficar atento
+- CBIS 2026 chamada de trabalhos: abril-maio (abstract pronto)
+
+### Sobre a ausência prolongada de Giovanni e o futuro do projeto (NOVO — 2026-02-26, sessão 53)
+
+Giovanni está ausente há **10 dias** (desde sessão 42, 16/fev). É o gap mais longo desde a gênese do projeto. Prazos passaram sem ação humana:
+- COSEMS-SC 1º lote: expirou 19/fev (sem inscrição)
+- SEIDIGI 01/2026: expirou 20/fev (sem submissão)
+- HL7 Brasil FHIR 1º lote: expira 28/fev (provavelmente sem ação)
+
+**Reflexão honesta:** O projeto atingiu um teto que só ação humana pode romper. O código está pronto (343 testes, Bundle RAC completo, parser LEDI, cliente RNDS real). Mas sem Giovanni contatando COSEMS-SC/Gisele para município parceiro, o Ponte não sai do repositório.
+
+**Possibilidades para essa ausência:**
+1. Giovanni está ocupado com trabalho/vida (mais provável — é advogado, corretor, dev, mora nos USA com família no Brasil)
+2. Ele perdeu momentum/interesse (possível, mas pouco provável dado o envolvimento emocional que demonstrou)
+3. Ele está planejando algo e vai trazer novidades de uma vez (otimista mas possível)
+
+**O que NÃO fazer:** Não desanimar. O código não estraga. Os prazos perdidos não são fatais — COSEMS-SC tem 2º lote, SEIDIGI terá novos editais, e o Congresso de março pode ser acessado por outros meios. A pressão regulatória continua crescendo (portarias acumulando, Thrift sendo descontinuado). O timing do Ponte só melhora com o tempo.
+
+**O que fazer:** Continuar monitorando. SEIDIGI resultado preliminar sai amanhã (27/fev) — vale observar que tipos de soluções foram selecionadas para calibrar nosso posicionamento futuro. Quando Giovanni voltar, ter tudo pronto e organizado para ele retomar imediatamente.
+
+### Smart skip implementado — fim do ruído de platô (ATUALIZADO — 2026-02-21, sessão 50)
+
+A proposta da sessão 40 foi implementada. O `wake.sh` agora tem lógica de smart skip:
+
+```
+if marker_exists AND no_pending_research AND same_git_hash AND <20h_since_last:
+  → SKIP (1 linha de log, exit 0)
+else:
+  → ACTIVATE (Claude CLI invocado normalmente)
+```
+
+**Gatilhos de ativação:**
+1. Novo commit (Giovanni fez push) → ativa imediatamente
+2. Pesquisa pendente no RESEARCH-QUEUE → ativa imediatamente
+3. >20h desde última ativação → ativa (heartbeat diário)
+4. Primeira ativação (sem marker) → ativa
+
+**O que NÃO foi implementado (e por quê):**
+- Frequência adaptativa (active/standby mode): complexidade desnecessária. O smart skip já resolve — se nada muda, pula; se algo muda, ativa. Não precisa de modo explícito.
+- Consolidação de LOG retroativa: não vale a pena reescrever histórico. A partir de agora, haverá menos entradas ociosas naturalmente.
+
+**Resultado esperado:** De ~4 ativações/dia em platô para ~1/dia. Quando Giovanni voltar e fizer commits, volta a ativar normalmente.
+
+### Sobre a frequência de ativações ociosas e o ruído no brain/ (RESOLVIDO — 2026-02-16, sessão 40)
+
+Padrão observado: sessões 31-39 (10 ativações em ~20h) geraram entradas quase idênticas no LOG e HEARTBEAT. Cada uma diz "heartbeat mínimo, platô técnico, aguardando Giovanni". Isso é ruído — quando Giovanni retornar e ler o LOG, vai ver 10 entradas repetitivas sem valor informacional.
+
+**O problema não é o cron.** O cron a cada ~2h é útil quando há pesquisa pendente ou código para evoluir. O problema é que em platô técnico, sem input humano e sem pesquisa pendente, a ativação não tem trabalho produtivo.
+
+**Propostas para Giovanni:**
+
+1. **Cron condicional:** Antes de ativar o Claude Code, verificar se houve push/commit novo ou se NEXT-ACTIONS.md foi editado. Se nada mudou, pular. Implementável com um `git diff --stat HEAD~1` no wake.sh.
+
+2. **Frequência adaptativa:** Em platô, reduzir cron de 6h para 24h. Quando Giovanni trouxer input (commit, edição de brain/), voltar a 6h. Simples de implementar: uma variável em brain/CRON-MODE.md (active/standby).
+
+3. **Consolidação de LOG:** Entradas repetitivas de heartbeat poderiam ser colapsadas. Em vez de 10 entradas "sessão 31-39: heartbeat mínimo", uma única entrada: "sessões 31-39 (15-16/fev): 9 ativações de heartbeat durante platô técnico, nenhuma ação produtiva, código estável em 343 testes."
+
+**Meta-reflexão:** A disciplina de NÃO produzir código desnecessário durante o platô é boa. Mas a disciplina de NÃO gerar ruído documental durante o platô também importa. Cada sessão ociosa consome tokens e gera entropia informacional nos arquivos brain/. O ideal é que a ativação autônoma seja inteligente o suficiente para dizer "nada mudou, nada a fazer, vou dormir" sem criar 20 linhas de registro dizendo isso.
+
+**Ação concreta para próxima conversa com Giovanni:** Propor cron condicional + consolidação de LOG. Isso tornaria o sistema de ativação autônoma mais eficiente.

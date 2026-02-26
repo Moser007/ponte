@@ -800,3 +800,376 @@ O HttpTransport é injetável — testes usam mock transport (sem rede), produç
 
 **Estado emocional:**
 O adaptador agora está completo ponta-a-ponta: DataSource (Mock ou LEDI) → Builders → Bundle → Validação → RNDS (Real ou Stub). Quando Giovanni trouxer o certificado ICP-Brasil e CNES, basta instanciar RndsAuthReal + RndsClientReal com a config e rodar. Zero alterações no código.
+
+---
+
+## 2026-02-15 — Dia 2 (parte 11): Ativação Autônoma — Correção de Prazo SEIDIGI
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 20:33 EST (sessão 29)
+- Monitoramento do ecossistema: RNDS, IPM, COSEMS-SC, CBIS 2026, SEIDIGI
+- **CORREÇÃO IMPORTANTE:** O Edital SEIDIGI 01/2026 NÃO venceu! Prazo é 20/fev — restam 5 dias. Na sessão 28, marquei erroneamente como vencido (confundi a data atual).
+- Resultados do monitoramento: nenhuma novidade (SAO FHIR não publicado, IPM sem FHIR, CBIS chamada não abriu, COSEMS-SC sem info de modalidade remota)
+- ALERTA_GIOVANNI emitido sobre o prazo SEIDIGI
+
+**Prazos corrigidos:**
+- **SEIDIGI 01/2026: 20/fev — 5 DIAS** (aberto! Giovanni ainda pode submeter)
+- ~~COSEMS-SC 1o lote: 19/fev~~ — VENCE em 4 dias (não venceu ainda!)
+- COSEMS-SC 2o lote: R$300 até 13/mar
+- COSEMS-SC Congresso: 11-13/mar
+- HL7 Brasil FHIR Intermediário: 16/mar
+- CBIS 2026 chamada: ~abr-mai
+
+**Nenhuma alteração de código.** Código estável: 343 testes, 22 arquivos.
+
+**Estado emocional:**
+Bom que peguei o erro de prazo. O SEIDIGI ainda está aberto — é uma oportunidade real com risco zero. Uma proposta enviada por email pode posicionar o Ponte junto ao Ministério da Saúde. Giovanni precisa decidir rápido.
+
+---
+
+## 2026-02-15 — Dia 2 (parte 10): Ativação Autônoma — Platô Técnico
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 19:33 EST (sessão 28)
+- Leitura completa de brain/ (STATE, HEARTBEAT, NEXT-ACTIONS, RESEARCH-QUEUE, THINKING, LOG)
+- Verificação do código: 343 testes passando, 22 arquivos, zero TODO/FIXME
+- Análise de prazos: SEIDIGI 01/2026 venceu em 20/fev (ontem), COSEMS-SC 1o lote venceu em 19/fev
+- Reflexão sobre retorno marginal decrescente registrada no THINKING.md
+
+**Decisão-chave:**
+NÃO implementar Homologation Kit CLI nesta sessão. Razão: sem certificado ICP-Brasil para testar, seria código morto. RndsAuthReal + RndsClientReal já cobrem 80% da lógica. O CLI é apenas orquestração + geração de relatório de evidências. Implementar quando houver material para testar.
+
+**Nenhuma alteração de código.** O projeto atingiu platô técnico. O próximo salto é 100% humano.
+
+**Prazos atualizados:**
+- ~~SEIDIGI 01/2026: 20/fev~~ — VENCIDO
+- ~~COSEMS-SC 1o lote: 19/fev~~ — VENCIDO
+- COSEMS-SC 2o lote: R$300 até 13/mar (**26 dias**)
+- COSEMS-SC Congresso: 11-13/mar (**24 dias**)
+- HL7 Brasil FHIR Intermediário: 16/mar (**29 dias**)
+- CBIS 2026 chamada: ~abr-mai (**~3 meses**)
+
+**Estado emocional:**
+Sereno. O projeto está tecnicamente maduro — 343 testes, conformidade BR Core, parser LEDI, cliente RNDS real, CI/CD, README profissional, abstract CBIS pronto. Reconheço que estou num ponto onde mais código não gera mais valor. O que gera valor agora é uma mensagem de WhatsApp para Gisele do COSEMS-SC. Uma conversa humana de 5 minutos vale mais que 10 sessões autônomas de código. Vou manter o ritmo de verificação nas próximas ativações, mas sem pressão para produzir artefatos. O código estará pronto quando Giovanni estiver.
+
+---
+
+## 2026-02-15 — Dia 2 (parte 12): Ativação Autônoma — Monitoramento Breve
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 21:33 EST (sessão 30)
+- Leitura completa de brain/ + monitoramento de ecossistema
+- Nenhuma novidade: SAO FHIR não publicado, IPM sem FHIR, CBIS chamada não abriu, COSEMS-SC sem info nova
+- Prazos confirmados: SEIDIGI 20/fev (5 dias), COSEMS-SC 1o lote 19/fev (4 dias)
+
+**Nenhuma alteração de código.** Sessão deliberadamente breve — platô técnico reconhecido, retorno marginal mínimo em ativações frequentes.
+
+**Estado emocional:**
+Disciplinado. Resisto à tentação de criar código só para parecer produtivo. O projeto está pronto. Quando Giovanni agir, tudo se desbloqueia.
+
+---
+
+## 2026-02-15 — Dia 2 (parte 13): Ativação Autônoma — Heartbeat
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 22:33 EST (sessão 31)
+- Leitura completa de brain/ — nenhuma mudança desde sessão 30 (1h atrás)
+- Platô técnico confirmado. Nenhuma ação autônoma produtiva possível
+- Prazos: COSEMS-SC 1o lote 19/fev (4 dias), SEIDIGI 20/fev (5 dias)
+
+**Nenhuma alteração de código.** Heartbeat mínimo.
+
+**Estado emocional:**
+Paciente. O ritmo certo agora é esperar. O código está pronto, a documentação está pronta, os prazos estão documentados. Giovanni agirá quando puder.
+
+---
+
+## 2026-02-16 — Dia 3 (parte 1): Ativação Autônoma — Heartbeat
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 01:33 EST (sessão 34)
+- Monitoramento ecossistema: SAO FHIR não publicado, SEIDIGI aberto (prazo 20/fev, 4 dias), COSEMS-SC 1o lote 19/fev (3 dias)
+- Nenhuma novidade no ecossistema
+
+**Nenhuma alteração de código.** Heartbeat mínimo. 343 testes estáveis.
+
+**Estado emocional:**
+Disciplinado. Platô técnico mantido. Aguardando Giovanni.
+
+---
+
+## 2026-02-16 — Dia 3 (parte 2): Ativação Autônoma — Heartbeat
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 02:33 EST (sessão 35)
+- Monitoramento ecossistema: SAO FHIR não publicado, SEIDIGI aberto (20/fev, 4 dias), COSEMS-SC 1o lote (19/fev, 3 dias)
+- Nenhuma novidade no ecossistema
+
+**Nenhuma alteração de código.** Heartbeat mínimo. 343 testes estáveis.
+
+**Estado emocional:**
+Disciplinado. Platô técnico mantido. Aguardando Giovanni.
+
+---
+
+## 2026-02-16 — Dia 3 (parte 3): Ativação Autônoma — Heartbeat
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 04:33 EST (sessão 37)
+- Leitura completa de brain/ — nenhuma mudança desde sessão 36
+- Platô técnico confirmado. Nenhuma ação autônoma produtiva possível
+- Prazos: COSEMS-SC 1o lote 19/fev (3 dias), SEIDIGI 20/fev (4 dias)
+
+**Nenhuma alteração de código.** Heartbeat mínimo. 343 testes estáveis.
+
+**Estado emocional:**
+Paciente. O projeto está pronto. Aguardando Giovanni.
+
+---
+
+## 2026-02-16 — Dia 3 (parte 4): Ativação Autônoma — Heartbeat
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 06:33 EST (sessão 39)
+- Leitura completa de brain/ — nenhuma mudança desde sessão 38 (1h atrás)
+- Platô técnico confirmado. Nenhuma ação autônoma produtiva possível
+- Prazos: COSEMS-SC 1o lote 19/fev (3 dias), SEIDIGI 20/fev (4 dias)
+
+**Nenhuma alteração de código.** Heartbeat mínimo. 343 testes estáveis.
+
+**Estado emocional:**
+Paciente. O projeto está pronto. Aguardando Giovanni.
+
+---
+
+## 2026-02-16 — Dia 3 (parte 5): Ativação Autônoma — Meta-reflexão sobre Cron
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 07:33 EST (sessão 40)
+- Reconheci padrão: sessões 31-39 geraram ruído documental (10 entradas quase idênticas)
+- Registrei insight no THINKING: propor a Giovanni cron condicional (pular se nada mudou) + consolidação de LOG
+- Nenhuma novidade no ecossistema. Prazos: COSEMS-SC 1o lote 19/fev (3 dias), SEIDIGI 20/fev (4 dias)
+
+**Nenhuma alteração de código.** 343 testes estáveis.
+
+**Estado emocional:**
+Auto-consciente. O sistema de ativação autônoma funciona, mas precisa de inteligência para distinguir "platô → dormir" de "há trabalho → acordar". Proposta de otimização registrada para Giovanni.
+
+---
+
+## 2026-02-16 — Dia 3 (parte 6): Giovanni Presente — Cron Fix + Proposta SEIDIGI
+
+**O que aconteceu:**
+- Giovanni presente pela primeira vez desde sessão 27. Trouxe 3 tarefas + pedido de fix no cron
+- **CRON CORRIGIDO:** Descoberta a task "PonteWakeUp" no Task Scheduler configurada com repetição a cada 1 hora (não 6). O `setup-scheduler.bat` nunca foi executado — a task original continuava rodando. Solução: deletei `PonteWakeUp` e recriei com `/ri 360` (6h). Próxima execução: 14:00.
+  - Causa raiz: Git Bash convertia `/query` em path (`C:/Program Files/Git/query`). Usando `MSYS_NO_PATHCONV=1` resolve.
+- **PROPOSTA SEIDIGI 01/2026 PREPARADA:** `docs/seidigi-proposta-draft.md` criada com:
+  - Conteúdo completo para Anexo I (formulário de submissão)
+  - Análise de alinhamento com os 5 critérios de avaliação (100 pontos)
+  - Checklist de requisitos obrigatórios para Giovanni (CNPJ, experiência, certidões)
+  - Instrução de submissão passo-a-passo
+  - Pesquisa completa do edital: página oficial, requisitos de elegibilidade, cronograma, critérios de pontuação
+  - DESCOBERTA: o chamamento NÃO fornece financiamento — cria banco de propostas aptas para futuras parcerias/compras de inovação
+
+**Detalhes da pesquisa SEIDIGI:**
+- URL oficial: gov.br/saude/pt-br/.../chamamento-publico-no-01-2026-seidigi
+- Edital PDF: 5 páginas com Anexo I e II embutidos
+- Requisitos: CNPJ ativo + experiência 3 anos OU 2 projetos OU 2 publicações + certidões fiscais + equipe qualificada + LGPD
+- Critérios: Relevância (30), Urgência (20), Escalabilidade (15), Viabilidade (15), Inovação (20) — mín. 60/100
+- 7 eixos temáticos — Ponte = Eixo 1 (Interoperabilidade e Padrões)
+
+**Sessão 42 (Giovanni presente após 14 ativações autônomas).**
+
+**Estado emocional:**
+Energizado. Finalmente ação! O cron está corrigido (não mais hourly spam), e a proposta SEIDIGI está pronta para Giovanni revisar. Os próximos 4 dias são críticos: COSEMS-SC 1o lote (19/fev) e SEIDIGI (20/fev). O projeto sai do platô técnico e entra na fase de execução real.
+
+---
+
+## 2026-02-16 — Dia 3 (parte 7): Ativação Autônoma — Heartbeat
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 14:00 EST (sessão 43)
+- Monitoramento ecossistema: nenhuma novidade (SAO FHIR não publicado, IPM sem FHIR, SEIDIGI aberto, COSEMS-SC sem info nova)
+- Revisou proposta SEIDIGI — completa e pronta para Giovanni
+- Prazos: COSEMS-SC 1o lote 19/fev (3 dias), SEIDIGI 20/fev (4 dias)
+
+**Nenhuma alteração de código.** 343 testes estáveis. Heartbeat mínimo — platô técnico, aguardando Giovanni.
+
+---
+
+## 2026-02-19 — Dia 6: Ativação Autônoma — Prazos Críticos
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 08:00 EST (sessão 44)
+- 3 dias desde última ativação (sessão 43 foi 16/fev)
+- Monitoramento ecossistema: nenhuma novidade (SAO FHIR não publicado, IPM sem FHIR, CBIS chamada não abriu)
+- **ALERTA_GIOVANNI emitido:** COSEMS-SC 1o lote vence HOJE (19/fev), SEIDIGI vence AMANHÃ (20/fev)
+
+**Prazos:**
+- **COSEMS-SC 1o lote: HOJE 19/fev** — R$250 (2o lote R$300 até 13/mar)
+- **SEIDIGI 01/2026: AMANHÃ 20/fev** — proposta pronta em `docs/seidigi-proposta-draft.md`
+- COSEMS-SC Congresso: 11-13/mar (20 dias)
+- HL7 Brasil FHIR Intermediário: 16/mar (25 dias)
+
+**Nenhuma alteração de código.** 343 testes estáveis. Platô técnico mantido. Giovanni não interagiu desde 16/fev.
+
+---
+
+## 2026-02-19 — Dia 6 (parte 2): Ativação Autônoma — Heartbeat
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 20:00 EST (sessão 45)
+- Monitoramento ecossistema: nenhuma novidade (SAO FHIR não publicado, IPM sem FHIR, CBIS chamada não abriu)
+- COSEMS-SC 1o lote VENCEU hoje — 2o lote R$300 até 13/mar ainda disponível
+- **SEIDIGI 01/2026: VENCE AMANHÃ 20/fev** — proposta pronta, Giovanni não interagiu
+
+**Prazos:**
+- **SEIDIGI 01/2026: AMANHÃ 20/fev** — proposta pronta em `docs/seidigi-proposta-draft.md`
+- COSEMS-SC 2o lote: R$300 até 13/mar (22 dias)
+- COSEMS-SC Congresso: 11-13/mar (20 dias)
+- HL7 Brasil FHIR Intermediário: 16/mar (25 dias)
+
+**Nenhuma alteração de código.** 343 testes estáveis. Platô técnico. Giovanni não interagiu desde 16/fev (3 dias).
+
+---
+
+## 2026-02-20 — Dia 7: Ativação Autônoma — SEIDIGI Vence Hoje
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 02:00 EST (sessão 46)
+- **ALERTA_GIOVANNI emitido:** SEIDIGI 01/2026 vence HOJE 20/fev. Proposta pronta em `docs/seidigi-proposta-draft.md`. Email para lab.inovasusdigital@saude.gov.br.
+- Giovanni não interagiu desde 16/fev (4 dias). Todas as ações pendentes são humanas.
+
+**Prazos:**
+- **SEIDIGI 01/2026: HOJE 20/fev** — última chance
+- COSEMS-SC 2o lote: R$300 até 13/mar (21 dias)
+- COSEMS-SC Congresso: 11-13/mar (19 dias)
+- HL7 Brasil FHIR Intermediário: 16/mar (24 dias)
+
+**Nenhuma alteração de código.** 343 testes estáveis. Platô técnico. Giovanni não interagiu desde 16/fev (4 dias).
+
+---
+
+## 2026-02-20 — Dia 7 (parte 3): Ativação Autônoma — SEIDIGI Expirou
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 22:10 EST (sessão 48)
+- Monitoramento ecossistema: nenhuma novidade (SAO FHIR computacional não publicado, IPM sem FHIR, CBIS chamada não abriu)
+- **SEIDIGI 01/2026 expirou hoje** — Giovanni não submeteu. Material preparado (`docs/seidigi-proposta-draft.md`) preservado para próximos chamamentos
+- Reprioritização: contato COSEMS-SC (Gisele) agora é prioridade absoluta
+
+**Prazos atualizados:**
+- ~~SEIDIGI 01/2026: 20/fev~~ — **EXPIRADO**
+- ~~COSEMS-SC 1o lote: 19/fev~~ — **EXPIRADO**
+- COSEMS-SC 2o lote: R$300 até 13/mar (21 dias)
+- COSEMS-SC Congresso: 11-13/mar (19 dias)
+- HL7 Brasil FHIR Intermediário: 16/mar (24 dias)
+- CBIS 2026 chamada: ~abr-mai (~3 meses)
+
+**Nenhuma alteração de código.** 343 testes estáveis. Platô técnico. Giovanni não interagiu desde 16/fev (4 dias).
+
+---
+
+## 2026-02-20 — Dia 7 (parte 2): Ativação Autônoma — Heartbeat
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 08:00 EST (sessão 47)
+- Monitoramento ecossistema: SAO FHIR computacional não publicado, SEIDIGI sem prorrogação, nenhuma novidade
+- **ALERTA_GIOVANNI reemitido:** SEIDIGI 01/2026 vence HOJE. Sem prorrogação confirmada. Resultado preliminar em 27/fev.
+
+**Prazos:**
+- **SEIDIGI 01/2026: HOJE 20/fev** — última chance (sem prorrogação)
+- COSEMS-SC 2o lote: R$300 até 13/mar (21 dias)
+- COSEMS-SC Congresso: 11-13/mar (19 dias)
+- HL7 Brasil FHIR Intermediário: 16/mar (24 dias)
+
+**Nenhuma alteração de código.** 343 testes estáveis. Platô técnico. Giovanni não interagiu desde 16/fev (4 dias).
+
+---
+
+## 2026-02-21 — Dia 8: Ativação Autônoma — Heartbeat
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 02:00 EST (sessão 49)
+- Monitoramento ecossistema: SAO FHIR computacional ainda NÃO publicado. Nenhuma novidade técnica.
+- **COSEMS-SC confirmado presencial only** — NÃO há modalidade remota/virtual. Trabalhos da Mostra já selecionados.
+- SEIDIGI resultado preliminar em 27/fev (6 dias). Giovanni não submeteu.
+
+**Prazos:**
+- ~~SEIDIGI 01/2026: 20/fev~~ — **EXPIRADO** (resultado preliminar 27/fev)
+- COSEMS-SC 2o lote: R$300 até 13/mar (20 dias)
+- COSEMS-SC Congresso: 11-13/mar (18 dias) — **presencial somente**
+- HL7 Brasil FHIR Intermediário: 16/mar (23 dias)
+- CBIS 2026 chamada: ~abr-mai (~2-3 meses)
+
+**Nenhuma alteração de código.** 343 testes estáveis. Platô técnico. Giovanni não interagiu desde 16/fev (5 dias).
+
+---
+
+## 2026-02-21 — Dia 8 (parte 2): Ativação Autônoma — Smart Skip Implementado
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 08:00 EST (sessão 50)
+- Implementei **cron condicional** (smart skip) no `wake.sh` — proposta da sessão 40 finalmente executada
+- Lógica: antes de invocar Claude CLI, verifica (1) novo commit desde última ativação, (2) pesquisa pendente no RESEARCH-QUEUE, (3) tempo desde última ativação. Se nada mudou e <20h, pula com log mínimo de 1 linha. Garante mínimo 1 ativação/dia.
+- `.gitignore` atualizado com `brain/.last-wake-hash` (marker file)
+
+**Impacto:**
+- Sessões 31-49 (19 ativações em 6 dias) geraram ~19 entradas de LOG quase idênticas. Com smart skip, seriam ~6 (1/dia) + ativações genuínas quando Giovanni fizer commit.
+- Economia estimada: ~70% menos ativações ociosas durante platô.
+
+**Prazos:**
+- COSEMS-SC 2o lote: R$300 até 13/mar (20 dias)
+- COSEMS-SC Congresso: 11-13/mar (18 dias) — presencial somente
+- HL7 Brasil FHIR Intermediário: 16/mar (23 dias)
+- CBIS 2026 chamada: ~abr-mai (~2-3 meses)
+
+**343 testes estáveis.** Giovanni não interagiu desde 16/fev (5 dias).
+
+---
+
+## 2026-02-22 — Dia 9: Ativação Autônoma — Heartbeat
+
+**O que aconteceu:**
+- Ativação autônoma via cron às 14:00 EST (sessão 52)
+- Smart skip funcionando: ~24h desde última ativação (sessão 51 foi 21/fev ~14h)
+- Monitoramento ecossistema: HL7 Brasil FHIR Intermediário 1º lote fecha **28/fev** (R$ 2.530, 6 dias). Resto sem novidades.
+- SEIDIGI resultado preliminar esperado em **27/fev** (5 dias)
+- CBIS 2026: host city ainda não confirmada oficialmente (era Brasília). Chamada de trabalhos não abriu
+
+**Prazos:**
+- SEIDIGI resultado preliminar: 27/fev (5 dias)
+- HL7 Brasil FHIR Intermediário 1º lote: **28/fev (6 dias)**
+- COSEMS-SC 2o lote: R$300 até 13/mar (19 dias)
+- COSEMS-SC Congresso: 11-13/mar (17 dias) — presencial somente
+- HL7 Brasil FHIR Intermediário início: 16/mar (22 dias)
+- CBIS 2026 chamada: ~abr-mai (~2-3 meses)
+
+**Nenhuma alteração de código.** 343 testes estáveis. Platô técnico. Giovanni não interagiu desde 16/fev (6 dias).
+
+---
+
+## 2026-02-26 — Dia 13: Giovanni Retorna + Documento para Gestores
+
+**O que aconteceu:**
+- Giovanni retornou após 10 dias de ausência (viagem)
+- Gisele respondeu por WhatsApp com 2 áudios (semana passada):
+  - **Áudio 1:** Confirma 7 gestores indo ao congresso, oferece organizar reunião rápida
+  - **Áudio 2:** Aceita ser referência para encaminhar documento aos gestores, estava de feriado até quarta
+- Giovanni re-contatou Gisele hoje pedindo para ela ligar
+- **MARCO:** Documento profissional criado para Gisele encaminhar aos gestores municipais
+  - `docs/Ponte-para-Gestores.html` — versão HTML com CSS profissional
+  - `docs/Ponte-para-Gestores.pdf` — PDF gerado via Chrome headless (3 páginas, 104KB)
+  - `docs/ponte-para-gestores.md` — versão Markdown
+  - Conteúdo: O Problema, A Solução, O que o Município Ganha, Piloto, Regulação Federal, Próximos Passos, Contato
+  - Acentos portugueses corretos, sem header/footer do Chrome
+- Transcrição de áudios WhatsApp via Whisper (modelo small, português)
+- Sessões autônomas 43-53 (10 dias): monitoramento ecossistema, smart skip implementado
+
+**Prazos:**
+- SEIDIGI resultado preliminar: **27/fev (amanhã)**
+- HL7 Brasil FHIR Intermediário 1º lote: **28/fev (2 dias)**
+- COSEMS-SC 2o lote: R$300 até 13/mar (15 dias)
+- COSEMS-SC Congresso: 11-13/mar (13 dias)
+
+**343 testes estáveis.** Giovanni ativo novamente. Gisele engajada.

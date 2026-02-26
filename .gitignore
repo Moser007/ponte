@@ -1,6 +1,7 @@
 node_modules/
 dist/
 brain/wake-logs/
+brain/.last-wake-hash
 .env
 *.log
 .DS_Store

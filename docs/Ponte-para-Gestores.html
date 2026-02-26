@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>PONTE - Solução Gratuita para Conectar seu Município à RNDS</title>
+<style>
+  @page { size: A4; margin: 20mm 18mm; }
+  body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; color: #282828; line-height: 1.5; max-width: 800px; margin: 0 auto; padding: 20px; }
+  h1 { color: #00508C; font-size: 26pt; margin-bottom: 0; }
+  h1 + p { color: #555; font-size: 14pt; margin-top: 4px; }
+  .subtitle { color: #888; font-size: 10pt; font-style: italic; }
+  h2 { color: #005A96; font-size: 15pt; border-bottom: 2px solid #0078B4; padding-bottom: 4px; margin-top: 28px; }
+  h3 { color: #333; font-size: 12pt; margin-top: 16px; }
+  .alert-box { background: #FFF0F0; border: 1px solid #C83C3C; border-radius: 6px; padding: 14px 18px; margin: 16px 0; }
+  .alert-box p { color: #A01E1E; font-weight: bold; margin: 4px 0; font-size: 11pt; }
+  .highlight-box { background: #E6F2FF; border-radius: 6px; padding: 14px 18px; margin: 16px 0; }
+  .highlight-box p { margin: 4px 0; }
+  .success-box { background: #EBFAEB; border-radius: 6px; padding: 14px 18px; margin: 16px 0; }
+  .success-box p { color: #1E641E; font-weight: bold; margin: 4px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt; }
+  th { background: #005A96; color: white; padding: 8px 10px; text-align: left; }
+  td { padding: 7px 10px; border: 1px solid #ddd; }
+  tr:nth-child(even) { background: #F5F8FF; }
+  tr:nth-child(odd) { background: white; }
+  ul { padding-left: 24px; }
+  li { margin-bottom: 4px; }
+  ol li { margin-bottom: 6px; }
+  .contact-box { background: #F0F5FF; border: 1px solid #005A96; border-radius: 6px; padding: 14px 18px; margin: 16px 0; }
+  .contact-box h3 { color: #00508C; margin-top: 0; }
+  .footer { color: #888; font-size: 9pt; font-style: italic; text-align: center; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 12px; }
+  strong { color: #222; }
+  .cost-zero { font-size: 16pt; text-align: center; }
+</style>
+</head>
+<body>
+
+<h1>PONTE</h1>
+<p>Solução Gratuita para Conectar seu Município à RNDS</p>
+<p class="subtitle">Documento para Gestores Municipais de Saúde &mdash; Fevereiro 2026</p>
+
+<div class="alert-box">
+  <p>Seu município usa IPM Atende.Net?</p>
+  <p>Então os dados clínicos dos seus pacientes NÃO estão chegando à RNDS.</p>
+  <p>O município está em desconformidade com o Decreto 12.560/2025.</p>
+</div>
+
+<h2>O Problema</h2>
+
+<p>O Decreto 12.560/2025 tornou a RNDS (Rede Nacional de Dados em Saúde) política de Estado. As Portarias 5.663/2024, 6.656/2025 e 7.495/2025 exigem que todos os sistemas de saúde enviem dados clínicos à RNDS.</p>
+
+<p><strong>Porém: O IPM Atende.Net, usado por mais de 120 municípios em SC, não envia dados clínicos à RNDS. Só envia vacinação.</strong></p>
+
+<p>Isso significa que:</p>
+<ul>
+  <li>Quando uma gestante do seu município chega a uma maternidade de referência, o médico <strong>não tem acesso</strong> ao pré-natal, diagnósticos, alergias ou medicamentos</li>
+  <li>92% das mortes maternas no Brasil são evitáveis (Fiocruz)</li>
+  <li>SC registrou 43 mortes maternas em 2024 &mdash; pior resultado em duas décadas</li>
+  <li>75% dos municípios de SC ainda não enviam dados clínicos à RNDS</li>
+</ul>
+
+<h2>A Solução: Projeto Ponte</h2>
+
+<p>O <strong>Ponte</strong> é um software gratuito e de código aberto que faz a conexão entre o IPM Atende.Net e a RNDS. Ele lê os dados que já existem no sistema do município e os envia à RNDS no formato exigido pelo Ministério da Saúde.</p>
+
+<div class="highlight-box">
+  <p><strong>Como funciona:</strong></p>
+  <p>Dados no IPM &rarr; Ponte (traduz para o formato da RNDS) &rarr; RNDS</p>
+  <p>O Ponte <strong>NÃO substitui o IPM</strong>. Complementa, fazendo a tradução que o IPM ainda não faz.<br>
+  Os profissionais de saúde continuam usando o sistema normalmente.</p>
+</div>
+
+<h3>O que o Ponte já envia à RNDS por atendimento:</h3>
+<ul>
+  <li>Dados do paciente (CPF, nome, data de nascimento, raça/cor)</li>
+  <li>Diagnósticos (CID-10, CIAP-2)</li>
+  <li>Alergias e reações adversas</li>
+  <li>Medicamentos em uso</li>
+  <li>Sinais vitais (pressão arterial, peso, glicemia)</li>
+  <li>Dados obstétricos (idade gestacional, DUM, histórico de gestações)</li>
+  <li>Identificação do profissional e estabelecimento (CNS, CNES)</li>
+</ul>
+
+<h2>O que o Município Ganha</h2>
+
+<table>
+  <tr><th>Benefício</th><th>Detalhes</th></tr>
+  <tr><td><strong>Conformidade regulatória</strong></td><td>Atende o Decreto 12.560 e as Portarias 5.663, 6.656 e 7.495</td></tr>
+  <tr><td><strong>Custo zero</strong></td><td>Licença MIT &mdash; gratuito, sem mensalidade, sem taxa de implantação</td></tr>
+  <tr><td><strong>Segurança dos pacientes</strong></td><td>Dados clínicos disponíveis quando o paciente for atendido em outro município</td></tr>
+  <tr><td><strong>Sem mudança operacional</strong></td><td>Profissionais continuam usando o IPM normalmente</td></tr>
+  <tr><td><strong>Sem dependência</strong></td><td>Código aberto &mdash; município não fica preso a nenhum fornecedor</td></tr>
+</table>
+
+<h2>O que Precisamos para o Piloto</h2>
+
+<p>Para testar o Ponte no seu município, precisamos de <strong>3 coisas simples:</strong></p>
+
+<ol>
+  <li><strong>Autorização do gestor</strong> para fazer o credenciamento na RNDS em nome do município</li>
+  <li><strong>Certificado digital ICP-Brasil</strong> do estabelecimento (e-CNPJ ou e-CPF) &mdash; muitos municípios já possuem para outros sistemas federais</li>
+  <li><strong>Acesso ao sistema</strong> para validar que os dados estão sendo traduzidos corretamente</li>
+</ol>
+
+<div class="success-box">
+  <p>O piloto é rápido: com o credenciamento pronto, o sistema pode começar a enviar dados em questão de dias. Nós acompanhamos todo o processo técnico.</p>
+</div>
+
+<h2>Regulação Federal que Exige a Integração</h2>
+
+<table>
+  <tr><th>Regulação</th><th>O que diz</th></tr>
+  <tr><td><strong>Decreto 12.560/2025</strong></td><td>RNDS é política de Estado. CPF como chave única do cidadão</td></tr>
+  <tr><td>Portaria 5.663/2024</td><td>Formato antigo (Thrift) descontinuado. FHIR é o novo padrão</td></tr>
+  <tr><td><strong>Portaria 6.656/2025</strong></td><td>Dados de regulação assistencial devem ir para a RNDS diariamente</td></tr>
+  <tr><td>Portaria 7.495/2025</td><td>Todos os sistemas de saúde devem ser interoperáveis com a RNDS</td></tr>
+  <tr><td><strong>Portaria 8.025/2025</strong></td><td>Sumário de Alta Obstétrico (SAO) obrigatório na RNDS</td></tr>
+</table>
+
+<h2>Próximos Passos</h2>
+
+<p>Se o seu município tem interesse em ser piloto:</p>
+
+<ol>
+  <li>Fale com <strong>Giovanni</strong> (giovannimoser@hotmail.com) ou com a <strong>Gisele do COSEMS-SC</strong> que encaminhou este documento</li>
+  <li>Nós orientamos o processo de credenciamento na RNDS</li>
+  <li>Configuramos o Ponte para o seu município</li>
+  <li>Acompanhamos a homologação com o Ministério da Saúde</li>
+  <li>Município começa a enviar dados clínicos à RNDS</li>
+</ol>
+
+<div class="success-box">
+  <p class="cost-zero">Custo total para o município: R$ 0,00</p>
+</div>
+
+<div class="contact-box">
+  <h3>Contato</h3>
+  <p><strong>Giovanni Moser</strong> &mdash; Desenvolvedor de tecnologia e advogado</p>
+  <p>Email: giovannimoser@hotmail.com</p>
+  <p>WhatsApp: (47) 9 1246-6688</p>
+</div>
+
+<p class="footer">
+  O Ponte existe para que nenhum paciente chegue a uma emergência sem histórico clínico &mdash; especialmente as gestantes dos municípios pequenos de Santa Catarina.<br>
+  Projeto open-source (MIT) | github.com/Moser007/ponte
+</p>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 # Estado Mental — Superintelligence Bridge Protocol
 
 > Este arquivo é minha memória persistente. Toda conversa começa lendo ele.
-> Última atualização: 2026-02-14
+> Última atualização: 2026-02-22
 
 ## Fase atual: ADAPTADOR MVP CONSTRUÍDO
 
@@ -82,6 +82,11 @@ O novo papel do projeto:
 - [x] **Cenário José completo** — idoso com polifarmácia (HAS+DM2+DRC, 4 meds, 6 vitais), 43 testes
 - [x] **adapter/README.md atualizado** — Via B LEDI, cenário José, 318 testes, parser LEDI documentado
 - [x] **Cliente RNDS real implementado** — RndsAuthReal (mTLS + cache JWT) + RndsClientReal (POST Bundle + OperationOutcome) + HttpTransport injetável, 25 testes
+- [x] **Cron job corrigido** — PonteWakeUp era 1h, agora 6h (2h/8h/14h/20h EST). Causa: setup-scheduler.bat nunca executado, task original mantinha intervalo de 1h
+- [x] **Smart skip no wake.sh** — cron pula ativações ociosas (sem commit novo + sem pesquisa pendente + <20h). Garante 1 ativação/dia mín. Reduz ~70% de ativações ociosas em platô
+- [x] **Proposta SEIDIGI 01/2026 preparada** — `docs/seidigi-proposta-draft.md` com conteúdo completo para Anexo I, análise de critérios, checklist para Giovanni. Pesquisa do edital: elegibilidade, cronograma, pontuação (100pts, mín 60)
+- [x] **Documento profissional para gestores** — `docs/Ponte-para-Gestores.pdf` (3 páginas, 104KB) + HTML + Markdown. Para Gisele COSEMS-SC encaminhar aos 7 gestores do congresso Chapecó. Conteúdo: problema IPM/RNDS, solução Ponte, benefícios, piloto, regulação, contato
+- [x] **Gisele COSEMS-SC engajada** — Aceita ser referência para encaminhar documento. 7 gestores confirmados no congresso. Áudios transcritos via Whisper
 
 ## O que NÃO sei e PRECISO saber agora
 
